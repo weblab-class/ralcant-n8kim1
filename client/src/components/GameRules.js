@@ -1,5 +1,5 @@
 import React from "react";
-import GameTitle from "./GameTitle";
+import Title from "./Title";
 import Link from "react-router-dom/es/Link";
 
 export default class GameRules extends React.Component {
@@ -10,7 +10,7 @@ export default class GameRules extends React.Component {
   render(){
     return (
       <div className={"center"}>
-        <GameTitle />
+        <Title />
 
         Rules are good. These are rules.
         <Link to="/" className={"button"}>Home</Link>
