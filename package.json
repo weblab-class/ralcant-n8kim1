@@ -1,7 +1,7 @@
 {
-  "name": "snake-react",
-  "version": "1.0.0",
-  "description": "",
+  "name": "flappy-tim",
+  "version": "0.0.1",
+  "description": "weblab project, by Raul and Nathan, Jan - Feb 2019",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mit6148-workshops/snake-react.git"
+    "url": "git+https://github.com/mit6148/ralcant-n8kim1.git"
   },
-  "author": "",
+  "author": "Raul Alcantara, Nathaniel Kim",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mit6148-workshops/snake-react/issues"
+    "url": "https://github.com/mit6148/ralcant-n8kim1/issues"
   },
-  "homepage": "https://github.com/mit6148-workshops/snake-react#readme",
+  "homepage": "https://github.com/mit6148/ralcant-n8kim1/blob/master/README.md",
   "dependencies": {
     "express": "^4.16.4",
     "react": "^16.7.0",
