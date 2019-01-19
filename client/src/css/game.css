@@ -1,49 +1,7 @@
 .game-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 20px;
-    height: 100%;
-}
-
-.board {
-    display:flex;
-    flex-direction: column;
-    align-self: center;
-    border: black solid 2px;
-}
-
-.board-row {
-    display: flex;
-    flex-direction: row;
 
 }
 
-.cell{
-    height: 20px;
-    width: 20px;
-    border: black solid 1px;
-}
-
-
-.empty {
-    background-color: #333333;
-}
-
-.food {
-    background-color: #64140e;
-}
-
-.my-snake {
-    background-color: #284dff;
-}
-
-.game-over-modal {
-    background-color: #222222;
-    border: black solid 2px;
-    padding: 15px;
-}
 
 .game-over-text {
     font-size: 30px;

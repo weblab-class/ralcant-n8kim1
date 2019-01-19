@@ -1,6 +1,6 @@
 import React from "react";
-import GameBoard from "./game/GameBoard";
 import HomePage from "./HomePage";
+import Screen from "./game/Screen.js";
 
 export default class GameContainer extends React.Component {
   constructor(props) {
@@ -17,12 +17,18 @@ export default class GameContainer extends React.Component {
   render() {
     switch (this.state.gameStatus) {
       case 0:
+      console.log("home page loaded; in case 0");
         return (
-          <HomePage onClickStart={() => {this.changeGameState(1);}} />
+          <HomePage onClickStart={() => {this.changeGameState(1);}}>
+          </HomePage>
         );
       case 1:
+      console.log("home page loaded; in case 1 -- pls");
         return (
-          <GameBoard />
+          <Screen />
+          // <div>
+          //   Gameplay div
+          // </div>
         );
     }
   }
