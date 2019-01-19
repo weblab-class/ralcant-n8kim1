@@ -6,7 +6,7 @@ export default class GameContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStatus: 0,
+      gameStatus: 1, // DEBUG: SWITCH TO 0 FOR GOOD THINGS
     };
 
     this.changeGameState = (newStatus) => {

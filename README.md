@@ -1,7 +1,12 @@
 # ralcant-n8kim1
+Flappy Tim
 
-weblab project, by Raul and Nathan, Jan - Feb 2019
+web.lab project, by Raul Alcantara and Nathaniel Kim, Jan. 2019
 
-Flappy Tim!
-
-Credits to Flappy Bird for inspiration, and to MIT's 6.148 for teaching and base code.
+Credits to:
+ - Flappy Bird for inspiration
+ - web.lab (6.148) for teaching and base code
+ - Alex Chen (snake-react)
+ - reactoroids
+ - catbook
+ - tim logo
