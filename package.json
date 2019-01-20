@@ -20,6 +20,7 @@
   "homepage": "https://github.com/mit6148/ralcant-n8kim1/blob/master/README.md",
   "dependencies": {
     "express": "^4.16.4",
+    "mongoose": "^5.4.5",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-keydown": "^1.9.7",

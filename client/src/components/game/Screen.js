@@ -14,6 +14,7 @@ export default class Screen extends React.Component {
         // ratio: window.devicePixelRatio || 1,
         ratio: 1,
       },
+      isGameOver: false,
       xPos: 100,
       yPos: 400,
       yVelo : 1,
@@ -27,15 +28,33 @@ endtime: 0,};
 
   render() {
     // console.log("rendering screen");
-    return (
-      <div>
-           <canvas 
-           ref="canvas"
-           height={this.state.screen.height * this.state.screen.ratio}
-          width={this.state.screen.width * this.state.screen.ratio}
-            />  
-      </div>
-    );
+    if (this.isGameOver() == true)
+    {
+      console.log("oof... game over");
+      return (
+        <div className="endgame">
+          <p>Game over, man!</p>
+          <p></p>
+          <button
+             >
+            try again?
+          </button>
+        </div>
+      );
+    }
+    else
+    {
+    
+      return (
+        <div>
+            <canvas 
+            ref="canvas"
+            height={this.state.screen.height * this.state.screen.ratio}
+            width={this.state.screen.width * this.state.screen.ratio}
+              />  
+        </div>
+      );
+    }
   }
 
   componentDidMount() {
@@ -60,12 +79,20 @@ endtime: 0,};
     else
     {
       this.setState({beginTime: Date.now()});
-      // console.log(Date.now());
+      console.log(Date.now());
       // update a frame
 
+
+      
+      // halt frame updates if game over
+      if (this.isGameOver() == true)
+      {
+        return 0;
+      }
+
+
       // update coordinates
-      this.setState({yPos: this.state.yPos+this.state.yVelo});
-      // do boundary checks
+       this.setState({yPos: this.state.yPos+this.state.yVelo});
 
       // draw frame
 
@@ -95,13 +122,24 @@ endtime: 0,};
 
   }
 
+  isGameOver ()
+  {
+    if (this.state.yPos>this.state.screen.height)
+    {
+      // fell too far down
+      console.log("fell down");
+      return true;
+    };
+    return false;
+  }
+
 
   @keydown( 's' ) // or specify `which` code directly, in this case 13
   moveDown( event ) 
   {
     console.log("s pressed!");
     
-    this.setState({yVelo: this.state.yVelo-5});
+    this.setState({yVelo: this.state.yVelo+5});
     console.log("new y:" + this.state.yPos);
   }
 
