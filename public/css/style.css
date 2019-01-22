@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
+
+.Body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  background-color: rgb(125, 102, 102)
+}
+
+div.circle-avatar{
+	/* make it responsive */
+	max-width: 100%;
+	width:100%;
+	height:auto;
+	display:block;
+	/* div height to be the same as width*/
+	padding-top:100%;
+
+	/* make it a circle */
+	border-radius:50%;
+
+	/* Centering on image`s center*/
+	background-position-y: center;
+	background-position-x: center;
+	background-repeat: no-repeat;
+
+	/* it makes the clue thing, takes smaller dimension to fill div */
+	background-size: cover;
+
+	/* it is optional, for making this div centered in parent*/
+	margin: 0 auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.large-profile-container {
+	padding: 0 35%;
+}
+.allign-upperright{
+	position:absolute;
+	top:0;
+	right:0;
+}
+.allign-upperleft{
+	position:absolute;
+	top:px;
+	left:0;
+}
+.allign_center_start{
+	position: absolute;
+	top: 450px;
+	right: 800px;
+}
+
+.allign_center_rules{
+	position: absolute;
+	top: 500px;
+	right: 800px;
+}
+.allign_center_about{
+	position: absolute;
+	top: 550px;
+	right:800px;
+}
+.welcome_text{
+		height: 20em;
+		position: relative; 
+		margin: 0;
+		/*background: darkblue;*/
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-right: -50%;
+		transform: translate(-50%, -50%) 
+}
+/*.button {
+	background-color:rgb(27, 139, 115);
+	border: none;
+	color: white;
+	padding: 5px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 70px 2px;
+	cursor: pointer;
+	height: 5em;
+  }*/
+.button{
+	display:inline-block;
+	padding:0.35em 1.2em;
+	border:0.1em solid #0c0c0c;
+	margin:0 0.3em 0.3em 0;
+	border-radius:0.12em;
+	box-sizing: border-box;
+	text-decoration:none;
+	font-family:'Roboto',sans-serif;
+	font-weight:300;
+	color:#FFFFFF;
+	text-align:center;
+	transition: all 0.2s;
+}
+.button:hover{
+	color:#000000;
+	background-color:#FFFFFF;
+}
+@media all and (max-width:30em){
+	.button{
+		display:block;
+		margin:0.4em auto;
+	}
+}
+.logout{
+	color: red;
+}
+.text_font{
+	font-family: 'Indie Flower', cursive;
+}
+.text_font2{
+	font-family: 'Slabo 27px', serif;
+}
