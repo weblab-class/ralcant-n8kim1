@@ -32,7 +32,7 @@ function renderName(user){
 
         const rules_button = document.createElement('a')
         rules_button.className = "button allign_center_rules";
-        rules_button.innerText = "RULES";
+        rules_button.innerText = "Rules";
         rules_button.href = "rules";
         document.body.appendChild(rules_button);
 
