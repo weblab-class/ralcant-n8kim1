@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+/*!
+ * animate.min.css -https://github.com/zswang/animate.min.css#readme
+ * Version - 0.0.3
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2017 zswang
+ */
+
+
+@keyframes floating {
+  from {
+    transform: translateY(8px) rotate3d(0, 0, 1, 3deg)
+  } to {
+    transform: translateY(-8px) rotate3d(0, 0, 1, -3deg)
+  }
+}
+
+.floating {
+  animation-name: floating;
+  animation-direction: alternate;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation-name: rotating;
+}
