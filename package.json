@@ -6,7 +6,6 @@
   "dependencies": {
     "animate.css": "^3.7.0",
     "animate.min.css": "0.0.3",
-    "async": "^2.6.1",
     "body-parser": "^1.18.3",
     "connect-ensure-login": "^0.1.1",
     "cors": "^2.8.5",
@@ -16,20 +15,19 @@
     "http": "0.0.0",
     "mongoose": "^5.4.5",
     "node": "^11.7.0",
-    "parallel": "^1.2.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
     "react": "^16.7.0",
     "session": "^0.1.0",
-    "socket.io": "^2.0.4",
-    "nodemon": "^1.18.9"
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
+    "nodemon": "^1.18.9"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemongit src/app.js"
+    "start": "node src/app.js"
   },
   "repository": {
     "type": "git",
@@ -42,3 +40,4 @@
   },
   "homepage": "https://github.com/ralcant/test#readme"
 }
+
