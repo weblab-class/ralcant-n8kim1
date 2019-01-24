@@ -5,6 +5,7 @@
   font-weight: 300;
   background-color: rgb(248, 248, 248);
   background-image: url('https://www.desktopbackground.org/p/2014/07/26/799251_flappy-bird-charizard-edition-on-scratch_1920x1080_h.png');
+  /* background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/flappy-bird-background.gif'); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -131,4 +132,7 @@ div.circle-avatar{
 }
 .text_font2{
 	font-family: 'Slabo 27px', serif;
+}
+.center{
+	text-align: center;
 }
