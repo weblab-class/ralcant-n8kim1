@@ -36,9 +36,9 @@ router.post(
     });
 
     newScore.save(function(err,score) {
-      console.log("saved???");
+      // console.log("saved???");
       // configure socketio
-      if (err) {console.log("uh oh" + err)}
+      if (err) {console.log("failed to save, " + err)}
       else {console.log("saved sucess? id "+ newScore.googleid)};
     });
 
@@ -47,11 +47,25 @@ router.post(
 );
 
 router.get('/score', function(req, res) {
-  console.log("trying to fetch score");
-  Score.findOne({ googleid: req.body.contentID}, function (err, score) 
+  console.log("trying to fetch score, id " + req.query.contentID);
+  // Score.find().lean().exec( function (err, scores) 
+  Score.find({googleid: req.query.contentID}).lean().exec( function (err, scores) 
+  // Score.find({googleid: "5c464831ecaa1323c8e1cc28"}).lean().exec( function (err, scores) 
   {
-    console.log("fetched score: "+score.score );
-    res.send({score});
+    var maxScore = 0;
+    console.log(scores.length + " scores found");
+    for (let i =0; i<scores.length; i++)
+    {
+      console.log("the score object # " + i);
+      console.log("the score is " + scores[i].score);
+      if (scores[i].score>maxScore)
+      {
+        maxScore= scores[i].score;
+      }
+    }
+
+    console.log("fetched max score: "+maxScore );
+    res.send([maxScore]);
   });
 
 });

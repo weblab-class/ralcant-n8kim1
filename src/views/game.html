@@ -79,40 +79,50 @@
         // TODO: check if high score
         var userID = "idk";
         get('/api/whoami', {}, function (user) {
-          console.log("fethcing score" + user._id);
+          console.log("fetching score, id: " + user._id);
+          let data = {
+              contentID:"guest",
+          }
           if (user._id) {
-            const data = {
+            console.log("setting ID to actual ID");
+            data = {
               contentID: user._id,
             };
-            get('/api/score', data, function(score)
-            {
-              console.log("the score: " + score.score);
+          }
+          console.log("fetching score with id: " + data.contentID);
+          get('/api/score', data, function (score) {
+            console.log("the high score found: " + score[0]);
+            get('/api/whoami', {}, function (user) {
+              console.log(user._id);
+              if (myGameArea.state.score >= score[0])
+{
+              if (!user._id) {
+                const data = {
+                  contentID: "guest",
+                  content: myGameArea.state.score
+                };
+                post('/api/score', data);
+              }
+              else {
+                const data = {
+                  contentID: user._id,
+                  content: myGameArea.state.score
+                };
+                console.log("posting score while logged in");
+                post('/api/score', data);
+              }
+              console.log("high score posted! the score: " + myGameArea.state.score)
+            }
             });
           }
+          );
+
+
+
 
         });
 
 
-        // send the score
-        var userID = "idk";
-        get('/api/whoami', {}, function (user) {
-          console.log(user._id);
-          if (!user._id) {
-            const data = {
-              contentID: "guest",
-              content: myGameArea.state.score
-            };
-            post('/api/score', data);
-          }
-          else {
-            const data = {
-              contentID: user._id,
-              content: myGameArea.state.score
-            };
-            post('/api/score', data);
-          }
-
-        });
 
 
         // restart box
