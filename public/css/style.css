@@ -3,7 +3,13 @@
 .Body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
-  background-color: rgb(125, 102, 102)
+  background-color: rgb(248, 248, 248);
+  background-image: url('https://www.desktopbackground.org/p/2014/07/26/799251_flappy-bird-charizard-edition-on-scratch_1920x1080_h.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 800px;
+
 }
 
 div.circle-avatar{
@@ -49,23 +55,22 @@ div.circle-avatar{
 }
 .allign_center_start{
 	position: absolute;
-	top: 450px;
-	right: 800px;
+	top: 50%;
+	right: 49%;
 }
 
 .allign_center_rules{
 	position: absolute;
-	top: 500px;
-	right: 800px;
+	top: 60%;
+	right: 49%;
 }
 .allign_center_about{
 	position: absolute;
-	top: 550px;
-	right:800px;
+	top: 70%;
+	right:49%;
 }
 .welcome_text{
 		height: 20em;
-		position: relative; 
 		margin: 0;
 		/*background: darkblue;*/
 		position: absolute;
@@ -73,6 +78,13 @@ div.circle-avatar{
 		left: 50%;
 		margin-right: -50%;
 		transform: translate(-50%, -50%) 
+}
+.about_text{
+	position: absolute;
+	top: 50%;
+	left:50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%) 
 }
 /*.button {
 	background-color:rgb(27, 139, 115);
@@ -90,7 +102,7 @@ div.circle-avatar{
 .button{
 	display:inline-block;
 	padding:0.35em 1.2em;
-	border:0.1em solid #0c0c0c;
+	border:0.1em solid #3924b1;
 	margin:0 0.3em 0.3em 0;
 	border-radius:0.12em;
 	box-sizing: border-box;
@@ -102,8 +114,8 @@ div.circle-avatar{
 	transition: all 0.2s;
 }
 .button:hover{
-	color:#000000;
-	background-color:#FFFFFF;
+	color:#000000bd;
+	background-color:rgb(138, 45, 45);
 }
 @media all and (max-width:30em){
 	.button{

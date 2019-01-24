@@ -2,7 +2,7 @@ function renderName(user){
     const nameContainer = document.getElementById("name-container");
     const nameHeader = document.createElement('h1')
 
-    const welcome_message_id = document.getElementById("welcome_message_id")
+    //const welcome_message_id = document.getElementById("welcome_message_id")
     const welcome_message = document.getElementById("first_message");
     const welc_Header = document.createElement('h1');
 
@@ -43,11 +43,11 @@ function renderName(user){
         document.body.appendChild(about_button);
      }
      else{
-        welcome_message_id.className = "animated flip";
-        welc_Header.innerText = "Flappy TIM!!!";
+        //welcome_message_id.className = "animated flip";
+        welc_Header.innerText = "Flappy TIM";
         welcome_message.appendChild(welc_Header);
 
-        messageHeader.innerText = "You better be ready to press any key!!!"
+        messageHeader.innerText = "You better be ready to press any key"
         messageContainer.appendChild(messageHeader);
 
         const login_button = document.createElement('a')
