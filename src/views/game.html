@@ -9,93 +9,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 </head>
+<script>
 
-<body onload="startGame()">
-  <nav class="navbar">
-    <!--<div class="navbar-brand" href="#"></div> -->
-    <div class="allign-upperleft" id="nav-item-container">
-      <!-- navbar items are inserted here -->
-    </div>
-  </nav>
-  <img id="tim" src="tim" alt="Tim the Beaver sprite" hidden>
-  <style>
-    canvas {
-      border: 1px solid #d3d3d3;
-      background-color: #f1f1f1;
+  function startGame() {
+    myGameArea.start();
+  }
+
+  var myGameArea = {
+    canvas: document.createElement("canvas"),
+    start: function () {
+      this.canvas.width = 900; // might make dynamic
+      this.canvas.height = 450;
+      this.context = this.canvas.getContext("2d");
+      document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+      this.interval = setInterval(update, 10);
+      this.keyToPress = 87;
+      this.keySet = [83, 87];
+      this.timHeight = document.getElementById("tim").height;
+      this.state = {
+        isGameOver: false,
+        xPos: 100,
+        yPos: 200,
+        yVelo: 0,
+        score: 0
+      };
+      this.pipe = {
+        x : 450,
+        y : 125,
+        height : 150,
+        width : 25
+      };
+    },
+    stop: function () {
+      clearInterval(this.interval);
     }
-  </style>
-
-  <script>
-
-    function startGame() {
-      myGameArea.start();
-    }
-
-    var myGameArea = {
-      canvas: document.createElement("canvas"),
-      start: function () {
-        this.canvas.width = 900; // might make dynamic
-        this.canvas.height = 450;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(update, 10);
-        this.keyToPress = 87;
-        this.keySet = [83, 87];
-        this.timHeight = document.getElementById("tim").height;
-        this.state = {
-          isGameOver: false,
-          xPos: 100,
-          yPos: 200,
-          yVelo: 0,
-          score: 0
-        };
-      },
-
-      stop: function () {
-        clearInterval(this.interval);
-      }
-    }
+  }
 
 
-    function update() {
-      // update a frame...
+  function update() {
+    // update a frame...
 
-      var width = myGameArea.canvas.width;
-      var height = myGameArea.canvas.height;
+    var width = myGameArea.canvas.width;
+    var height = myGameArea.canvas.height;
 
-      // halt frame updates if game over
-      if (this.isGameOver() == true) {
-        myGameArea.stop();
-        // print a game over message
-        myGameArea.context.fillStyle = '#ffffff';
-        myGameArea.context.font = "30px Arial";
-        myGameArea.context.fillRect(width / 2 - 50, height / 2 - 20, 250, 100);
-        myGameArea.context.fillStyle = '#000000';
-        myGameArea.context.fillText("game over.....", width / 2, height / 2);
+    // halt frame updates if game over
+    if (this.isGameOver() == true) {
+      myGameArea.stop();
+      // print a game over message
+      myGameArea.context.fillStyle = '#ffffff';
+      myGameArea.context.font = "30px Arial";
+      myGameArea.context.fillRect(width / 2 - 50, height / 2 - 20, 250, 100);
+      myGameArea.context.fillStyle = '#000000';
+      myGameArea.context.fillText("game over.....", width / 2, height / 2);
 
-        // print your score
-        myGameArea.context.fillText("your score: " + myGameArea.state.score, width / 2, height / 2 + 50);
+      // print your score
+      myGameArea.context.fillText("your score: " + myGameArea.state.score, width / 2, height / 2 + 50);
 
-        // TODO: check if high score
-        var userID = "idk";
-        get('/api/whoami', {}, function (user) {
-          console.log("fetching score, id: " + user._id);
-          let data = {
-              contentID:"guest",
-          }
-          if (user._id) {
-            console.log("setting ID to actual ID");
-            data = {
-              contentID: user._id,
-            };
-          }
-          console.log("fetching score with id: " + data.contentID);
-          get('/api/score', data, function (score) {
-            console.log("the high score found: " + score[0]);
-            get('/api/whoami', {}, function (user) {
-              console.log(user._id);
-              if (myGameArea.state.score >= score[0])
-{
+      // TODO: check if high score
+      var userID = "idk";
+      get('/api/whoami', {}, function (user) {
+        console.log("fetching score, id: " + user._id);
+        let data = {
+          contentID: "guest",
+        }
+        if (user._id) {
+          console.log("setting ID to actual ID");
+          data = {
+            contentID: user._id,
+          };
+        }
+        console.log("fetching score with id: " + data.contentID);
+        get('/api/score', data, function (score) {
+          console.log("the high score found: " + score[0]);
+          get('/api/whoami', {}, function (user) {
+            console.log(user._id);
+            if (myGameArea.state.score >= score[0]) {
               if (!user._id) {
                 const data = {
                   contentID: "guest",
@@ -113,148 +101,168 @@
               }
               console.log("high score posted! the score: " + myGameArea.state.score)
             }
-            });
-          }
-          );
-
-
-
-
-        });
-
-
-
-
-        // restart box
-        myGameArea.context.fillStyle = '#ffffff';
-        myGameArea.context.font = "12px Arial";
-        myGameArea.context.fillRect(125, 175, 100, 50);
-        myGameArea.context.fillStyle = '#000000';
-        myGameArea.context.fillText("restart?", 175, 200);
-
-        myGameArea.context.restore(); // render everything yay
-
-        return 0;
-      }
-
-      // take key input
-      if (myGameArea.keys && myGameArea.keys[myGameArea.keyToPress]) {
-        console.log("key pressed");
-        myGameArea.state.yVelo = myGameArea.state.yVelo - 2;
-        var oldKey = myGameArea.keyToPress;
-        // pick a new, distinct key
-        while (oldKey == myGameArea.keyToPress) {
-          console.log("regen key");
-          myGameArea.keyToPress = myGameArea.keySet[Math.floor(Math.random() * myGameArea.keySet.length)];
+          });
         }
-        myGameArea.state.score += 1;
-      }
+        );
+      });
 
-      // update coordinates of tim
-      myGameArea.state.yVelo = myGameArea.state.yVelo + 0.005;
-      if (myGameArea.state.yVelo > 2) {
-        myGameArea.state.yVelo = 2;
-      }
-      if (myGameArea.state.yVelo < -0.5) {
-        myGameArea.state.yVelo = -0.5;
-      }
-      myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
-
-      // draw frame
-      const context = myGameArea.context;
-
-      // define frame stuff
-      context.save();
-
-
-      // clear frame
-      context.fillStyle = '#365879';
-      context.fillRect(0, 0, width, height);
-
-      // display tim
-      context.fillStyle = '#ffffff';
-      context.font = "30px Arial";
-      var img = document.getElementById("tim");
-      context.drawImage(img, myGameArea.state.xPos, myGameArea.state.yPos);
-      // context.fillText("lmao xD", myGameArea.state.xPos, myGameArea.state.yPos);
-
-
-      // display score
-
-      // display key to press
+      // restart box
       myGameArea.context.fillStyle = '#ffffff';
-      myGameArea.context.font = "24px Arial";
-      myGameArea.context.fillRect(125, 50, 125, 125);
+      myGameArea.context.font = "12px Arial";
+      myGameArea.context.fillRect(125, 175, 100, 50);
       myGameArea.context.fillStyle = '#000000';
-      myGameArea.context.fillText("Key: " + String.fromCharCode(myGameArea.keyToPress), 125, 75);
+      myGameArea.context.fillText("restart?", 175, 200);
 
-      // display score to press
-      myGameArea.context.fillStyle = '#000000';
-      myGameArea.context.fillText("Score: " + myGameArea.state.score, 125, 115);
-
-      context.restore();
-
+      myGameArea.context.restore(); // render everything yay
+      return 0;
     }
 
-    function isGameOver() {
-      // console.log(myGameArea.state.yPos);
-      if (myGameArea.state.yPos + myGameArea.timHeight > myGameArea.canvas.height) {
-        // fell too far down
-        console.log("fell down");
-        return true;
-      };
-      return false;
-    }
-    // restart if game over
-    var restartRect = {
-
-      x: 125,
-      y: 175,
-      width: 100,
-      height: 50
-    };
-    //Binding the click event on the canvas
-    myGameArea.canvas.addEventListener('click', function (evt) {
-      var mousePos = getMousePos(myGameArea.canvas, evt);
-      console.log(mousePos.x);
-      // if (isGameOver()==true) {
-      if ((isInside(mousePos, restartRect)) && (isGameOver() == true)) {
-        console.log('restart button clicked inside rect');
-        myGameArea.start();
+    // take key input
+    if (myGameArea.keys && myGameArea.keys[myGameArea.keyToPress]) {
+      console.log("key pressed");
+      myGameArea.state.yVelo = myGameArea.state.yVelo - 2;
+      var oldKey = myGameArea.keyToPress;
+      // pick a new, distinct key
+      while (oldKey == myGameArea.keyToPress) {
+        console.log("regen key");
+        myGameArea.keyToPress = myGameArea.keySet[Math.floor(Math.random() * myGameArea.keySet.length)];
       }
-
-    }, false);
-
-
-    // helpers for clicks
-    function getMousePos(canvas, event) {
-      var rect = canvas.getBoundingClientRect();
-      return {
-        x: event.clientX,
-        y: event.clientY
-      };
-    }
-    function isInside(pos, rect) {
-      return (pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y);
+      myGameArea.state.score += 1;
     }
 
+    // update coordinates of tim
+    myGameArea.state.yVelo = myGameArea.state.yVelo + 0.005;
+    if (myGameArea.state.yVelo > 2) {
+      myGameArea.state.yVelo = 2;
+    }
+    if (myGameArea.state.yVelo < -0.5) {
+      myGameArea.state.yVelo = -0.5;
+    }
+    myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
 
-    //making keypresses work
-    window.addEventListener('keydown', function (e) {
-      e.preventDefault();
-      myGameArea.keys = (myGameArea.keys || []);
-      myGameArea.keys[e.keyCode] = (e.type == "keydown");
-    })
-    window.addEventListener('keyup', function (e) {
-      myGameArea.keys[e.keyCode] = (e.type == "keydown");
-    })
+    // update coordinates of the pipe
+    myGameArea.pipe.x = myGameArea.pipe.x-2;
+    if (myGameArea.pipe.x<0)
+    {
+      myGameArea.pipe.x = width;
+    }
+
+    // draw frame
+    const context = myGameArea.context;
+
+    // define frame stuff
+    context.save();
+
+    // clear frame
+    context.fillStyle = '#365879';
+    context.fillRect(0, 0, width, height);
+
+    // display tim
+    context.fillStyle = '#ffffff';
+    context.font = "30px Arial";
+    var img = document.getElementById("tim");
+    context.drawImage(img, myGameArea.state.xPos, myGameArea.state.yPos);
+    // context.fillText("lmao xD", myGameArea.state.xPos, myGameArea.state.yPos);
+
+    // display pipe
+    myGameArea.context.fillStyle = '#000000';
+    myGameArea.context.font = "24px Arial";
+    myGameArea.context.fillRect(myGameArea.pipe.x, 0, myGameArea.pipe.width, myGameArea.pipe.y);
+    myGameArea.context.fillRect(myGameArea.pipe.x, myGameArea.pipe.y + myGameArea.pipe.height, myGameArea.pipe.width, height);
+
+    // display key to press
+    myGameArea.context.fillStyle = '#ffffff';
+    myGameArea.context.font = "24px Arial";
+    myGameArea.context.fillRect(125, 50, 125, 125);
+    myGameArea.context.fillStyle = '#000000';
+    myGameArea.context.fillText("Key: " + String.fromCharCode(myGameArea.keyToPress), 125, 75);
+
+    // display score
+    myGameArea.context.fillStyle = '#000000';
+    myGameArea.context.fillText("Score: " + myGameArea.state.score, 125, 115);
+
+    context.restore();
+
+  }
+
+  function isGameOver() {
+    // console.log(myGameArea.state.yPos);
+    if (myGameArea.state.yPos + myGameArea.timHeight > myGameArea.canvas.height) {
+      // fell too far down
+      console.log("fell down");
+      return true;
+    };
+    return false;
+  }
 
 
-  </script>
-  <script src="/static/js/api.js"></script>
-  <script src="/static/js/navbar.js"></script>
-  <script src="/static/js/index.js"></script>
-  <script src="/static/js/name.js"></script>
+  // restart if game over
+  var restartRect = {
+
+    x: 125,
+    y: 175,
+    width: 100,
+    height: 50
+  };
+  //Binding the click event on the canvas
+  myGameArea.canvas.addEventListener('click', function (evt) {
+    var mousePos = getMousePos(myGameArea.canvas, evt);
+    console.log(mousePos.x);
+    // if (isGameOver()==true) {
+    if ((isInside(mousePos, restartRect)) && (isGameOver() == true)) {
+      console.log('restart button clicked inside rect');
+      myGameArea.start();
+    }
+
+  }, false);
+
+
+  // helpers for clicks
+  function getMousePos(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: event.clientX,
+      y: event.clientY
+    };
+  }
+  function isInside(pos, rect) {
+    return (pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y);
+  }
+
+
+  //making keypresses work
+  window.addEventListener('keydown', function (e) {
+    e.preventDefault();
+    myGameArea.keys = (myGameArea.keys || []);
+    myGameArea.keys[e.keyCode] = (e.type == "keydown");
+  })
+  window.addEventListener('keyup', function (e) {
+    myGameArea.keys[e.keyCode] = (e.type == "keydown");
+  })
+
+
+</script>
+<script src="/static/js/api.js"></script>
+<script src="/static/js/navbar.js"></script>
+<script src="/static/js/index.js"></script>
+<script src="/static/js/name.js"></script>
+
+<body onload="startGame()">
+  <nav class="navbar">
+    <!--<div class="navbar-brand" href="#"></div> -->
+    <div class="allign-upperleft" id="nav-item-container">
+      <!-- navbar items are inserted here -->
+    </div>
+  </nav>
+  <img id="tim" src="tim" alt="Tim the Beaver sprite" hidden>
+  <style>
+    canvas {
+      border: 1px solid #d3d3d3;
+      background-color: #f1f1f1;
+    }
+  </style>
+
+
 
 </body>
 

@@ -48,9 +48,7 @@ router.post(
 
 router.get('/score', function(req, res) {
   console.log("trying to fetch score, id " + req.query.contentID);
-  // Score.find().lean().exec( function (err, scores) 
   Score.find({googleid: req.query.contentID}).lean().exec( function (err, scores) 
-  // Score.find({googleid: "5c464831ecaa1323c8e1cc28"}).lean().exec( function (err, scores) 
   {
     var maxScore = 0;
     console.log(scores.length + " scores found");
