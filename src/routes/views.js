@@ -22,6 +22,10 @@ router.get('/tim', function(req, res, next){
   res.sendFile('timSprite.png', {root: 'src/views'})
 });
 
+router.get('/tim_transparent', function(req, res, next){
+  res.sendFile('tim_transparent.png', {root: 'src/views'})
+});
+
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
