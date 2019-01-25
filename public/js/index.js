@@ -10,10 +10,6 @@ function main() {
         window.localStorage.setItem('seenRules', "false");
       }
 
-
-    
-      
-
       //console.log(user.name);
       
       //renderStories(user);

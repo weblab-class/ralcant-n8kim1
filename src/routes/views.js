@@ -31,8 +31,5 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.get('/u/profile', function(req, res) {
-  res.sendFile('profile.html', { root: 'src/views' });
-});
 
 module.exports = router;
