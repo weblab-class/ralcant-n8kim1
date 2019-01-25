@@ -12,12 +12,20 @@ function renderName(user){
     const messageContainer = document.getElementById("sub_message")
     const messageHeader = document.createElement('h2');
 
+    const overlay_inner = document.getElementById('text');
 
     //const loginContainer = document.getElementById("login")
     //const login_button = document.createElement('a');
     //welc_Header.className = "welcome-text";
     if (user._id !== undefined) {
-      //   welcome_message_id.className = "welcome_text";
+
+        const div_title = document.createElement('h1')
+        div_title.innerText = "The rules of the TIM club are"
+        overlay_inner.appendChild(div_title);
+        overlay.style.display = "block";
+      // overlay.style.display = "none";
+      
+
         nameHeader.innerText = "Hello, " + user.name;
         nameContainer.appendChild(nameHeader);
         //nameContainer.appendChild(user.name); <- first try, incorrect
@@ -44,7 +52,7 @@ function renderName(user){
      }
      else{
         //welcome_message_id.className = "animated flip";
-        welc_Header.innerText = "Flappy TIM";
+        welc_Header.innerText =  "Flappy TIM";
         welc_Header.className = "center"
         welcome_message.appendChild(welc_Header);
 
@@ -60,4 +68,11 @@ function renderName(user){
 
 
      }
+}
+function on() {
+   document.getElementById("overlay").style.display = "block";
+}
+ 
+ function off() {
+   document.getElementById("overlay").style.display = "none";
 }
