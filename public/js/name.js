@@ -70,6 +70,7 @@ function renderName(user){
         login_button.innerText = "Login";
         login_button.href = '/auth/google';
         document.body.appendChild(login_button)
+        window.localStorage.setItem('seenRules', "false");
 
 
      }
