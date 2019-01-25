@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const UserModelSchema = new mongoose.Schema ({
   name        	: String,
   googleid     	: String,
+  
   highScore : {
     type: Number,
     default: 0
