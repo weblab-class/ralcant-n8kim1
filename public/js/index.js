@@ -5,7 +5,7 @@ function main() {
       renderName(user);
       const seenRules = window.localStorage.getItem('seenRules');
 
-      console.log(seenRules)
+      console.log(seenRules);
       if (!seenRules){
         window.localStorage.setItem('seenRules', "false");
       }
