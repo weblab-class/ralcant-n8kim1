@@ -4,16 +4,24 @@
 <head>
   <title> Gamepage </title>
   <link rel="stylesheet" type="text/css" href="static/css/style.css">
-
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 </head>
-<script>
 
+<body onload="startGame()">
+  <nav class="navbar">
+    <!--<div class="navbar-brand" href="#"></div> -->
+    <div class="allign-upperleft" id="nav-item-container">
+    </div>
+  </nav>
+  <img id="tim" src="tim" alt="Tim the Beaver sprite" hidden>
+</body>
+
+<script>
   function startGame() {
     myGameArea.start();
   }
+
+  var img = document.getElementById("tim");
 
   var myGameArea = {
     canvas: document.createElement("canvas"),
@@ -23,9 +31,13 @@
       this.context = this.canvas.getContext("2d");
       document.body.insertBefore(this.canvas, document.body.childNodes[0]);
       this.interval = setInterval(update, 10);
-      this.keyToPress = 87;
       this.keySet = [83, 87];
-      this.timHeight = document.getElementById("tim").height;
+      this.keyToPress = this.keySet[0];
+      this.timHeight = img.height;
+      this.timWidth = img.width;
+      this.frameCount = 0;
+      this.startTime = Date.now();
+      this.endTime = Date.now();
       this.state = {
         isGameOver: false,
         xPos: 100,
@@ -33,11 +45,23 @@
         yVelo: 0,
         score: 0
       };
-      this.pipe = {
-        x : 450,
-        y : 125,
-        height : 150,
-        width : 25
+      this.pipe1 = {
+        x: this.canvas.width / 2,
+        y: 125,
+        height: 150,
+        width: 25,
+        yMax: 350,
+        yMin: 50,
+        scored: false,
+      };
+      this.pipe2 = {
+        x: this.canvas.width,
+        y: 125,
+        height: 150,
+        width: 25,
+        yMax: 350,
+        yMin: 50,
+        scored: false,
       };
     },
     stop: function () {
@@ -55,6 +79,11 @@
     // halt frame updates if game over
     if (this.isGameOver() == true) {
       myGameArea.stop();
+
+      // timing
+      myGameArea.endTime = Date.now();
+      console.log("Framerate: " + (myGameArea.endTime-myGameArea.startTime) / myGameArea.frameCount);
+
       // print a game over message
       myGameArea.context.fillStyle = '#ffffff';
       myGameArea.context.font = "30px Arial";
@@ -117,17 +146,24 @@
       return 0;
     }
 
+    // timing
+    myGameArea.frameCount+=1;
+    if (myGameArea.frameCount == 1)
+    {
+      myGameArea.startTime = Date.now();
+    }
+
+
     // take key input
     if (myGameArea.keys && myGameArea.keys[myGameArea.keyToPress]) {
-      console.log("key pressed");
+      // console.log("key pressed");
       myGameArea.state.yVelo = myGameArea.state.yVelo - 2;
       var oldKey = myGameArea.keyToPress;
       // pick a new, distinct key
       while (oldKey == myGameArea.keyToPress) {
-        console.log("regen key");
+        // console.log("regen key");
         myGameArea.keyToPress = myGameArea.keySet[Math.floor(Math.random() * myGameArea.keySet.length)];
       }
-      myGameArea.state.score += 1;
     }
 
     // update coordinates of tim
@@ -140,11 +176,31 @@
     }
     myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
 
-    // update coordinates of the pipe
-    myGameArea.pipe.x = myGameArea.pipe.x-2;
-    if (myGameArea.pipe.x<0)
-    {
-      myGameArea.pipe.x = width;
+    // update coordinates of pipes
+    myGameArea.pipe1.x = myGameArea.pipe1.x - 2;
+    if (myGameArea.pipe1.x  + myGameArea.pipe1.width  < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
+      console.log("Score from pipe 1");
+      myGameArea.state.score += 1;
+      myGameArea.pipe1.scored = true;
+    }
+    if (myGameArea.pipe1.x  < -1 * myGameArea.pipe1.width) {
+      console.log("Regen pipe 1");
+      myGameArea.pipe1.x = width; // push to the end
+      myGameArea.pipe1.scored = false;
+      myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
+    }
+
+    myGameArea.pipe2.x = myGameArea.pipe2.x - 2;
+    if (myGameArea.pipe2.x + myGameArea.pipe2.width < myGameArea.state.xPos && myGameArea.pipe2.scored == false) {
+      console.log("Score from pipe 2");
+      myGameArea.state.score += 1;
+      myGameArea.pipe2.scored = true;
+    }
+    if (myGameArea.pipe2.x < -1 * myGameArea.pipe2.width) {
+      console.log("Regen pipe 2");
+      myGameArea.pipe2.x = width; // push to the end
+      myGameArea.pipe2.scored = false;
+      myGameArea.pipe2.y = getRandomInt(myGameArea.pipe2.yMin, myGameArea.pipe2.yMax)  // randomize the height of the opening
     }
 
     // draw frame
@@ -160,15 +216,15 @@
     // display tim
     context.fillStyle = '#ffffff';
     context.font = "30px Arial";
-    var img = document.getElementById("tim");
     context.drawImage(img, myGameArea.state.xPos, myGameArea.state.yPos);
     // context.fillText("lmao xD", myGameArea.state.xPos, myGameArea.state.yPos);
 
-    // display pipe
+    // display pipes
     myGameArea.context.fillStyle = '#000000';
-    myGameArea.context.font = "24px Arial";
-    myGameArea.context.fillRect(myGameArea.pipe.x, 0, myGameArea.pipe.width, myGameArea.pipe.y);
-    myGameArea.context.fillRect(myGameArea.pipe.x, myGameArea.pipe.y + myGameArea.pipe.height, myGameArea.pipe.width, height);
+    myGameArea.context.fillRect(myGameArea.pipe1.x, 0, myGameArea.pipe1.width, myGameArea.pipe1.y);
+    myGameArea.context.fillRect(myGameArea.pipe1.x, myGameArea.pipe1.y + myGameArea.pipe1.height, myGameArea.pipe1.width, height);
+    myGameArea.context.fillRect(myGameArea.pipe2.x, 0, myGameArea.pipe2.width, myGameArea.pipe2.y);
+    myGameArea.context.fillRect(myGameArea.pipe2.x, myGameArea.pipe2.y + myGameArea.pipe2.height, myGameArea.pipe2.width, height);
 
     // display key to press
     myGameArea.context.fillStyle = '#ffffff';
@@ -186,19 +242,39 @@
   }
 
   function isGameOver() {
-    // console.log(myGameArea.state.yPos);
     if (myGameArea.state.yPos + myGameArea.timHeight > myGameArea.canvas.height) {
       // fell too far down
       console.log("fell down");
       return true;
     };
+
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x-myGameArea.timWidth, 0, myGameArea.pipe1.width+myGameArea.timWidth, myGameArea.pipe1.y)) {
+      console.log("hit top of pipe 1");
+      return true;
+    };
+
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x-myGameArea.timWidth, myGameArea.pipe1.y + myGameArea.pipe1.height - myGameArea.timHeight, myGameArea.pipe1.width+myGameArea.timWidth, myGameArea.canvas.height-myGameArea.pipe1.y - myGameArea.pipe1.height)) {
+      console.log("hit bottom of pipe 1");
+      return true;
+    };
+
+
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x-myGameArea.timWidth, 0, myGameArea.pipe2.width+myGameArea.timWidth, myGameArea.pipe2.y)) {
+      console.log("hit top of pipe 2");
+      return true;
+    };
+
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x-myGameArea.timWidth, myGameArea.pipe2.y + myGameArea.pipe2.height - myGameArea.timHeight, myGameArea.pipe2.width+myGameArea.timWidth, myGameArea.canvas.height-myGameArea.pipe2.y - myGameArea.pipe2.height)) {
+      console.log("hit bottom of pipe 2");
+      return true;
+    };
+
     return false;
   }
 
 
   // restart if game over
   var restartRect = {
-
     x: 125,
     y: 175,
     width: 100,
@@ -228,6 +304,9 @@
   function isInside(pos, rect) {
     return (pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y);
   }
+  function isInside2(posX, posY, rectX, rectY, rectW, rectH) {
+    return (posX > rectX && posX < rectX + rectW && posY < rectY + rectH && posY > rectY);
+  }
 
 
   //making keypresses work
@@ -241,29 +320,21 @@
   })
 
 
+  // helper for RNG
+  function getRandomInt(min, max) {
+    return (min + Math.floor(Math.random() * Math.floor(max - min)));
+  }
+
+
+
+
 </script>
 <script src="/static/js/api.js"></script>
 <script src="/static/js/navbar.js"></script>
-<script src="/static/js/index.js"></script>
 <script src="/static/js/name.js"></script>
-
-<body onload="startGame()">
-  <nav class="navbar">
-    <!--<div class="navbar-brand" href="#"></div> -->
-    <div class="allign-upperleft" id="nav-item-container">
-      <!-- navbar items are inserted here -->
-    </div>
-  </nav>
-  <img id="tim" src="tim" alt="Tim the Beaver sprite" hidden>
-  <style>
-    canvas {
-      border: 1px solid #d3d3d3;
-      background-color: #f1f1f1;
-    }
-  </style>
+<script src="/static/js/index.js"></script>
 
 
 
-</body>
 
 </html>
