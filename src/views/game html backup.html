@@ -2,33 +2,18 @@
 <html>
 
 <head>
-  <title> Flappy TIM </title>
+  <title> Gamepage </title>
   <link rel="stylesheet" type="text/css" href="static/css/game.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-    crossorigin="anonymous">
-  <!---<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
-        <link rel="icon" href="/static/favicon.ico" type="image/x-icon"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
-<body class="Body" onload="startGame()">
-  <!-- <nav class="navbar">
-          <div class="allign-upperleft" id="nav-item-container">
-          </div>
-        </nav> -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <img id="tim_transparent" src="tim_transparent" alt="Tim the Beaver sprite transparent">
-    <div class="navbar-brand" href="#">&ensp; Flappy TIM</div>
-    <div class="navbar-nav" id="nav-item-container">
-      <!-- navbar items are inserted here -->
+<body onload="startGame()">
+  <nav class="navbar">
+    <div class="allign-upperleft" id="nav-item-container">
     </div>
   </nav>
-  <div id="name-container" class="allign-upperright"></div>
   <img id="tim" src="tim" alt="Tim the Beaver sprite" hidden>
-  <canvas id = "gameCanvas">  </canvas>
 </body>
-
-
 
 <script>
   function startGame() {
@@ -38,11 +23,12 @@
   var img = document.getElementById("tim");
 
   var myGameArea = {
-    canvas: document.getElementById("gameCanvas"),
+    canvas: document.createElement("canvas"),
     start: function () {
       this.canvas.width = 900; // might make dynamic
       this.canvas.height = 450;
       this.context = this.canvas.getContext("2d");
+      document.body.insertBefore(this.canvas, document.body.childNodes[0]);
       this.interval = setInterval(update, 10);
       this.keySet = [83, 87];
       this.keyToPress = this.keySet[0];
@@ -95,7 +81,7 @@
 
       // timing
       myGameArea.endTime = Date.now();
-      console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
+      console.log("Framerate: " + (myGameArea.endTime-myGameArea.startTime) / myGameArea.frameCount);
 
       // print a game over message
       myGameArea.context.fillStyle = '#ffffff';
@@ -107,7 +93,7 @@
       // print your score
       myGameArea.context.fillText("your score: " + myGameArea.state.score, width / 2, height / 2 + 50);
 
-      // check if high score; if so, send it
+      // TODO: check if high score
       var userID = "idk";
       get('/api/whoami', {}, function (user) {
         console.log("fetching score, id: " + user._id);
@@ -159,13 +145,11 @@
       return 0;
     }
 
-    // timing and other game initialziation info
-    myGameArea.frameCount += 1;
-    if (myGameArea.frameCount == 1) {
+    // timing
+    myGameArea.frameCount+=1;
+    if (myGameArea.frameCount == 1)
+    {
       myGameArea.startTime = Date.now();
-      var rect = myGameArea.canvas.getBoundingClientRect();
-      console.log(rect.top, rect.right, rect.bottom, rect.left);
-
     }
 
 
@@ -193,12 +177,12 @@
 
     // update coordinates of pipes
     myGameArea.pipe1.x = myGameArea.pipe1.x - 2;
-    if (myGameArea.pipe1.x + myGameArea.pipe1.width < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
+    if (myGameArea.pipe1.x  + myGameArea.pipe1.width  < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
       console.log("Score from pipe 1");
       myGameArea.state.score += 1;
       myGameArea.pipe1.scored = true;
     }
-    if (myGameArea.pipe1.x < -1 * myGameArea.pipe1.width) {
+    if (myGameArea.pipe1.x  < -1 * myGameArea.pipe1.width) {
       console.log("Regen pipe 1");
       myGameArea.pipe1.x = width; // push to the end
       myGameArea.pipe1.scored = false;
@@ -263,23 +247,23 @@
       return true;
     };
 
-    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x - myGameArea.timWidth, 0, myGameArea.pipe1.width + myGameArea.timWidth, myGameArea.pipe1.y)) {
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x-myGameArea.timWidth, 0, myGameArea.pipe1.width+myGameArea.timWidth, myGameArea.pipe1.y)) {
       console.log("hit top of pipe 1");
       return true;
     };
 
-    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x - myGameArea.timWidth, myGameArea.pipe1.y + myGameArea.pipe1.height - myGameArea.timHeight, myGameArea.pipe1.width + myGameArea.timWidth, myGameArea.canvas.height - myGameArea.pipe1.y - myGameArea.pipe1.height)) {
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x-myGameArea.timWidth, myGameArea.pipe1.y + myGameArea.pipe1.height - myGameArea.timHeight, myGameArea.pipe1.width+myGameArea.timWidth, myGameArea.canvas.height-myGameArea.pipe1.y - myGameArea.pipe1.height)) {
       console.log("hit bottom of pipe 1");
       return true;
     };
 
 
-    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x - myGameArea.timWidth, 0, myGameArea.pipe2.width + myGameArea.timWidth, myGameArea.pipe2.y)) {
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x-myGameArea.timWidth, 0, myGameArea.pipe2.width+myGameArea.timWidth, myGameArea.pipe2.y)) {
       console.log("hit top of pipe 2");
       return true;
     };
 
-    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x - myGameArea.timWidth, myGameArea.pipe2.y + myGameArea.pipe2.height - myGameArea.timHeight, myGameArea.pipe2.width + myGameArea.timWidth, myGameArea.canvas.height - myGameArea.pipe2.y - myGameArea.pipe2.height)) {
+    if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x-myGameArea.timWidth, myGameArea.pipe2.y + myGameArea.pipe2.height - myGameArea.timHeight, myGameArea.pipe2.width+myGameArea.timWidth, myGameArea.canvas.height-myGameArea.pipe2.y - myGameArea.pipe2.height)) {
       console.log("hit bottom of pipe 2");
       return true;
     };
@@ -298,11 +282,10 @@
   //Binding the click event on the canvas
   myGameArea.canvas.addEventListener('click', function (evt) {
     var mousePos = getMousePos(myGameArea.canvas, evt);
-    console.log("x " + mousePos.x + ", y " + mousePos.y);
+    console.log(mousePos.x);
     // if (isGameOver()==true) {
     if ((isInside(mousePos, restartRect)) && (isGameOver() == true)) {
       console.log('restart button clicked inside rect');
-      myGameArea.frameCount = 0;
       myGameArea.start();
     }
 
