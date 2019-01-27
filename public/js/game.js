@@ -13,7 +13,7 @@ var myGameArea = {
         this.canvas.width = 975; // any longer breaks things on small screens
         this.canvas.height = 660;
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(update, 10);
+        this.interval = setInterval(update, 5);
         this.keySetList = [["w"], ["f", "j"]];
         for (i = 0; i<this.keySetList.length ; i++)
         {
@@ -24,14 +24,14 @@ var myGameArea = {
             }
         }
         console.log(this.keySetList);
-        this.keySet = this.keySetList[0];
+        this.keySet = this.keySetList[1];
         this.keyToPress = this.keySet[0];
         this.timHeight = img.height;
         this.timWidth = img.width;
         this.frameCount = 0;
         this.startTime = Date.now();
         this.endTime = Date.now();
-        this.pipeDeath = false;
+        this.pipeDeath = true;
         this.state = {
             isGameOver: false,
             xPos: 100,
@@ -323,7 +323,7 @@ function update() {
 function isGameOver() {
     if (myGameArea.state.yPos + myGameArea.timHeight > myGameArea.canvas.height) {
         // fell too far down
-        console.log("fell down");
+        console.log("fell down, yPos: " + myGameArea.state.yPos);
         return true;
     };
 
@@ -399,7 +399,7 @@ window.addEventListener('keydown', function (e) {
     e.preventDefault();
     myGameArea.keys = (myGameArea.keys || []);
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
-    jump.play();
+    // jump.play();
 })
 window.addEventListener('keyup', function (e) {
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
