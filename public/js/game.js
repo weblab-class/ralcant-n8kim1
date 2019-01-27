@@ -449,12 +449,13 @@ function Sound(src) {
 //     overlay_inner.removeChild(score);
 // }
 const number_of_levels = 5;
+level_name = ["baby", "beginner", "intermediate", "advanced", "Chuck Norris"];
 function renderLevels() {
     overlay.style.display = "block";
     for(let i = 0; i < number_of_levels; i ++ ){
         const level = document.createElement('button')
         level.id = "level" + i; 
-        level.innerText = "Level" + i;
+        level.innerText = level_name[i];
         level.type = "button";
         level.className = "btn btn-danger btn-lg";
         level.addEventListener('click', function () {
@@ -469,6 +470,8 @@ function renderLevels() {
                 overlay_inner.removeChild(remove_button);
             }
             myGameArea.frameCount = 0;
+
+            //here there should be something like "myGameArea.start(i)" to see what game to display
             myGameArea.start();
         })
         const space = document.createElement('hr');
