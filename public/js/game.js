@@ -1,5 +1,8 @@
 function startGame() {
     myGameArea.start();
+    scene = new Scene();
+    jump = new Sound("jump.mp3");
+    scene.start();
 }
 
 var img = document.getElementById("tim");
@@ -60,20 +63,20 @@ var myGameArea = {
 //     console.log(window.localStorage.getItem('seenGameOver'));
 // }
 // console.log(window.localStorage.getItem('seenGameOver'));
-function sound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.play = function(){
-        this.sound.play();
-    }
-    this.stop = function(){
-        this.sound.pause();
-    }    
-}
+// function sound(src) {
+//     this.sound = document.createElement("audio");
+//     this.sound.src = src;
+//     this.sound.setAttribute("preload", "auto");
+//     this.sound.setAttribute("controls", "none");
+//     this.sound.style.display = "none";
+//     document.body.appendChild(this.sound);
+//     this.play = function(){
+//         this.sound.play();
+//     }
+//     this.stop = function(){
+//         this.sound.pause();
+//     }    
+// }
 const overlay_inner = document.getElementById('text');
 
 function update() {
@@ -352,7 +355,7 @@ function isInside2(posX, posY, rectX, rectY, rectW, rectH) {
 }
 
 // const newSound = document.getElementById("jump");
-jump = new sound("jump.mp3");
+// jump = new sound("jump.mp3");
 
 //making keypresses work
 window.addEventListener('keydown', function (e) {
@@ -371,7 +374,33 @@ function getRandomInt(min, max) {
     return (min + Math.floor(Math.random() * Math.floor(max - min)));
 }
 
-
+function Sound(src){
+    //sound effect class
+    //builds a sound effect based on a url
+    //may need both ogg and mp3.
+    this.snd = document.createElement("audio");
+    this.snd.src = src;
+    //preload sounds if possible (won't work on IOS)
+    this.snd.setAttribute("preload", "auto");
+    //hide controls for now
+    this.snd.setAttribute("controls", "none");
+    this.snd.style.display = "none";
+    //attach to document so controls will show when needed
+    document.body.appendChild(this.snd);
+  
+    this.play = function(){
+      this.snd.play();
+    } // end play function
+    
+    this.showControls = function(){
+      //generally not needed.
+      //crude hack for IOS
+      this.snd.setAttribute("controls", "controls");
+      this.snd.style.display = "block";
+    } // end showControls
+    
+  } // end sound class def
+  
 // function on() {
 //     document.getElementById("overlay").style.display = "block";
 //  }
@@ -383,10 +412,4 @@ function getRandomInt(min, max) {
 //     overlay_inner.removeChild(game_over);
 //     overlay_inner.removeChild(score);
 // }
-
-function init(){
-    scene = new Scene();
-    jump = new sound("jump.mp3");
-    scene.start();
-} 
 
