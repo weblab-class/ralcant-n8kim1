@@ -7,15 +7,13 @@ function startGame() {
 
 var img = document.getElementById("tim");
 
-
-
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
     start: function () {
-        this.canvas.width = 1470 // might make dynamic
+        this.canvas.width = 975; // any longer breaks things on small screens
         this.canvas.height = 660;
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(update, 5);
+        this.interval = setInterval(update, 10);
         this.keySet = [83, 87];
         this.keyToPress = this.keySet[0];
         this.timHeight = img.height;
@@ -23,6 +21,7 @@ var myGameArea = {
         this.frameCount = 0;
         this.startTime = Date.now();
         this.endTime = Date.now();
+        this.pipeDeath = false;
         this.state = {
             isGameOver: false,
             xPos: 100,
@@ -223,7 +222,7 @@ function update() {
     myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
 
     // update coordinates of pipes
-    myGameArea.pipe1.x = myGameArea.pipe1.x - 2;
+    myGameArea.pipe1.x = myGameArea.pipe1.x - 4;
     if (myGameArea.pipe1.x + myGameArea.pipe1.width < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
         console.log("Score from pipe 1");
         myGameArea.state.score += 1;
@@ -293,6 +292,8 @@ function isGameOver() {
         return true;
     };
 
+    if (myGameArea.pipeDeath == true)
+    {
     if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x - myGameArea.timWidth, 0, myGameArea.pipe1.width + myGameArea.timWidth, myGameArea.pipe1.y)) {
         console.log("hit top of pipe 1");
         return true;
@@ -313,6 +314,7 @@ function isGameOver() {
         console.log("hit bottom of pipe 2");
         return true;
     };
+}
 
     return false;
 }
