@@ -4,6 +4,8 @@ function startGame() {
 
 var img = document.getElementById("tim");
 
+
+
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
     start: function () {
@@ -349,8 +351,8 @@ function isInside2(posX, posY, rectX, rectY, rectW, rectH) {
     return (posX > rectX && posX < rectX + rectW && posY < rectY + rectH && posY > rectY);
 }
 
-const newSound = document.getElementById("jump");
-const jump = sound(newSound);
+// const newSound = document.getElementById("jump");
+jump = new sound("jump.mp3");
 
 //making keypresses work
 window.addEventListener('keydown', function (e) {
@@ -381,4 +383,10 @@ function getRandomInt(min, max) {
 //     overlay_inner.removeChild(game_over);
 //     overlay_inner.removeChild(score);
 // }
+
+function init(){
+    scene = new Scene();
+    jump = new sound("jump.mp3");
+    scene.start();
+} 
 

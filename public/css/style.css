@@ -160,3 +160,14 @@ div.circle-avatar{
 	-ms-transform: translate(-50%,-50%);
 	text-align: center;
   }
+  .home{
+	position: absolute;
+	right: 10%;
+	top: 56px;
+
+}
+.down{
+	position: absolute;
+	top:80%;
+	right:49%;
+}
