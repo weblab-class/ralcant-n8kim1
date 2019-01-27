@@ -181,3 +181,8 @@ div.circle-avatar{
 	top: 56px;
 
 }
+.change{
+	position:absolute;
+	right: 14%;
+	top:200%;
+}

@@ -127,12 +127,37 @@ function update() {
             overlay_inner.removeChild(div_title);
             overlay_inner.removeChild(score);
             overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);   
+            overlay_inner.removeChild(home);
+            overlay_inner.removeChild(change);   
 
             myGameArea.frameCount = 0;
             myGameArea.start();
         })
         overlay_inner.appendChild(restart);
+
+        //creating change difficulties button
+        const change = document.createElement('button')
+        change.id = "change"
+        change.innerText = "Change Difficulty";
+        change.type = "button";
+        change.className = "btn btn-lg btn-warning change";
+        change.addEventListener('click', function () {
+
+            //stop the overlay
+            document.getElementById("overlay").style.display = "none";
+            //eliminate eveything that was just created (otherwise they will show up twice)
+            overlay_inner.removeChild(div_title);
+            overlay_inner.removeChild(score);
+            overlay_inner.removeChild(restart);
+            overlay_inner.removeChild(home);
+            overlay_inner.removeChild(change);
+
+            // myGameArea.frameCount = 0;
+            // myGameArea.start();
+            //render the level setting
+            renderLevels();
+        })
+        overlay_inner.appendChild(change);
 
         //show an overlay
         overlay.style.display = "block";
@@ -376,7 +401,7 @@ function getRandomInt(min, max) {
     return (min + Math.floor(Math.random() * Math.floor(max - min)));
 }
 
-function Sound(src){
+function Sound(src) {
     //sound effect class
     //builds a sound effect based on a url
     //may need both ogg and mp3.
@@ -389,20 +414,19 @@ function Sound(src){
     this.snd.style.display = "none";
     //attach to document so controls will show when needed
     document.body.appendChild(this.snd);
-  
-    this.play = function(){
-      this.snd.play();
+
+    this.play = function () {
+        this.snd.play();
     } // end play function
-    
-    this.showControls = function(){
-      //generally not needed.
-      //crude hack for IOS
-      this.snd.setAttribute("controls", "controls");
-      this.snd.style.display = "block";
+
+    this.showControls = function () {
+        //generally not needed.
+        //crude hack for IOS
+        this.snd.setAttribute("controls", "controls");
+        this.snd.style.display = "block";
     } // end showControls
-    
-  } // end sound class def
-  
+
+} // end sound class def
 // function on() {
 //     document.getElementById("overlay").style.display = "block";
 //  }
@@ -414,4 +438,34 @@ function Sound(src){
 //     overlay_inner.removeChild(game_over);
 //     overlay_inner.removeChild(score);
 // }
+const number_of_levels = 5;
+function renderLevels() {
+    overlay.style.display = "block";
+    for(let i = 0; i < number_of_levels; i ++ ){
+        const level = document.createElement('button')
+        level.id = "level" + i; 
+        level.innerText = "Level" + i;
+        level.type = "button";
+        level.className = "btn btn-danger btn-lg";
+        level.addEventListener('click', function () {
 
+            //stop the overlay
+            document.getElementById("overlay").style.display = "none";
+            //eliminate eveything that was just created (otherwise they will show up more than once)
+            for ( j = 0; j < number_of_levels; j++ ){
+                const remove_button = document.getElementById("level" + j);
+                const remove_space = document.getElementById("space" + j);
+                overlay_inner.removeChild(remove_space);
+                overlay_inner.removeChild(remove_button);
+            }
+            myGameArea.frameCount = 0;
+            myGameArea.start();
+        })
+        const space = document.createElement('hr');
+        space.id = "space" + i
+        // space.innerText = "";
+        overlay_inner.appendChild(level);
+        overlay_inner.appendChild(space)
+        
+    }    
+}
