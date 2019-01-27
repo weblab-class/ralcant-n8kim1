@@ -14,7 +14,17 @@ var myGameArea = {
         this.canvas.height = 660;
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(update, 10);
-        this.keySet = [83, 87];
+        this.keySetList = [["w"], ["f", "j"]];
+        for (i = 0; i<this.keySetList.length ; i++)
+        {
+            for (j = 0; j<this.keySetList[i].length ; j++)
+            {
+                console.log(i +" " + j + this.keySetList[i][j]);
+                this.keySetList[i][j] = (this.keySetList[i][j]).charCodeAt(0);
+            }
+        }
+        console.log(this.keySetList);
+        this.keySet = this.keySetList[0];
         this.keyToPress = this.keySet[0];
         this.timHeight = img.height;
         this.timWidth = img.width;
