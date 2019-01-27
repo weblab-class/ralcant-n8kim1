@@ -9,7 +9,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 800px;
+  height: 750px;
 
 }
 
@@ -158,4 +158,5 @@ div.circle-avatar{
 	color: white;
 	transform: translate(-50%,-50%);
 	-ms-transform: translate(-50%,-50%);
+	text-align: center;
   }

@@ -10,6 +10,13 @@ function main() {
         window.localStorage.setItem('seenRules', "false");
       }
 
+      // const seenGameOver = window.localStorage.getItem('seenGameOver');
+
+      // console.log(seenGameOver);
+      // if (!seenGameOver) {
+      //   window.localStorage.setItem('seenGameOver', "false");
+      // }
+
       //console.log(user.name);
       
       //renderStories(user);

@@ -9,7 +9,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 800px;
+  height: 750px;
 
 }
 
@@ -165,3 +165,19 @@ div.circle-avatar{
 	transform: translate(-50%,-50%);
 	-ms-transform: translate(-50%,-50%);
   }
+.game_over_text{
+	position: absolute;
+	right: 10px;
+	top: -50px;
+}
+.restart{
+	position:absolute;
+	top: 100%;
+	right: 50%;
+}
+.home{
+	position: absolute;
+	right: 10%;
+	top: 56px;
+
+}
