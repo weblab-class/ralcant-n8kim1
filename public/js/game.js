@@ -470,6 +470,8 @@ function renderLevels() {
                 overlay_inner.removeChild(remove_button);
             }
             myGameArea.frameCount = 0;
+
+            //here there should be something like "myGameArea.start(i)" to see what game to display
             myGameArea.start();
         })
         const space = document.createElement('hr');
