@@ -58,7 +58,20 @@ var myGameArea = {
 //     console.log(window.localStorage.getItem('seenGameOver'));
 // }
 // console.log(window.localStorage.getItem('seenGameOver'));
-
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }    
+}
 const overlay_inner = document.getElementById('text');
 
 function update() {
@@ -76,8 +89,6 @@ function update() {
         myGameArea.endTime = Date.now();
         console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
 
-        //show an overlay
-        //createing a title 
         const div_title = document.createElement('h1')
         div_title.id = "Game_Over_title";
         div_title.innerText ="Game Over! :(";
@@ -89,27 +100,7 @@ function update() {
         score.id = "Game_Over_score";
         overlay_inner.appendChild(score);
 
-        const restart = document.createElement('button')
-        restart.id = "restart"
-        restart.innerText = "restart";
-        restart.type = "button";
-        restart.className = "btn btn-danger btn-lg btn-secondary restart";
-        restart.addEventListener('click', function() {
-
-            document.getElementById("overlay").style.display = "none";
-            const game_over = document.getElementById("Game_Over_title");
-            const delete_score = document.getElementById("Game_Over_score");
-            const delete_restart = document.getElementById("restart")
-            overlay_inner.removeChild(game_over);
-            overlay_inner.removeChild(delete_score);
-            overlay_inner.removeChild(restart);
-
-            myGameArea.frameCount = 0;
-            myGameArea.start();
-        })
-        overlay_inner.appendChild(restart);
-
-        
+        //creating home button
         const home = document.createElement('a')
         home.id = "home"
         home.innerText = "Home";
@@ -118,6 +109,28 @@ function update() {
         home.href = "/"
         overlay_inner.appendChild(home);
 
+        //creating restart button
+        const restart = document.createElement('button')
+        restart.id = "restart"
+        restart.innerText = "Restart";
+        restart.type = "button";
+        restart.className = "btn btn-danger btn-lg btn-secondary restart";
+        restart.addEventListener('click', function() {
+
+            //stop the overlay
+            document.getElementById("overlay").style.display = "none";
+            //eliminate eveything that was just created (otherwise they will show up twice)
+            overlay_inner.removeChild(div_title);
+            overlay_inner.removeChild(score);
+            overlay_inner.removeChild(restart);
+            overlay_inner.removeChild(home);   
+
+            myGameArea.frameCount = 0;
+            myGameArea.start();
+        })
+        overlay_inner.appendChild(restart);
+
+        //show an overlay
         overlay.style.display = "block";
 
         // check if high score; if so, send it
@@ -255,14 +268,13 @@ function update() {
     myGameArea.context.fillRect(myGameArea.pipe2.x, myGameArea.pipe2.y + myGameArea.pipe2.height, myGameArea.pipe2.width, height);
 
     // display key to press
-    myGameArea.context.fillStyle = '#ffffff';
+    myGameArea.context.fillStyle = 'yellow';
     myGameArea.context.font = "24px Arial";
-    myGameArea.context.fillRect(125, 50, 125, 125);
-    myGameArea.context.fillStyle = '#000000';
+    myGameArea.context.fillStyle = 'yellow';
     myGameArea.context.fillText("Key: " + String.fromCharCode(myGameArea.keyToPress), 125, 75);
 
     // display score
-    myGameArea.context.fillStyle = '#000000';
+    myGameArea.context.fillStyle = 'yellow';
     myGameArea.context.fillText("Score: " + myGameArea.state.score, 125, 115);
 
     context.restore();
@@ -337,12 +349,15 @@ function isInside2(posX, posY, rectX, rectY, rectW, rectH) {
     return (posX > rectX && posX < rectX + rectW && posY < rectY + rectH && posY > rectY);
 }
 
+const newSound = document.getElementById("jump");
+const jump = sound(newSound);
 
 //making keypresses work
 window.addEventListener('keydown', function (e) {
     e.preventDefault();
     myGameArea.keys = (myGameArea.keys || []);
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
+    jump.play();
 })
 window.addEventListener('keyup', function (e) {
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
@@ -366,3 +381,4 @@ function getRandomInt(min, max) {
 //     overlay_inner.removeChild(game_over);
 //     overlay_inner.removeChild(score);
 // }
+
