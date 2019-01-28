@@ -68,4 +68,48 @@ router.get('/score', function(req, res) {
 
 });
 
+router.post(
+  '/score2',
+  // connect.ensureLoggedIn(),
+  function(req, res) {
+    console.log("in apis.js");
+    const newScore2 = new Score2({
+      'googleid'     	: req.body.contentID,
+      'score': req.body.content,
+      'difficultyID': req.body.difficultyID,
+    });
+
+    newScore2.save(function(err,score2) {
+      // console.log("saved???");
+      // configure socketio
+      if (err) {console.log("failed to save, " + err)}
+      else {console.log("saved sucess? id "+ newScore2.googleid + " difficulty " + newScore2.difficultyID)};
+    });
+
+    res.send({});
+  }
+);
+
+router.get('/score2', function(req, res) {
+  console.log("trying to fetch score w diff, id " + req.query.contentID);
+  Score2.find({googleid: req.query.contentID}).lean().exec( function (err, scores) 
+  {
+    var maxScore = 0;
+    console.log(scores.length + " scores found");
+    for (let i =0; i<scores.length; i++)
+    {
+      console.log("the score object # " + i);
+      console.log("the score is " + scores[i].score);
+      if (scores[i].score>maxScore)
+      {
+        maxScore= scores[i].score;
+      }
+    }
+
+    console.log("fetched max score: "+maxScore );
+    res.send([maxScore]);
+  });
+
+});
+
 module.exports = router;
