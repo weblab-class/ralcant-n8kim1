@@ -168,7 +168,7 @@ div.circle-avatar{
 .game_over_text{
 	position: absolute;
 	right: 10px;
-	top: -400%;
+	top: -350%;
 }
 .score{
 	position:relative;
@@ -188,7 +188,7 @@ div.circle-avatar{
 .change{
 	position:absolute;
 	right: 14%;
-	top:0%;
+	top:-40%;
 }
 .myScores{
 	position:absolute;
