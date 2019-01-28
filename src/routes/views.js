@@ -32,7 +32,9 @@ router.get('/tim', function(req, res, next){
 router.get('/jump', function(req, res) {
   res.sendFile('jump.mp3', {root: 'src/views'})
 });
-
+router.get('/losing', function(req, res) {
+  res.sendFile('losing.mp3', {root: 'src/views'})
+});
 router.get('/tim_transparent', function(req, res, next){
   res.sendFile('tim_transparent.png', {root: 'src/views'})
 });

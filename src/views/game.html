@@ -25,7 +25,13 @@
   </nav>
   <div id="name-container" class="allign-upperright"></div>
   <img id="tim" src="tim" alt="Tim the Beaver sprite" hidden>
-  <sound id="jump" src="jump" alt = "Jumping sound" hidden></sound>
+  <audio id="jump">
+    <source src="/jump" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="losing">
+    <source src = "/losing" type = "audio/mp3">
+  </audio>
   <div id = "overlay" > <!--deleted: onclick = "off_game()" -->
     <div id = "text">
       

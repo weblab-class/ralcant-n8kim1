@@ -10,6 +10,7 @@ var img = document.getElementById("tim");
 difficulty = 0;
 level_name = ["baby", "beginner", "intermediate", "advanced", "Chuck Norris"];
 
+
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
     start: function () {
@@ -66,20 +67,6 @@ var myGameArea = {
     }
 }
 // console.log(window.localStorage.getItem('seenGameOver'));
-// function sound(src) {
-//     this.sound = document.createElement("audio");
-//     this.sound.src = src;
-//     this.sound.setAttribute("preload", "auto");
-//     this.sound.setAttribute("controls", "none");
-//     this.sound.style.display = "none";
-//     document.body.appendChild(this.sound);
-//     this.play = function(){
-//         this.sound.play();
-//     }
-//     this.stop = function(){
-//         this.sound.pause();
-//     }    
-// }
 function update() {
     // update a frame...
 
@@ -90,6 +77,9 @@ function update() {
     if (this.isGameOver() == true) {
 
         myGameArea.stop();
+
+        const losing = document.getElementById('losing');
+        losing.play();
 
         // timing
         myGameArea.endTime = Date.now();
@@ -288,6 +278,7 @@ function isInside2(posX, posY, rectX, rectY, rectW, rectH) {
 
 // const newSound = document.getElementById("jump");
 // jump = new sound("jump.mp3");
+// const audio = document.getElementById("myAudio")
 
 var isKeyDown = false;
 
@@ -300,14 +291,18 @@ window.addEventListener('keydown', function (e) {
         isKeyDown = true;
         myGameArea.keys[e.keyCode] = (e.type == "keydown");
     }
-    // jump.play();
+    const jump = document.getElementById("jump");
+    if(this.isGameOver() == false){
+        jump.play();
+    }
 })
 
 window.addEventListener('keyup', function (e) {
     isKeyDown = false;
     // console.log("key up");
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
-})
+    // audio.pause();
+});
 
 
 // helper for RNG
@@ -315,32 +310,32 @@ function getRandomInt(min, max) {
     return (min + Math.floor(Math.random() * Math.floor(max - min)));
 }
 
-function Sound(src) {
-    //sound effect class
-    //builds a sound effect based on a url
-    //may need both ogg and mp3.
-    this.snd = document.createElement("audio");
-    this.snd.src = src;
-    //preload sounds if possible (won't work on IOS)
-    this.snd.setAttribute("preload", "auto");
-    //hide controls for now
-    this.snd.setAttribute("controls", "none");
-    this.snd.style.display = "none";
-    //attach to document so controls will show when needed
-    document.body.appendChild(this.snd);
+// function Sound(src) {
+//     //sound effect class
+//     //builds a sound effect based on a url
+//     //may need both ogg and mp3.
+//     this.snd = document.createElement("audio");
+//     this.snd.src = src;
+//     //preload sounds if possible (won't work on IOS)
+//     this.snd.setAttribute("preload", "auto");
+//     //hide controls for now
+//     this.snd.setAttribute("controls", "none");
+//     this.snd.style.display = "none";
+//     //attach to document so controls will show when needed
+//     document.body.appendChild(this.snd);
 
-    this.play = function () {
-        this.snd.play();
-    } // end play function
+//     this.play = function () {
+//         this.snd.play();
+//     } // end play function
 
-    this.showControls = function () {
-        //generally not needed.
-        //crude hack for IOS
-        this.snd.setAttribute("controls", "controls");
-        this.snd.style.display = "block";
-    } // end showControls
+//     this.showControls = function () {
+//         //generally not needed.
+//         //crude hack for IOS
+//         this.snd.setAttribute("controls", "controls");
+//         this.snd.style.display = "block";
+//     } // end showControls
 
-} // end sound class def
+// } // end sound class def
 
 function renderOptions(){
  
@@ -387,6 +382,9 @@ function renderOptions(){
         overlay_inner.removeChild(generalScores);
 
         myGameArea.frameCount = 0;
+        const losing = document.getElementById('losing');
+        losing.currentTime = 0;
+        losing.pause();
         myGameArea.start();
     })
     overlay_inner.appendChild(restart);
@@ -497,6 +495,9 @@ function renderLevels() {
 
             //here there should be something like "myGameArea.start(i)" to see what game to display
             difficulty = i;
+            const losing = document.getElementById('losing');
+            losing.currentTime = 0;
+            losing.pause();
             myGameArea.start();
         })
         const space = document.createElement('hr');
