@@ -1,6 +1,5 @@
 function newNavbarItem(text, url) {
   const itemLink = document.createElement('a');
-  // itemLink.className = 'nav-item nav-link logout ';
   itemLink.className = 'nav-item nav-link';
   itemLink.innerHTML = text;
   itemLink.href = url;
@@ -15,7 +14,5 @@ function renderNavbar(user) {
     navbarDiv.appendChild(newNavbarItem('About','/about'));
     navbarDiv.appendChild(newNavbarItem('Rules ', '/rules'));
     navbarDiv.appendChild(newNavbarItem('Logout ', '/logout'));
-  } else {
-   // navbarDiv.appendChild(newNavbarItem('Login', '/auth/google'));  
   }
 }

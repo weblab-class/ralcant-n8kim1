@@ -5,31 +5,25 @@ function updateList(list, message){
    newElement.appendChild(text)
    list.appendChild(newElement);
 }
-
-
-
+function create(type, id, text, className, href){
+   const newElement = document.createElement(type);
+   newElement.id = id;
+   newElement.innerText = text;
+   newElement.className = className;
+   newElement.href = href;
+   return newElement
+}
 function renderName(user){
     const nameContainer = document.getElementById("name-container");
     const nameHeader = document.createElement('h1')
 
-    //const welcome_message_id = document.getElementById("welcome_message_id")
     const welcome_message = document.getElementById("first_message");
     const welc_Header = document.createElement('h1');
 
-    //const startContainer = document.getElementById("start")
-    //const start_button =document.createElement('a');
-
     const messageContainer = document.getElementById("sub_message")
-    const messageHeader = document.createElement('h2');
 
     const overlay = document.getElementById('overlay');
-    const overlay_inner = document.getElementById('text');
 
-
-
-    //const loginContainer = document.getElementById("login")
-    //const login_button = document.createElement('a');
-    //welc_Header.className = "welcome-text";
     if (user._id !== undefined) {
         if (window.localStorage.getItem('seenRules') === "false") { 
         const list = document.getElementById('list');
@@ -41,51 +35,32 @@ function renderName(user){
         
         overlay.style.display = "block";
         }
-      
-
+        
         nameHeader.innerText = "Hello, " + user.name;
         nameContainer.appendChild(nameHeader);
-        //nameContainer.appendChild(user.name); <- first try, incorrect
         welc_Header.innerText = "Welcome to Flappy TIM";
         welcome_message.appendChild(welc_Header);
 
-        const start_button = document.createElement('a')
-        start_button.className = "button allign_center_start"
-        start_button.innerText = "START";
-        start_button.href = "/game";
+        const start_button = create('a', null, "START", "button allign_center_start", "/game");
         document.body.appendChild(start_button);
 
-        const rules_button = document.createElement('a')
-        rules_button.className = "button allign_center_rules";
-        rules_button.innerText = "Rules";
-        rules_button.href = "/rules";
+        const rules_button = create('a', null, "Rules", "button allign_center_rules", "/rules");
         document.body.appendChild(rules_button);
 
-        const about_button = document.createElement('a')
-        about_button.className ="button allign_center_about"
-        about_button.innerText = "About";
-        about_button.href = "/about";
+        const about_button = create('a', null, "About", "button allign_center_about", "/about")
         document.body.appendChild(about_button);
         
      }
      else{
-        //welcome_message_id.className = "animated flip";
-        welc_Header.innerText =  "Flappy TIM";
-        welc_Header.className = "center"
+        const welc_Header = create('h1', null, "Flappy TIM", "center", null);
         welcome_message.appendChild(welc_Header);
 
-        messageHeader.innerText = "You better be ready to press any key"
-        messageContainer.className = "center"
+        const messageHeader = create('h2', null, "You better be ready to press any key", "center", null);
         messageContainer.appendChild(messageHeader);
 
-        const login_button = document.createElement('a')
-        login_button.className = "button allign_center_start"
-        login_button.innerText = "Login";
-        login_button.href = '/auth/google';
+        const login_button = create('a', null, "Login", "button allign_center_start", "/auth/google");
         document.body.appendChild(login_button)
         window.localStorage.setItem('seenRules', "false");
-
-
      }
 }
 function on() {

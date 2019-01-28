@@ -8,7 +8,7 @@
 
 var img = document.getElementById("tim");
 difficulty = 0;
-level_name = ["baby", "beginner", "intermediate", "advanced", "Chuck Norris"];
+level_name = ["Baby", "Beginner", "Intermediate", "Advanced", "Chuck Norris"];
 renderLevel_name =[ "Current level: baby", "Current level: Beginner", "Current level: Intermediate", "Current level: Advanced", "Current level: Chuck Norris"];
 const losing = document.getElementById('losing');
 
@@ -192,6 +192,12 @@ function update() {
         // console.log("key pressed");
         myGameArea.state.yVelo = myGameArea.state.yVelo - 2;
         var oldKey = myGameArea.keyToPress;
+        const jump = document.getElementById("jump");
+        if (this.isGameOver() == false) {
+            jump.pause();
+            jump.currentTime = 0;
+            jump.play();
+        }
         // pick a new, distinct key
         while (oldKey == myGameArea.keyToPress) {
             // console.log("regen key");
@@ -337,12 +343,6 @@ window.addEventListener('keydown', function (e) {
         isKeyDown = true;
         myGameArea.keys[e.keyCode] = (e.type == "keydown");
     }
-    const jump = document.getElementById("jump");
-    if (this.isGameOver() == false) {
-        jump.pause();
-        jump.currentTime = 0;
-        jump.play();
-    }
 })
 
 window.addEventListener('keyup', function (e) {
@@ -370,6 +370,7 @@ function getRandomInt(min, max) {
     return (min + Math.floor(Math.random() * Math.floor(max - min)));
 }
 
+//create an element with certain properties
 function create(type, id, text, className, href){
     const newElement = document.createElement(type);
     newElement.id = id;
@@ -463,6 +464,7 @@ function renderCurrentLevel(i){
 
 const number_of_levels = 5;
 
+//show the different levels
 function renderLevels() {
     overlay = document.getElementById("overlay");
     const overlay_inner = document.getElementById('text');

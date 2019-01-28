@@ -6,12 +6,17 @@
   <link rel="stylesheet" type="text/css" href="static/css/game.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
     crossorigin="anonymous">
-  <!---<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
-        <link rel="icon" href="/static/favicon.ico" type="image/x-icon"> -->
 </head>
 
 <body class="Body" onload="renderLevels()">
-
+  <!--for showing the overlay-->
+  <div id="overlay">
+    <div id="text">
+      <ol id="list">
+  
+      </ol>
+    </div>
+  </div>
   <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <img id="tim_transparent" src="tim_transparent" alt="Tim the Beaver sprite transparent">
     <div class="navbar-brand" href="#">&ensp; Flappy TIM</div>
@@ -20,10 +25,9 @@
     </div>
   </nav>
 
-  <div id="name-container" class="allign-upperright"></div>
   <img id="tim" src="tim" alt="Tim the Beaver sprite" hidden> 
 
-
+  <!--defining the audios-->
   <audio id="jump">
     <source src="/jump" type="audio/mp3">
     Your browser does not support the audio element.
@@ -35,26 +39,18 @@
   <audio id="quickSilence" onended="renderOptions()">
     <source src = "/quickSilence" type = "audio/mp3">
   </audio>
-
-  <!--for ahowing the-->
-  <div id = "overlay" >
-    <div id = "text">
-      <ol id = "list">
-
-      </ol>  
-    </div> 
-  </div>
+  <!--Shows the level you are-->
   <h2 id = "currentLevel" class = "level_message"></h2>
+
+  <!--The "Hello, [Google name]"" is displayed-->
+  <div id="name-container" class="allign-upperright"></div>
+
   <canvas id = "gameCanvas">  </canvas>
 </body>
-<!-- <script type="text/javascript" src = "simpleGame.js"></script> -->
 <script src ="/static/js/game.js"></script>
 <script src="/static/js/api.js"></script>
 <script src="/static/js/navbar.js"></script>
 <script src="/static/js/name.js"></script>
 <script src="/static/js/index.js"></script>
-
-
-
 
 </html>
