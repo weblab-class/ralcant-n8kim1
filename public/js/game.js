@@ -10,6 +10,7 @@ var img = document.getElementById("tim");
 difficulty = 0;
 level_name = ["baby", "beginner", "intermediate", "advanced", "Chuck Norris"];
 
+
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
     start: function () {
@@ -66,20 +67,6 @@ var myGameArea = {
     }
 }
 // console.log(window.localStorage.getItem('seenGameOver'));
-// function sound(src) {
-//     this.sound = document.createElement("audio");
-//     this.sound.src = src;
-//     this.sound.setAttribute("preload", "auto");
-//     this.sound.setAttribute("controls", "none");
-//     this.sound.style.display = "none";
-//     document.body.appendChild(this.sound);
-//     this.play = function(){
-//         this.sound.play();
-//     }
-//     this.stop = function(){
-//         this.sound.pause();
-//     }    
-// }
 function update() {
     // update a frame...
 
@@ -91,12 +78,12 @@ function update() {
 
         myGameArea.stop();
 
+        const losing = document.getElementById('losing');
+        losing.play();
+
         // timing
         myGameArea.endTime = Date.now();
         console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
-
-        //see definition below
-        renderOptions();
 
         // check if high score; if so, send it
         var userID = "idk";
@@ -111,11 +98,11 @@ function update() {
                     contentID: user._id,
                 };
             }
-            // console.log("fetching score with id: " + data.contentID);
+            console.log("fetching score with id: " + data.contentID);
             get('/api/score', data, function (score) {
-                // console.log("the high score found: " + score[0]);
+                console.log("the high score found: " + score[0]);
                 get('/api/whoami', {}, function (user) {
-                    // console.log(user._id);
+                    console.log(user._id);
                     if (myGameArea.state.score >= score[0]) {
                         if (!user._id) {
                             const data = {
@@ -129,449 +116,392 @@ function update() {
                                 contentID: user._id,
                                 content: myGameArea.state.score
                             };
-                            // console.log("posting score while logged in");
+                            console.log("posting score while logged in");
                             post('/api/score', data);
                         }
-                        // console.log("high score posted! the score: " + myGameArea.state.score)
+                        console.log("high score posted! the score: " + myGameArea.state.score)
                     }
                 });
             }
             );
         });
+        return 0;
+    }
 
-    //     get('/api/whoami', {}, function (user) {
-    //         console.log(user._id);
-    //     if (!user._id) {
-    //         const data = {
-    //             contentID: "guest",
-    //             difficultyID: difficulty,
-    //             content: myGameArea.state.score
-    //         };
-    //         post('/api/score2', data);
-    //     }
-    //     else {
-    //         const data = {
-    //             contentID: user._id,
-    //             difficultyID: difficulty,
-    //             content: myGameArea.state.score
-    //         };
-    //         console.log("posting score while logged in");
-    //         post('/api/score2', data);
-    //     }
-    // });
-
-            // check if high score; if so, send it
-            var userID = "idk";
-            get('/api/whoami', {}, function (user) {
-                console.log("beginning to fetching score2, id: " + user._id);
-                let data = {
-                    contentID: "guest",
-                    difficultyID: difficulty,
-                }
-                if (user._id) {
-                    console.log("setting ID request to actual ID");
-                    data = {
-                        contentID: user._id,
-                        difficultyID: difficulty,
-                    };
-                }
-                console.log("fetching score with id: " + data.contentID);
-                get('/api/score2', data, function (score) {
-                    console.log("the high score found: " + score[0]);
-                    get('/api/whoami', {}, function (user) {
-                        console.log(user._id);
-                        if (myGameArea.state.score >= score[0]) {
-                            if (!user._id) {
-                                const data = {
-                                    contentID: "guest",
-                                    difficultyID: difficulty,
-                                    content: myGameArea.state.score
-                                };
-                                post('/api/score2', data);
-                            }
-                            else {
-                                const data = {
-                                    contentID: user._id,
-                                    difficultyID: difficulty,
-                                    content: myGameArea.state.score
-                                };
-                                console.log("posting score while logged in");
-                                post('/api/score2', data);
-                            }
-                            console.log("high score 2 posted! the score: " + myGameArea.state.score)
-                        }
-                    });
-                }
-                );
-            });
-
-            return 0;
-        }
-
-        // timing and other game initialziation info
-        myGameArea.frameCount += 1;
-        if (myGameArea.frameCount == 1) {
-            myGameArea.startTime = Date.now();
-            var rect = myGameArea.canvas.getBoundingClientRect();
-            console.log(rect.top, rect.right, rect.bottom, rect.left);
-
-        }
-
-
-        // take key input
-        if (myGameArea.keys && myGameArea.keys[myGameArea.keyToPress]) {
-            // console.log("key pressed");
-            myGameArea.state.yVelo = myGameArea.state.yVelo - 2;
-            var oldKey = myGameArea.keyToPress;
-            // pick a new, distinct key
-            while (oldKey == myGameArea.keyToPress) {
-                // console.log("regen key");
-                myGameArea.keyToPress = myGameArea.keySet[Math.floor(Math.random() * myGameArea.keySet.length)];
-            }
-        }
-
-        // update coordinates of tim
-        myGameArea.state.yVelo = myGameArea.state.yVelo + 0.005;
-        if (myGameArea.state.yVelo > 2) {
-            myGameArea.state.yVelo = 2;
-        }
-        if (myGameArea.state.yVelo < -0.5) {
-            myGameArea.state.yVelo = -0.5;
-        }
-        myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
-
-        // update coordinates of pipes
-        myGameArea.pipe1.x = myGameArea.pipe1.x - 2;
-        if (myGameArea.pipe1.x + myGameArea.pipe1.width < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
-            console.log("Score from pipe 1");
-            myGameArea.state.score += 1;
-            myGameArea.pipe1.scored = true;
-        }
-        if (myGameArea.pipe1.x < -1 * myGameArea.pipe1.width) {
-            console.log("Regen pipe 1");
-            myGameArea.pipe1.x = width; // push to the end
-            myGameArea.pipe1.scored = false;
-            myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
-        }
-
-        myGameArea.pipe2.x = myGameArea.pipe2.x - 2;
-        if (myGameArea.pipe2.x + myGameArea.pipe2.width < myGameArea.state.xPos && myGameArea.pipe2.scored == false) {
-            console.log("Score from pipe 2");
-            myGameArea.state.score += 1;
-            myGameArea.pipe2.scored = true;
-        }
-        if (myGameArea.pipe2.x < -1 * myGameArea.pipe2.width) {
-            console.log("Regen pipe 2");
-            myGameArea.pipe2.x = width; // push to the end
-            myGameArea.pipe2.scored = false;
-            myGameArea.pipe2.y = getRandomInt(myGameArea.pipe2.yMin, myGameArea.pipe2.yMax)  // randomize the height of the opening
-        }
-
-        // draw frame
-        const context = myGameArea.context;
-
-        // define frame stuff
-        context.save();
-
-        // clear frame
-        context.fillStyle = '#365879';
-        context.fillRect(0, 0, width, height);
-
-        // display tim
-        context.fillStyle = '#ffffff';
-        context.font = "30px Arial";
-        context.drawImage(img, myGameArea.state.xPos, myGameArea.state.yPos);
-        // context.fillText("lmao xD", myGameArea.state.xPos, myGameArea.state.yPos);
-
-        // display pipes
-        myGameArea.context.fillStyle = '#000000';
-        myGameArea.context.fillRect(myGameArea.pipe1.x, 0, myGameArea.pipe1.width, myGameArea.pipe1.y);
-        myGameArea.context.fillRect(myGameArea.pipe1.x, myGameArea.pipe1.y + myGameArea.pipe1.height, myGameArea.pipe1.width, height);
-        myGameArea.context.fillRect(myGameArea.pipe2.x, 0, myGameArea.pipe2.width, myGameArea.pipe2.y);
-        myGameArea.context.fillRect(myGameArea.pipe2.x, myGameArea.pipe2.y + myGameArea.pipe2.height, myGameArea.pipe2.width, height);
-
-        // display key to press
-        myGameArea.context.fillStyle = 'yellow';
-        myGameArea.context.font = "24px Arial";
-        myGameArea.context.fillStyle = 'yellow';
-        myGameArea.context.fillText("Key: " + String.fromCharCode(myGameArea.keyToPress), 125, 75);
-
-        // display score
-        myGameArea.context.fillStyle = 'yellow';
-        myGameArea.context.fillText("Score: " + myGameArea.state.score, 125, 115);
-
-        context.restore();
+    // timing and other game initialziation info
+    myGameArea.frameCount += 1;
+    if (myGameArea.frameCount == 1) {
+        myGameArea.startTime = Date.now();
+        var rect = myGameArea.canvas.getBoundingClientRect();
+        console.log(rect.top, rect.right, rect.bottom, rect.left);
 
     }
 
-    function isGameOver() {
-        if (myGameArea.state.yPos + myGameArea.timHeight > myGameArea.canvas.height) {
-            // fell too far down
-            console.log("fell down, yPos: " + myGameArea.state.yPos);
+
+    // take key input
+    if (myGameArea.keys && myGameArea.keys[myGameArea.keyToPress]) {
+        // console.log("key pressed");
+        myGameArea.state.yVelo = myGameArea.state.yVelo - 2;
+        var oldKey = myGameArea.keyToPress;
+        // pick a new, distinct key
+        while (oldKey == myGameArea.keyToPress) {
+            // console.log("regen key");
+            myGameArea.keyToPress = myGameArea.keySet[Math.floor(Math.random() * myGameArea.keySet.length)];
+        }
+    }
+
+    // update coordinates of tim
+    myGameArea.state.yVelo = myGameArea.state.yVelo + 0.005;
+    if (myGameArea.state.yVelo > 2) {
+        myGameArea.state.yVelo = 2;
+    }
+    if (myGameArea.state.yVelo < -0.5) {
+        myGameArea.state.yVelo = -0.5;
+    }
+    myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
+
+    // update coordinates of pipes
+    myGameArea.pipe1.x = myGameArea.pipe1.x - 2;
+    if (myGameArea.pipe1.x + myGameArea.pipe1.width < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
+        console.log("Score from pipe 1");
+        myGameArea.state.score += 1;
+        myGameArea.pipe1.scored = true;
+    }
+    if (myGameArea.pipe1.x < -1 * myGameArea.pipe1.width) {
+        console.log("Regen pipe 1");
+        myGameArea.pipe1.x = width; // push to the end
+        myGameArea.pipe1.scored = false;
+        myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
+    }
+
+    myGameArea.pipe2.x = myGameArea.pipe2.x - 2;
+    if (myGameArea.pipe2.x + myGameArea.pipe2.width < myGameArea.state.xPos && myGameArea.pipe2.scored == false) {
+        console.log("Score from pipe 2");
+        myGameArea.state.score += 1;
+        myGameArea.pipe2.scored = true;
+    }
+    if (myGameArea.pipe2.x < -1 * myGameArea.pipe2.width) {
+        console.log("Regen pipe 2");
+        myGameArea.pipe2.x = width; // push to the end
+        myGameArea.pipe2.scored = false;
+        myGameArea.pipe2.y = getRandomInt(myGameArea.pipe2.yMin, myGameArea.pipe2.yMax)  // randomize the height of the opening
+    }
+
+    // draw frame
+    const context = myGameArea.context;
+
+    // define frame stuff
+    context.save();
+
+    // clear frame
+    context.fillStyle = '#365879';
+    context.fillRect(0, 0, width, height);
+
+    // display tim
+    context.fillStyle = '#ffffff';
+    context.font = "30px Arial";
+    context.drawImage(img, myGameArea.state.xPos, myGameArea.state.yPos);
+    // context.fillText("lmao xD", myGameArea.state.xPos, myGameArea.state.yPos);
+
+    // display pipes
+    myGameArea.context.fillStyle = '#000000';
+    myGameArea.context.fillRect(myGameArea.pipe1.x, 0, myGameArea.pipe1.width, myGameArea.pipe1.y);
+    myGameArea.context.fillRect(myGameArea.pipe1.x, myGameArea.pipe1.y + myGameArea.pipe1.height, myGameArea.pipe1.width, height);
+    myGameArea.context.fillRect(myGameArea.pipe2.x, 0, myGameArea.pipe2.width, myGameArea.pipe2.y);
+    myGameArea.context.fillRect(myGameArea.pipe2.x, myGameArea.pipe2.y + myGameArea.pipe2.height, myGameArea.pipe2.width, height);
+
+    // display key to press
+    myGameArea.context.fillStyle = 'yellow';
+    myGameArea.context.font = "24px Arial";
+    myGameArea.context.fillStyle = 'yellow';
+    myGameArea.context.fillText("Key: " + String.fromCharCode(myGameArea.keyToPress), 125, 75);
+
+    // display score
+    myGameArea.context.fillStyle = 'yellow';
+    myGameArea.context.fillText("Score: " + myGameArea.state.score, 125, 115);
+
+    context.restore();
+
+}
+
+function isGameOver() {
+    if (myGameArea.state.yPos + myGameArea.timHeight > myGameArea.canvas.height) {
+        // fell too far down
+        console.log("fell down, yPos: " + myGameArea.state.yPos);
+        return true;
+    };
+
+    if (myGameArea.pipeDeath == true) {
+        if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x - myGameArea.timWidth, 0, myGameArea.pipe1.width + myGameArea.timWidth, myGameArea.pipe1.y)) {
+            console.log("hit top of pipe 1");
             return true;
         };
 
-        if (myGameArea.pipeDeath == true) {
-            if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x - myGameArea.timWidth, 0, myGameArea.pipe1.width + myGameArea.timWidth, myGameArea.pipe1.y)) {
-                console.log("hit top of pipe 1");
-                return true;
-            };
-
-            if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x - myGameArea.timWidth, myGameArea.pipe1.y + myGameArea.pipe1.height - myGameArea.timHeight, myGameArea.pipe1.width + myGameArea.timWidth, myGameArea.canvas.height - myGameArea.pipe1.y - myGameArea.pipe1.height)) {
-                console.log("hit bottom of pipe 1");
-                return true;
-            };
+        if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe1.x - myGameArea.timWidth, myGameArea.pipe1.y + myGameArea.pipe1.height - myGameArea.timHeight, myGameArea.pipe1.width + myGameArea.timWidth, myGameArea.canvas.height - myGameArea.pipe1.y - myGameArea.pipe1.height)) {
+            console.log("hit bottom of pipe 1");
+            return true;
+        };
 
 
-            if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x - myGameArea.timWidth, 0, myGameArea.pipe2.width + myGameArea.timWidth, myGameArea.pipe2.y)) {
-                console.log("hit top of pipe 2");
-                return true;
-            };
+        if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x - myGameArea.timWidth, 0, myGameArea.pipe2.width + myGameArea.timWidth, myGameArea.pipe2.y)) {
+            console.log("hit top of pipe 2");
+            return true;
+        };
 
-            if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x - myGameArea.timWidth, myGameArea.pipe2.y + myGameArea.pipe2.height - myGameArea.timHeight, myGameArea.pipe2.width + myGameArea.timWidth, myGameArea.canvas.height - myGameArea.pipe2.y - myGameArea.pipe2.height)) {
-                console.log("hit bottom of pipe 2");
-                return true;
-            };
-        }
-
-        return false;
-    }
-
-
-    // helpers for clicks
-    function getMousePos(canvas, event) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-            x: event.clientX,
-            y: event.clientY
+        if (isInside2(myGameArea.state.xPos, myGameArea.state.yPos, myGameArea.pipe2.x - myGameArea.timWidth, myGameArea.pipe2.y + myGameArea.pipe2.height - myGameArea.timHeight, myGameArea.pipe2.width + myGameArea.timWidth, myGameArea.canvas.height - myGameArea.pipe2.y - myGameArea.pipe2.height)) {
+            console.log("hit bottom of pipe 2");
+            return true;
         };
     }
-    function isInside(pos, rect) {
-        return (pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y);
-    }
-    function isInside2(posX, posY, rectX, rectY, rectW, rectH) {
-        return (posX > rectX && posX < rectX + rectW && posY < rectY + rectH && posY > rectY);
-    }
 
-    // const newSound = document.getElementById("jump");
-    // jump = new sound("jump.mp3");
+    return false;
+}
 
-    var isKeyDown = false;
 
-    //making keypresses work
-    window.addEventListener('keydown', function (e) {
-        e.preventDefault();
-        // console.log("key down");
-        myGameArea.keys = (myGameArea.keys || []);
-        if (isKeyDown == false) {
-            isKeyDown = true;
-            myGameArea.keys[e.keyCode] = (e.type == "keydown");
-        }
-        // jump.play();
-    })
+// helpers for clicks
+function getMousePos(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: event.clientX,
+        y: event.clientY
+    };
+}
+function isInside(pos, rect) {
+    return (pos.x > rect.x && pos.x < rect.x + rect.width && pos.y < rect.y + rect.height && pos.y > rect.y);
+}
+function isInside2(posX, posY, rectX, rectY, rectW, rectH) {
+    return (posX > rectX && posX < rectX + rectW && posY < rectY + rectH && posY > rectY);
+}
 
-    window.addEventListener('keyup', function (e) {
-        isKeyDown = false;
-        // console.log("key up");
+// const newSound = document.getElementById("jump");
+// jump = new sound("jump.mp3");
+// const audio = document.getElementById("myAudio")
+
+var isKeyDown = false;
+
+//making keypresses work
+window.addEventListener('keydown', function (e) {
+    e.preventDefault();
+    // console.log("key down");
+    myGameArea.keys = (myGameArea.keys || []);
+    if (isKeyDown == false) {
+        isKeyDown = true;
         myGameArea.keys[e.keyCode] = (e.type == "keydown");
-    })
-
-
-    // helper for RNG
-    function getRandomInt(min, max) {
-        return (min + Math.floor(Math.random() * Math.floor(max - min)));
     }
+    const jump = document.getElementById("jump");
+    if(this.isGameOver() == false){
+        jump.play();
+    }
+})
 
-    function Sound(src) {
-        //sound effect class
-        //builds a sound effect based on a url
-        //may need both ogg and mp3.
-        this.snd = document.createElement("audio");
-        this.snd.src = src;
-        //preload sounds if possible (won't work on IOS)
-        this.snd.setAttribute("preload", "auto");
-        //hide controls for now
-        this.snd.setAttribute("controls", "none");
-        this.snd.style.display = "none";
-        //attach to document so controls will show when needed
-        document.body.appendChild(this.snd);
+window.addEventListener('keyup', function (e) {
+    isKeyDown = false;
+    // console.log("key up");
+    myGameArea.keys[e.keyCode] = (e.type == "keydown");
+    // audio.pause();
+});
 
-        this.play = function () {
-            this.snd.play();
-        } // end play function
 
-        this.showControls = function () {
-            //generally not needed.
-            //crude hack for IOS
-            this.snd.setAttribute("controls", "controls");
-            this.snd.style.display = "block";
-        } // end showControls
+// helper for RNG
+function getRandomInt(min, max) {
+    return (min + Math.floor(Math.random() * Math.floor(max - min)));
+}
 
-    } // end sound class def
+// function Sound(src) {
+//     //sound effect class
+//     //builds a sound effect based on a url
+//     //may need both ogg and mp3.
+//     this.snd = document.createElement("audio");
+//     this.snd.src = src;
+//     //preload sounds if possible (won't work on IOS)
+//     this.snd.setAttribute("preload", "auto");
+//     //hide controls for now
+//     this.snd.setAttribute("controls", "none");
+//     this.snd.style.display = "none";
+//     //attach to document so controls will show when needed
+//     document.body.appendChild(this.snd);
 
-    function renderOptions() {
+//     this.play = function () {
+//         this.snd.play();
+//     } // end play function
 
-        const overlay_inner = document.getElementById('text');
+//     this.showControls = function () {
+//         //generally not needed.
+//         //crude hack for IOS
+//         this.snd.setAttribute("controls", "controls");
+//         this.snd.style.display = "block";
+//     } // end showControls
 
-        const div_title = document.createElement('h1');
-        div_title.id = "Game_Over_title";
-        div_title.innerText = "Game Over! :(";
-        div_title.className = "game_over_text";
-        overlay_inner.appendChild(div_title);
+// } // end sound class def
 
-        const score = document.createElement('h1')
-        score.innerText = "Your score is: " + myGameArea.state.score;
-        score.className = "score";
-        score.id = "Game_Over_score";
-        overlay_inner.appendChild(score);
+function renderOptions(){
+ 
+    const overlay_inner = document.getElementById('text');
 
-        //creating home button
-        const home = document.createElement('a')
-        home.id = "home"
-        home.innerText = "Home";
-        home.role = "button";
-        home.className = "btn btn-primary btn-lg home";
-        home.href = "/"
-        overlay_inner.appendChild(home);
+    const div_title = document.createElement('h1');
+    div_title.id = "Game_Over_title";
+    div_title.innerText ="Game Over! :(";
+    div_title.className = "game_over_text";
+    overlay_inner.appendChild(div_title);
 
-        //creating restart button
-        const restart = document.createElement('button')
-        restart.id = "restart"
-        restart.innerText = "Restart";
-        restart.type = "button";
-        restart.className = "btn btn-danger btn-lg restart";
-        restart.addEventListener('click', function () {
+    const score = document.createElement('h1')
+    score.innerText = "Your score is: " + myGameArea.state.score;
+    score.className = "score";
+    score.id = "Game_Over_score";
+    overlay_inner.appendChild(score);
+
+    //creating home button
+    const home = document.createElement('a')
+    home.id = "home"
+    home.innerText = "Home";
+    home.role = "button";
+    home.className = "btn btn-primary btn-lg home";
+    home.href = "/"
+    overlay_inner.appendChild(home);
+
+    //creating restart button
+    const restart = document.createElement('button')
+    restart.id = "restart"
+    restart.innerText = "Restart";
+    restart.type = "button";
+    restart.className = "btn btn-danger btn-lg restart";
+    restart.addEventListener('click', function() {
+
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);   
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores);
+
+        myGameArea.frameCount = 0;
+        const losing = document.getElementById('losing');
+        losing.currentTime = 0;
+        losing.pause();
+        myGameArea.start();
+    })
+    overlay_inner.appendChild(restart);
+
+    //creating change difficulties button
+    const change = document.createElement('button')
+    change.id = "change"
+    change.innerText = "Change Difficulty";
+    change.type = "button";
+    change.className = "btn btn-lg btn-warning change";
+    change.addEventListener('click', function () {
+
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores);
+
+        // myGameArea.frameCount = 0;
+        // myGameArea.start();
+        //render the level setting
+        renderLevels();
+    });
+    overlay_inner.appendChild(change);
+
+    //creating a "See my Scores" button
+    const myScores = document.createElement('a')
+    myScores.id = "self_leaderboard";
+    myScores.innerText = "See my scores";
+    myScores.role = "button";
+    myScores.className = "btn btn-info btn-lg myScores";
+    myScores.href = "/self_leaderboard";
+    myScores.addEventListener('click', function () {
+
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores);
+
+        myGameArea.frameCount = 0;
+    });
+    overlay_inner.appendChild(myScores);
+
+    //creating a "See general scores" button
+    const generalScores = document.createElement('a')
+    generalScores.id = "general_leaderboard";
+    generalScores.innerText = "See general scores";
+    generalScores.role = "button";
+    generalScores.className = "btn btn-info btn-lg generalScores";
+    generalScores.href = "/general_leaderboard";
+    generalScores.addEventListener('click', function () {
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores)
+
+        myGameArea.frameCount = 0;
+    });
+    overlay_inner.appendChild(generalScores);
+
+    //show an overlay
+    overlay.style.display = "block";
+};
+
+
+
+const number_of_levels = 5;
+
+function renderLevels() {
+    overlay = document.getElementById("overlay");
+    const overlay_inner = document.getElementById('text');
+    overlay.style.display = "block";
+    for (let i = 0; i < number_of_levels; i++) {
+        const level = document.createElement('button')
+        level.id = "level" + i;
+        level.innerText = level_name[i];
+        level.type = "button";
+        level.className = "btn btn-danger btn-lg";
+        level.addEventListener('click', function () {
 
             //stop the overlay
             document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores);
-
+            //eliminate eveything that was just created (otherwise they will show up more than once)
+            for (j = 0; j < number_of_levels; j++) {
+                const remove_button = document.getElementById("level" + j);
+                const remove_space = document.getElementById("space" + j);
+                overlay_inner.removeChild(remove_space);
+                overlay_inner.removeChild(remove_button);
+            }
             myGameArea.frameCount = 0;
+
+            //here there should be something like "myGameArea.start(i)" to see what game to display
+            difficulty = i;
+            const losing = document.getElementById('losing');
+            losing.currentTime = 0;
+            losing.pause();
             myGameArea.start();
         })
-        overlay_inner.appendChild(restart);
+        const space = document.createElement('hr');
+        space.id = "space" + i
+        // space.innerText = "";
+        overlay_inner.appendChild(level);
+        overlay_inner.appendChild(space)
 
-        //creating change difficulties button
-        const change = document.createElement('button')
-        change.id = "change"
-        change.innerText = "Change Difficulty";
-        change.type = "button";
-        change.className = "btn btn-lg btn-warning change";
-        change.addEventListener('click', function () {
-
-            //stop the overlay
-            document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores);
-
-            // myGameArea.frameCount = 0;
-            // myGameArea.start();
-            //render the level setting
-            renderLevels();
-        });
-        overlay_inner.appendChild(change);
-
-        //creating a "See my Scores" button
-        const myScores = document.createElement('a')
-        myScores.id = "self_leaderboard";
-        myScores.innerText = "See my scores";
-        myScores.role = "button";
-        myScores.className = "btn btn-info btn-lg myScores";
-        myScores.href = "/self_leaderboard";
-        myScores.addEventListener('click', function () {
-
-            //stop the overlay
-            document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores);
-
-            myGameArea.frameCount = 0;
-        });
-        overlay_inner.appendChild(myScores);
-
-        //creating a "See general scores" button
-        const generalScores = document.createElement('a')
-        generalScores.id = "general_leaderboard";
-        generalScores.innerText = "See general scores";
-        generalScores.role = "button";
-        generalScores.className = "btn btn-info btn-lg generalScores";
-        generalScores.href = "/general_leaderboard";
-        generalScores.addEventListener('click', function () {
-            //stop the overlay
-            document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores)
-
-            myGameArea.frameCount = 0;
-        });
-        overlay_inner.appendChild(generalScores);
-
-        //show an overlay
-        overlay.style.display = "block";
-    };
-
-
-
-    const number_of_levels = 5;
-
-    function renderLevels() {
-        overlay = document.getElementById("overlay");
-        const overlay_inner = document.getElementById('text');
-        overlay.style.display = "block";
-        for (let i = 0; i < number_of_levels; i++) {
-            const level = document.createElement('button')
-            level.id = "level" + i;
-            level.innerText = level_name[i];
-            level.type = "button";
-            level.className = "btn btn-danger btn-lg";
-            level.addEventListener('click', function () {
-
-                //stop the overlay
-                document.getElementById("overlay").style.display = "none";
-                //eliminate eveything that was just created (otherwise they will show up more than once)
-                for (j = 0; j < number_of_levels; j++) {
-                    const remove_button = document.getElementById("level" + j);
-                    const remove_space = document.getElementById("space" + j);
-                    overlay_inner.removeChild(remove_space);
-                    overlay_inner.removeChild(remove_button);
-                }
-                myGameArea.frameCount = 0;
-
-                //here there should be something like "myGameArea.start(i)" to see what game to display
-                difficulty = i;
-                myGameArea.start();
-            })
-            const space = document.createElement('hr');
-            space.id = "space" + i
-            // space.innerText = "";
-            overlay_inner.appendChild(level);
-            overlay_inner.appendChild(space)
-
-        }
     }
-
+}
