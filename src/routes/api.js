@@ -5,7 +5,7 @@ const connect = require('connect-ensure-login');
 // models
 const User = require('../models/user');
 const Score = require('../models/score');
-
+const Score2 = require('../models/score2');
 
 const router = express.Router();
 
@@ -47,22 +47,22 @@ router.post(
 );
 
 router.get('/score', function(req, res) {
-  console.log("trying to fetch score, id " + req.query.contentID);
+  // console.log("trying to fetch score, id " + req.query.contentID);
   Score.find({googleid: req.query.contentID}).lean().exec( function (err, scores) 
   {
     var maxScore = 0;
-    console.log(scores.length + " scores found");
+    // console.log(scores.length + " scores found");
     for (let i =0; i<scores.length; i++)
     {
-      console.log("the score object # " + i);
-      console.log("the score is " + scores[i].score);
+      // console.log("the score object # " + i);
+      // console.log("the score is " + scores[i].score);
       if (scores[i].score>maxScore)
       {
         maxScore= scores[i].score;
       }
     }
 
-    console.log("fetched max score: "+maxScore );
+    // console.log("fetched max score: "+maxScore );
     res.send([maxScore]);
   });
 
@@ -91,15 +91,19 @@ router.post(
 );
 
 router.get('/score2', function(req, res) {
-  console.log("trying to fetch score w diff, id " + req.query.contentID);
-  Score2.find({googleid: req.query.contentID}).lean().exec( function (err, scores) 
+  console.log("trying to fetch score2 w diff " + req.query.difficultyID + + ", id " + req.query.contentID);
+  Score2.find({googleid: req.query.contentID, difficultyID: req.query.difficultyID}).lean().exec( function (err, scores) 
   {
-    var maxScore = 0;
+    if (scores.length == 0)
+    {console.log("no scores found; default to 0");
+  res.send([0]);}
+    else
+    {var maxScore = 0;
     console.log(scores.length + " scores found");
     for (let i =0; i<scores.length; i++)
     {
-      console.log("the score object # " + i);
-      console.log("the score is " + scores[i].score);
+      console.log("the score2 object # " + i);
+      console.log("the score2 is " + scores[i].score);
       if (scores[i].score>maxScore)
       {
         maxScore= scores[i].score;
@@ -108,6 +112,7 @@ router.get('/score2', function(req, res) {
 
     console.log("fetched max score: "+maxScore );
     res.send([maxScore]);
+  }
   });
 
 });
