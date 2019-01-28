@@ -10,17 +10,17 @@ const Score2 = require('../models/score2');
 const router = express.Router();
 
 // api endpoints
-router.get('/whoami', function(req, res) {
-  if(req.isAuthenticated()){
+router.get('/whoami', function (req, res) {
+  if (req.isAuthenticated()) {
     res.send(req.user);
   }
-  else{
+  else {
     res.send({});
   }
 });
 
-router.get('/user', function(req, res) {
-  User.findOne({ _id: req.query._id }, function(err, user) {
+router.get('/user', function (req, res) {
+  User.findOne({ _id: req.query._id }, function (err, user) {
     res.send(user);
   });
 });
@@ -28,42 +28,46 @@ router.get('/user', function(req, res) {
 router.post(
   '/score',
   // connect.ensureLoggedIn(),
-  function(req, res) {
+  function (req, res) {
     console.log("in apis.js");
     const newScore = new Score({
-      'googleid'     	: req.body.contentID,
+      'googleid': req.body.contentID,
       'score': req.body.content,
     });
 
-    newScore.save(function(err,score) {
+    newScore.save(function (err, score) {
       // console.log("saved???");
       // configure socketio
-      if (err) {console.log("failed to save, " + err)}
-      else {console.log("saved sucess? id "+ newScore.googleid)};
+      if (err) { console.log("failed to save, " + err) }
+      else { console.log("saved sucess? id " + newScore.googleid) };
     });
 
     res.send({});
   }
 );
 
-router.get('/score', function(req, res) {
+router.get('/score', function (req, res) {
   // console.log("trying to fetch score, id " + req.query.contentID);
-  Score.find({googleid: req.query.contentID}).lean().exec( function (err, scores) 
-  {
-    var maxScore = 0;
-    // console.log(scores.length + " scores found");
-    for (let i =0; i<scores.length; i++)
-    {
-      // console.log("the score object # " + i);
-      // console.log("the score is " + scores[i].score);
-      if (scores[i].score>maxScore)
-      {
-        maxScore= scores[i].score;
-      }
+  Score.find({ googleid: req.query.contentID }).lean().exec(function (err, scores) {
+    if (scores.length = 0) {
+      console.log("no scores found; sending 0");
+      res.send([0]);
     }
+    else {
+      var maxScore = 0;
+      // console.log(scores.length + " scores found");
+      for (let i = 0; i < scores.length; i++) {
+        // console.log("the score object # " + i);
+        // console.log("the score is " + scores[i].score);
+        if (scores[i].score > maxScore) {
+          maxScore = scores[i].score;
+        }
+      }
 
-    // console.log("fetched max score: "+maxScore );
-    res.send([maxScore]);
+
+      // console.log("fetched max score: "+maxScore );
+      res.send([maxScore]);
+    }
   });
 
 });
@@ -71,48 +75,46 @@ router.get('/score', function(req, res) {
 router.post(
   '/score2',
   // connect.ensureLoggedIn(),
-  function(req, res) {
+  function (req, res) {
     console.log("in apis.js");
     const newScore2 = new Score2({
-      'googleid'     	: req.body.contentID,
+      'googleid': req.body.contentID,
       'score': req.body.content,
       'difficultyID': req.body.difficultyID,
     });
 
-    newScore2.save(function(err,score2) {
+    newScore2.save(function (err, score2) {
       // console.log("saved???");
       // configure socketio
-      if (err) {console.log("failed to save, " + err)}
-      else {console.log("saved sucess? id "+ newScore2.googleid + " difficulty " + newScore2.difficultyID)};
+      if (err) { console.log("failed to save, " + err) }
+      else { console.log("saved sucess? id " + newScore2.googleid + " difficulty " + newScore2.difficultyID) };
     });
 
     res.send({});
   }
 );
 
-router.get('/score2', function(req, res) {
+router.get('/score2', function (req, res) {
   console.log("trying to fetch score2 w diff " + req.query.difficultyID + + ", id " + req.query.contentID);
-  Score2.find({googleid: req.query.contentID, difficultyID: req.query.difficultyID}).lean().exec( function (err, scores) 
-  {
-    if (scores.length == 0)
-    {console.log("no scores found; default to 0");
-  res.send([0]);}
-    else
-    {var maxScore = 0;
-    console.log(scores.length + " scores found");
-    for (let i =0; i<scores.length; i++)
-    {
-      console.log("the score2 object # " + i);
-      console.log("the score2 is " + scores[i].score);
-      if (scores[i].score>maxScore)
-      {
-        maxScore= scores[i].score;
-      }
+  Score2.find({ googleid: req.query.contentID, difficultyID: req.query.difficultyID }).lean().exec(function (err, scores) {
+    if (scores.length == 0) {
+      console.log("no scores found; default to 0");
+      res.send([0]);
     }
+    else {
+      var maxScore = 0;
+      console.log(scores.length + " scores found");
+      for (let i = 0; i < scores.length; i++) {
+        console.log("the score2 object # " + i);
+        console.log("the score2 is " + scores[i].score);
+        if (scores[i].score > maxScore) {
+          maxScore = scores[i].score;
+        }
+      }
 
-    console.log("fetched max score: "+maxScore );
-    res.send([maxScore]);
-  }
+      console.log("fetched max score: " + maxScore);
+      res.send([maxScore]);
+    }
   });
 
 });

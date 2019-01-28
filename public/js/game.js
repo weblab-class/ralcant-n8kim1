@@ -9,6 +9,7 @@
 var img = document.getElementById("tim");
 difficulty = 0;
 level_name = ["baby", "beginner", "intermediate", "advanced", "Chuck Norris"];
+const losing = document.getElementById('losing');
 
 
 var myGameArea = {
@@ -78,12 +79,14 @@ function update() {
 
         myGameArea.stop();
 
-        const losing = document.getElementById('losing');
-        losing.play();
-
         // timing
         myGameArea.endTime = Date.now();
         console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
+
+
+        // Dispatch the event.
+        window.dispatchEvent(gameOverEvent);
+
 
         // check if high score; if so, send it
         var userID = "idk";
@@ -98,6 +101,7 @@ function update() {
                     contentID: user._id,
                 };
             }
+
             console.log("fetching score with id: " + data.contentID);
             get('/api/score', data, function (score) {
                 console.log("the high score found: " + score[0]);
@@ -289,7 +293,9 @@ window.addEventListener('keydown', function (e) {
         myGameArea.keys[e.keyCode] = (e.type == "keydown");
     }
     const jump = document.getElementById("jump");
-    if(this.isGameOver() == false){
+    if (this.isGameOver() == false) {
+        jump.pause();
+        jump.currentTime = 0;
         jump.play();
     }
 })
@@ -300,6 +306,18 @@ window.addEventListener('keyup', function (e) {
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
     // audio.pause();
 });
+
+// game over sound
+
+var gameOverEvent = new Event('gameOverEvent');
+const quickSilence = document.getElementById('quickSilence');
+// Listen for the event.
+window.addEventListener('gameOverEvent', function (e) {
+    quickSilence.play();
+    const losing = document.getElementById('losing');
+    losing.play();
+}, true);
+
 
 
 // helper for RNG
@@ -334,13 +352,13 @@ function getRandomInt(min, max) {
 
 // } // end sound class def
 
-function renderOptions(){
- 
+function renderOptions() {
+
     const overlay_inner = document.getElementById('text');
 
     const div_title = document.createElement('h1');
     div_title.id = "Game_Over_title";
-    div_title.innerText ="Game Over! :(";
+    div_title.innerText = "Game Over! :(";
     div_title.className = "game_over_text";
     overlay_inner.appendChild(div_title);
 
@@ -365,7 +383,7 @@ function renderOptions(){
     restart.innerText = "Restart";
     restart.type = "button";
     restart.className = "btn btn-danger btn-lg restart";
-    restart.addEventListener('click', function() {
+    restart.addEventListener('click', function () {
 
         //stop the overlay
         document.getElementById("overlay").style.display = "none";
@@ -374,12 +392,11 @@ function renderOptions(){
         overlay_inner.removeChild(score);
         overlay_inner.removeChild(restart);
         overlay_inner.removeChild(home);
-        overlay_inner.removeChild(change);   
+        overlay_inner.removeChild(change);
         overlay_inner.removeChild(myScores);
         overlay_inner.removeChild(generalScores);
 
         myGameArea.frameCount = 0;
-        const losing = document.getElementById('losing');
         losing.currentTime = 0;
         losing.pause();
         myGameArea.start();
@@ -492,7 +509,7 @@ function renderLevels() {
 
             //here there should be something like "myGameArea.start(i)" to see what game to display
             difficulty = i;
-            const losing = document.getElementById('losing');
+
             losing.currentTime = 0;
             losing.pause();
             myGameArea.start();
