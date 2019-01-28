@@ -15,7 +15,7 @@ var myGameArea = {
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(update, 5);
         this.keySetList = [["w"], ["f", "j"]];
-        for (i = 0; i<this.keySetList.length ; i++)
+        for (i = 0; i < this.keySetList.length ; i++)
         {
             for (j = 0; j<this.keySetList[i].length ; j++)
             {
@@ -111,6 +111,7 @@ function update() {
 
         const score = document.createElement('h1')
         score.innerText = "Your score is: " + myGameArea.state.score;
+        score.className = "score";
         score.id = "Game_Over_score";
         overlay_inner.appendChild(score);
 
@@ -128,7 +129,7 @@ function update() {
         restart.id = "restart"
         restart.innerText = "Restart";
         restart.type = "button";
-        restart.className = "btn btn-danger btn-lg btn-secondary restart";
+        restart.className = "btn btn-danger btn-lg restart";
         restart.addEventListener('click', function() {
 
             //stop the overlay
@@ -139,6 +140,8 @@ function update() {
             overlay_inner.removeChild(restart);
             overlay_inner.removeChild(home);
             overlay_inner.removeChild(change);   
+            overlay_inner.removeChild(myScores);
+            overlay_inner.removeChild(generalScores);
 
             myGameArea.frameCount = 0;
             myGameArea.start();
@@ -161,6 +164,8 @@ function update() {
             overlay_inner.removeChild(restart);
             overlay_inner.removeChild(home);
             overlay_inner.removeChild(change);
+            overlay_inner.removeChild(myScores);
+            overlay_inner.removeChild(generalScores);
 
             // myGameArea.frameCount = 0;
             // myGameArea.start();
@@ -168,6 +173,53 @@ function update() {
             renderLevels();
         })
         overlay_inner.appendChild(change);
+
+        //creating a "See my Scores" button
+        const myScores = document.createElement('a')
+        myScores.id = "self_leaderboard";
+        myScores.innerText = "See my scores";
+        myScores.role = "button";
+        myScores.className = "btn btn-info btn-lg myScores";
+        myScores.href = "/self_leaderboard";
+        myScores.addEventListener('click', function () {
+
+            //stop the overlay
+            document.getElementById("overlay").style.display = "none";
+            //eliminate eveything that was just created (otherwise they will show up twice)
+            overlay_inner.removeChild(div_title);
+            overlay_inner.removeChild(score);
+            overlay_inner.removeChild(restart);
+            overlay_inner.removeChild(home);
+            overlay_inner.removeChild(change);
+            overlay_inner.removeChild(myScores);
+            overlay_inner.removeChild(generalScores);
+
+            myGameArea.frameCount = 0;
+        });
+        overlay_inner.appendChild(myScores);
+
+        //creating a "See general scores" button
+        const generalScores = document.createElement('a')
+        generalScores.id = "general_leaderboard";
+        generalScores.innerText = "See general scores";
+        generalScores.role = "button";
+        generalScores.className = "btn btn-info btn-lg generalScores";
+        generalScores.href = "/general_leaderboard";
+        generalScores.addEventListener('click', function () {
+            //stop the overlay
+            document.getElementById("overlay").style.display = "none";
+            //eliminate eveything that was just created (otherwise they will show up twice)
+            overlay_inner.removeChild(div_title);
+            overlay_inner.removeChild(score);
+            overlay_inner.removeChild(restart);
+            overlay_inner.removeChild(home);
+            overlay_inner.removeChild(change);
+            overlay_inner.removeChild(myScores);
+            overlay_inner.removeChild(generalScores)
+
+            myGameArea.frameCount = 0;
+        });
+        overlay_inner.appendChild(generalScores);
 
         //show an overlay
         overlay.style.display = "block";

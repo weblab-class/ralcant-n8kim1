@@ -18,6 +18,13 @@ router.get('/about', function(req, res, next){
   res.sendFile('about.html', {root: 'src/views'})
 });
 
+router.get('/self_leaderboard', function(req, res, next){
+  res.sendFile('self_leaderboard.html', {root: 'src/views'})
+});
+router.get('/general_leaderboard', function(req, res, next){
+  res.sendFile('general_leaderboard.html', {root: 'src/views'})
+});
+
 router.get('/tim', function(req, res, next){
   res.sendFile('timSprite.png', {root: 'src/views'})
 });

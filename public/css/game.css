@@ -168,21 +168,35 @@ div.circle-avatar{
 .game_over_text{
 	position: absolute;
 	right: 10px;
-	top: -50px;
+	top: -400%;
+}
+.score{
+	position:relative;
+	right:0px;
+	top: -150px;
 }
 .restart{
 	position:absolute;
-	top: 100%;
 	right: 50%;
+	top: -150%;
 }
 .home{
 	position: absolute;
 	right: 10%;
-	top: 56px;
-
+	top: -150%;
 }
 .change{
 	position:absolute;
 	right: 14%;
-	top:200%;
+	top:0%;
+}
+.myScores{
+	position:absolute;
+	right: 18%;
+	top: 325%
+}
+.generalScores{
+	position:absolute;
+	right: 11%;
+	top: 450%;
 }
