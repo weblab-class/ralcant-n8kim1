@@ -85,9 +85,6 @@ function update() {
         myGameArea.endTime = Date.now();
         console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
 
-        //see definition below
-        renderOptions();
-
         // check if high score; if so, send it
         var userID = "idk";
         get('/api/whoami', {}, function (user) {

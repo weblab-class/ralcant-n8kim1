@@ -29,7 +29,8 @@
     <source src="/jump" type="audio/mp3">
     Your browser does not support the audio element.
   </audio>
-  <audio id="losing">
+  <!--shows the different options when the losing.mp3 finishes-->
+  <audio id="losing" onended="renderOptions()">
     <source src = "/losing" type = "audio/mp3">
   </audio>
   <div id = "overlay" > <!--deleted: onclick = "off_game()" -->
