@@ -49,7 +49,7 @@ router.post(
 router.get('/score', function (req, res) {
   // console.log("trying to fetch score, id " + req.query.contentID);
   Score.find({ googleid: req.query.contentID }).lean().exec(function (err, scores) {
-    if (scores.length = 0) {
+    if (scores.length == 0) {
       console.log("no scores found; sending 0");
       res.send([0]);
     }
@@ -63,8 +63,6 @@ router.get('/score', function (req, res) {
           maxScore = scores[i].score;
         }
       }
-
-
       // console.log("fetched max score: "+maxScore );
       res.send([maxScore]);
     }
@@ -95,7 +93,7 @@ router.post(
 );
 
 router.get('/score2', function (req, res) {
-  console.log("trying to fetch score2 w diff " + req.query.difficultyID + + ", id " + req.query.contentID);
+  console.log("trying to fetch score2 w diff " + req.query.difficultyID  + ", id " + req.query.contentID);
   Score2.find({ googleid: req.query.contentID, difficultyID: req.query.difficultyID }).lean().exec(function (err, scores) {
     if (scores.length == 0) {
       console.log("no scores found; default to 0");

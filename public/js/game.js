@@ -129,6 +129,50 @@ function update() {
             }
             );
         });
+
+        get('/api/whoami', {}, function (user) {
+            console.log("fetching score2 (w difficulty), id: " + user._id);
+            let data = {
+                contentID: "guest",
+                difficultyID: difficulty,
+            }
+            if (user._id) {
+                console.log("setting ID to actual ID");
+                data = {
+                    contentID: user._id,
+                    difficultyID: difficulty,
+                };
+            }
+
+            console.log("fetching score2 with id: " + data.contentID);
+            get('/api/score2', data, function (score) {
+                console.log("the high score2 found: " + score[0]);
+                get('/api/whoami', {}, function (user) {
+                    console.log(user._id);
+                    if (myGameArea.state.score >= score[0]) {
+                        if (!user._id) {
+                            const data = {
+                                contentID: "guest",
+                                content: myGameArea.state.score,
+                                difficultyID: difficulty
+                            };
+                            post('/api/score2', data);
+                        }
+                        else {
+                            const data = {
+                                contentID: user._id,
+                                content: myGameArea.state.score,
+                                difficultyID: difficulty
+                            };
+                            console.log("posting score2 while logged in");
+                            post('/api/score2', data);
+                        }
+                        console.log("high score2 posted! the score: " + myGameArea.state.score + " w diff " + difficulty );
+                    }
+                });
+            }
+            );
+        });
         return 0;
     }
 
