@@ -298,6 +298,7 @@ window.addEventListener('keydown', function (e) {
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
     // jump.play();
 })
+
 window.addEventListener('keyup', function (e) {
     myGameArea.keys[e.keyCode] = (e.type == "keydown");
 })

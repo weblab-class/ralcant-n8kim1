@@ -176,17 +176,33 @@ table {
 	border-collapse: collapse;
 	width: 100%;
 	text-align: center;
-	background: ;
+	/* background: bisque; */
+}
+.background{
+	background: bisque;
 }
   
 td, th {
 	border: 2px solid black;
 	text-align: center;
 	padding: 8px;
+	border-collapse: collapse;
+}
+
+th{
+	background-color: black;
+	color:white;
 }
   
-tr:nth-child(even) {
+/* tr:nth-child(even) {
 	background-color: #dddddd;
+} */
+
+tr:nth-child(even) {
+	background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color: #fff;
 }
 .leaderboard{
 	position:absolute;
