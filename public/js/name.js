@@ -79,7 +79,7 @@ function on() {
    document.getElementById("overlay").style.display = "block";
 }
  
- function off() {
+function off() {
    document.getElementById("overlay").style.display = "none";
    window.localStorage.setItem('seenRules', "true");
 }
