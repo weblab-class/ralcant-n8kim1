@@ -1,3 +1,12 @@
+function updateList(list, message){
+   const newElement = document.createElement('li');
+   const text = document.createElement('h2');
+   text.innerText = message;
+   newElement.appendChild(text)
+   list.appendChild(newElement);
+}
+
+
 
 function renderName(user){
     const nameContainer = document.getElementById("name-container");
@@ -23,9 +32,13 @@ function renderName(user){
     //welc_Header.className = "welcome-text";
     if (user._id !== undefined) {
         if (window.localStorage.getItem('seenRules') === "false") { 
-        const div_title = document.createElement('h1')
-        div_title.innerText = "The rules of the TIM club are";
-        overlay_inner.appendChild(div_title);
+        const list = document.getElementById('list');
+        updateList(list, "You do not talk about the TIM club");
+        updateList(list, "You DO NOT talk about the TIM club");
+        updateList(list, "You can select between 5 different levels of difficulty, each of them will determine the number of different keys you'll be using." );
+        updateList(list, "Try to keep TIM alive by pressing the specific keys that appear on the screen." );
+        updateList(list, "You can also see your TOP 5 scores of you and the TOP 5 scores of everyone when you clik 'See my scores' when you lose.");
+        
         overlay.style.display = "block";
         }
       

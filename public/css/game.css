@@ -167,33 +167,33 @@ div.circle-avatar{
   }
 .game_over_text{
 	position: absolute;
-	right: 10px;
-	top: -350%;
+	right: 0%;
+	top: -30%;
 }
 .score{
 	position:relative;
-	right:0px;
-	top: -150px;
+	right:0%;
+	top: 0%;
 }
 .restart{
 	position:absolute;
 	right: 50%;
-	top: -150%;
+	top: 100%;
 }
 .home{
 	position: absolute;
 	right: 10%;
-	top: -150%;
+	top: 100%;
 }
 .change{
 	position:absolute;
 	right: 14%;
-	top:-40%;
+	top: 180%;
 }
 .myScores{
 	position:absolute;
-	right: 18%;
-	top: 325%
+	right: -130%;
+	top: -380%;
 }
 .generalScores{
 	position:absolute;
@@ -214,4 +214,13 @@ table {
   
   tr:nth-child(even) {
 	background-color: #dddddd;
+  }
+
+  .level_message{
+	  /* text-align: center;
+	  text */
+	  position: absolute;
+	  right: 42%;
+	  top: 85%;
+	  color: white;	  
   }

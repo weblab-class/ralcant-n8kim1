@@ -9,6 +9,7 @@
 var img = document.getElementById("tim");
 difficulty = 0;
 level_name = ["baby", "beginner", "intermediate", "advanced", "Chuck Norris"];
+renderLevel_name =[ "Current level: baby", "Current level: Beginner", "Current level: Intermediate", "Current level: Advanced", "Current level: Chuck Norris"];
 const losing = document.getElementById('losing');
 
 
@@ -369,102 +370,62 @@ function getRandomInt(min, max) {
     return (min + Math.floor(Math.random() * Math.floor(max - min)));
 }
 
-// function Sound(src) {
-//     //sound effect class
-//     //builds a sound effect based on a url
-//     //may need both ogg and mp3.
-//     this.snd = document.createElement("audio");
-//     this.snd.src = src;
-//     //preload sounds if possible (won't work on IOS)
-//     this.snd.setAttribute("preload", "auto");
-//     //hide controls for now
-//     this.snd.setAttribute("controls", "none");
-//     this.snd.style.display = "none";
-//     //attach to document so controls will show when needed
-//     document.body.appendChild(this.snd);
+function create(type, id, text, className, href){
+    const newElement = document.createElement(type);
+    newElement.id = id;
+    newElement.innerText = text;
+    newElement.className = className;
+    newElement.href = href;
+    return newElement
+}
 
-//     this.play = function () {
-//         this.snd.play();
-//     } // end play function
+function eliminate(button1, button2, button3, button4, button5, button6, id, parent){
 
-//     this.showControls = function () {
-//         //generally not needed.
-//         //crude hack for IOS
-//         this.snd.setAttribute("controls", "controls");
-//         this.snd.style.display = "block";
-//     } // end showControls
-
-// } // end sound class def
-
+    //stop the overlay
+    document.getElementById(id).style.display = "none";
+    
+    //eliminate eveything that was just created (otherwise they will show up twice)
+    parent.removeChild(button1);
+    parent.removeChild(button2);
+    parent.removeChild(button3);
+    parent.removeChild(button4);
+    parent.removeChild(button5);
+    parent.removeChild(button6);    
+};
 function renderOptions() {
 
     const overlay_inner = document.getElementById('text');
 
-    const div_title = document.createElement('h1');
-    div_title.id = "Game_Over_title";
-    div_title.innerText = "Game Over! :(";
-    div_title.className = "game_over_text";
+    //crating title
+    const div_title = create('h1', "Game_over_title", "Game Over! :(", "game_over_text", "#");
     overlay_inner.appendChild(div_title);
 
-    const score = document.createElement('h1')
-    score.innerText = "Your score is: " + myGameArea.state.score;
-    score.className = "score";
-    score.id = "Game_Over_score";
+    //creating score
+    const score = create('h1', "Game_Over_score", "Your score is " + myGameArea.state.score, "score", "#");
     overlay_inner.appendChild(score);
 
     //creating home button
-    const home = document.createElement('a')
-    home.id = "home"
-    home.innerText = "Home";
+    const home = create('a', "home", "Home", "btn btn-primary btn-lg home", "/");
     home.role = "button";
-    home.className = "btn btn-primary btn-lg home";
-    home.href = "/"
     overlay_inner.appendChild(home);
 
     //creating restart button
-    const restart = document.createElement('button')
-    restart.id = "restart"
-    restart.innerText = "Restart";
+    const restart = create('button', "restart", "Restart","btn btn-danger btn-lg restart", "#" );
     restart.type = "button";
-    restart.className = "btn btn-danger btn-lg restart";
     restart.addEventListener('click', function () {
-
-        //stop the overlay
-        document.getElementById("overlay").style.display = "none";
-        //eliminate eveything that was just created (otherwise they will show up twice)
-        overlay_inner.removeChild(div_title);
-        overlay_inner.removeChild(score);
-        overlay_inner.removeChild(restart);
-        overlay_inner.removeChild(home);
-        overlay_inner.removeChild(change);
-        overlay_inner.removeChild(myScores);
-        overlay_inner.removeChild(generalScores);
-
+        eliminate(div_title, score, restart, home, change, myScores, "overlay", overlay_inner);
         myGameArea.frameCount = 0;
         losing.currentTime = 0;
         losing.pause();
         myGameArea.start();
-    })
+    });
     overlay_inner.appendChild(restart);
 
     //creating change difficulties button
-    const change = document.createElement('button')
-    change.id = "change"
-    change.innerText = "Change Difficulty";
+    const change = create('button', "change", "Change Difficulty", "btn btn-lg btn-warning change", "#");
     change.type = "button";
-    change.className = "btn btn-lg btn-warning change";
     change.addEventListener('click', function () {
-
-        //stop the overlay
-        document.getElementById("overlay").style.display = "none";
-        //eliminate eveything that was just created (otherwise they will show up twice)
-        overlay_inner.removeChild(div_title);
-        overlay_inner.removeChild(score);
-        overlay_inner.removeChild(restart);
-        overlay_inner.removeChild(home);
-        overlay_inner.removeChild(change);
-        overlay_inner.removeChild(myScores);
-        overlay_inner.removeChild(generalScores);
+        eliminate(div_title, score, restart, home, change, myScores, "overlay", overlay_inner);
 
         // myGameArea.frameCount = 0;
         // myGameArea.start();
@@ -473,58 +434,32 @@ function renderOptions() {
     });
     overlay_inner.appendChild(change);
 
-    //creating a "See my Scores" button
-    const myScores = document.createElement('a')
-    myScores.id = "self_leaderboard";
-    myScores.innerText = "See my scores";
+    //create link to self_leaderboard.html
+    const myScores = create('a', "self_leaderboard", "See my scores", "btn btn-info btn-lg myScores", "/self_leaderboard")
     myScores.role = "button";
-    myScores.className = "btn btn-info btn-lg myScores";
-    myScores.href = "/self_leaderboard";
     myScores.addEventListener('click', function () {
-
-        //stop the overlay
-        document.getElementById("overlay").style.display = "none";
-        //eliminate eveything that was just created (otherwise they will show up twice)
-        overlay_inner.removeChild(div_title);
-        overlay_inner.removeChild(score);
-        overlay_inner.removeChild(restart);
-        overlay_inner.removeChild(home);
-        overlay_inner.removeChild(change);
-        overlay_inner.removeChild(myScores);
-        overlay_inner.removeChild(generalScores);
+        eliminate(div_title, score, restart, home, change, myScores, "overlay", overlay_inner);
 
         myGameArea.frameCount = 0;
     });
     overlay_inner.appendChild(myScores);
 
-    //creating a "See general scores" button
-    const generalScores = document.createElement('a')
-    generalScores.id = "general_leaderboard";
-    generalScores.innerText = "See general scores";
-    generalScores.role = "button";
-    generalScores.className = "btn btn-info btn-lg generalScores";
-    generalScores.href = "/general_leaderboard";
-    generalScores.addEventListener('click', function () {
-        //stop the overlay
-        document.getElementById("overlay").style.display = "none";
-        //eliminate eveything that was just created (otherwise they will show up twice)
-        overlay_inner.removeChild(div_title);
-        overlay_inner.removeChild(score);
-        overlay_inner.removeChild(restart);
-        overlay_inner.removeChild(home);
-        overlay_inner.removeChild(change);
-        overlay_inner.removeChild(myScores);
-        overlay_inner.removeChild(generalScores)
-
-        myGameArea.frameCount = 0;
-    });
-    overlay_inner.appendChild(generalScores);
+    // const generalScores = create('a', "general_leaderboard", "See general scores", "btn btn-info btn-lg generalScores", "/general_leaderboard");
+    // generalScores.role = "button";
+    // generalScores.addEventListener('click', function() {
+    //     eliminate(div_title, score, restart, home, change, myScores, "overlay", overlay_inner);
+    //     myGameArea.frameCount = 0;
+    // });
+    // overlay_inner.appendChild(generalScores);
 
     //show an overlay
     overlay.style.display = "block";
 };
 
-
+function renderCurrentLevel(i){
+    const level = document.getElementById('currentLevel');
+    level.innerText = renderLevel_name[i];
+}
 
 const number_of_levels = 5;
 
@@ -557,6 +492,7 @@ function renderLevels() {
             losing.currentTime = 0;
             losing.pause();
             myGameArea.start();
+            renderCurrentLevel(i);
         })
         const space = document.createElement('hr');
         space.id = "space" + i
