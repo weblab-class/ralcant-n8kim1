@@ -2,14 +2,88 @@
 <html>
     <head>
         <title>Leaderboard</title>
-        <link rel="stylesheet" type="text/css" href="static/css/game.css">
+        <link rel="stylesheet" type="text/css" href="static/css/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
           crossorigin="anonymous"> 
     </head>
 
-    <body>
-        <div>This is a test</div>
+    <body class = "background">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <img id="tim" src="tim_transparent" alt="Tim the Beaver sprite">
+        <div class="navbar-brand" href="#">&ensp; Flappy TIM</div>
+        <div class="navbar-nav" id="nav-item-container">
+            <!-- navbar items are inserted here -->
+        </div>
+    </nav>
+    <h2 class = "center">MY TOP 5 SCORES</h2>
+    <table>
+        <tr>
+            <th>SCORES</th>
+            <th>Baby</th>
+            <th>Beginner</th>
+            <th>Intermediate</th>
+            <th>Advanced</th>
+            <th>Chuck Norris</th>
+        </tr>
+        <tr>
+            <td>Highest score</td>
+            <!-- Insert all the first scores in each category -->
+        </tr>
+        <tr>
+            <td>Second score</td>
+            <!-- Insert all the second scores in each category -->
+
+        </tr>
+        <tr>
+            <td>Third score</td>
+            <!-- Insert all the third scores in each category -->
+        </tr>
+        <tr>
+            <td> Fourth score</td>
+            <!-- Insert all the fourth scores in each category -->
+
+        </tr>
+        <tr>
+            <td>Fifth score</td>
+            <!-- Insert all the fifth scores in each category -->
+        </tr>
+
+    </table>
+    <h2 class = "center">GENERAL SCORES</h2>
+
+    <table>
+        <tr>
+            <th>Position</th>
+            <th>Baby</th>
+            <th>Beginner</th>
+            <th>Intermediate</th>
+            <th>Advanced</th>
+            <th>Chuck Norris</th>
+        </tr>
+        <tr>
+            <td>Highest score</td>
+            <!-- Insert all the first scores in each category -->
+
+        </tr>
+        <tr>
+            <td>Second score</td>
+            <!-- Insert all the second scores in each category -->    
+        </tr>
+        <tr>
+            <td>Third score</td>
+            <!-- Insert all the third scores in each category -->    
+        </tr>
+        <tr>
+            <td>Fourth score</td>
+            <!-- Insert all the fourth scores in each category -->    
+        </tr>
+        <tr>
+            <td>Fifth score</td>
+            <!-- Insert all the fifth scores in each category -->    
+        </tr>
+    </table>
+    <a type="button" class="btn btn-primary btn-lg leaderboard" href="/">Home</a>
     </body>
     <script src="/static/js/game.js"></script>
     <script src="/static/js/api.js"></script>
