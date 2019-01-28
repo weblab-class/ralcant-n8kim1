@@ -13,6 +13,7 @@ function renderName(user){
     const messageContainer = document.getElementById("sub_message")
     const messageHeader = document.createElement('h2');
 
+    const overlay = document.getElementById('overlay');
     const overlay_inner = document.getElementById('text');
 
 
@@ -26,7 +27,6 @@ function renderName(user){
         div_title.innerText = "The rules of the TIM club are";
         overlay_inner.appendChild(div_title);
         overlay.style.display = "block";
-      // overlay.style.display = "none";
         }
       
 
@@ -39,19 +39,19 @@ function renderName(user){
         const start_button = document.createElement('a')
         start_button.className = "button allign_center_start"
         start_button.innerText = "START";
-        start_button.href = "game";
+        start_button.href = "/game";
         document.body.appendChild(start_button);
 
         const rules_button = document.createElement('a')
         rules_button.className = "button allign_center_rules";
         rules_button.innerText = "Rules";
-        rules_button.href = "rules";
+        rules_button.href = "/rules";
         document.body.appendChild(rules_button);
 
         const about_button = document.createElement('a')
         about_button.className ="button allign_center_about"
         about_button.innerText = "About";
-        about_button.href = "about";
+        about_button.href = "/about";
         document.body.appendChild(about_button);
         
      }

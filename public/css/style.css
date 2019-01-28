@@ -176,14 +176,20 @@ table {
 	border-collapse: collapse;
 	width: 100%;
 	text-align: center;
+	background: ;
 }
   
 td, th {
-	border: 1px solid #dddddd;
+	border: 2px solid black;
 	text-align: center;
 	padding: 8px;
 }
   
 tr:nth-child(even) {
 	background-color: #dddddd;
+}
+.leaderboard{
+	position:absolute;
+	right:50%;
+	top:88%;
 }

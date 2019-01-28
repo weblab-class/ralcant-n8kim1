@@ -1,9 +1,10 @@
-function startGame() {
-    myGameArea.start();
-    scene = new Scene();
-    jump = new Sound("jump.mp3");
-    scene.start();
-}
+// function startGame() {
+//     myGameArea.start();
+//     // scene = new Scene();
+//     // jump = new Sound("jump.mp3");
+//     // scene.start();
+//     // renderLevels();
+// }
 
 var img = document.getElementById("tim");
 
@@ -65,15 +66,6 @@ var myGameArea = {
         clearInterval(this.interval);
     }
 }
-
-// if item 'seenGameOver' is undefined, this sets it up a value of "false"
-// const seenGameOver = window.localStorage.getItem('seenGameOver');
-
-// console.log(seenGameOver);
-// if (!seenGameOver) {
-//     window.localStorage.setItem('seenGameOver', "false");
-//     console.log(window.localStorage.getItem('seenGameOver'));
-// }
 // console.log(window.localStorage.getItem('seenGameOver'));
 // function sound(src) {
 //     this.sound = document.createElement("audio");
@@ -89,8 +81,6 @@ var myGameArea = {
 //         this.sound.pause();
 //     }    
 // }
-const overlay_inner = document.getElementById('text');
-
 function update() {
     // update a frame...
 
@@ -106,126 +96,8 @@ function update() {
         myGameArea.endTime = Date.now();
         console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
 
-        const div_title = document.createElement('h1')
-        div_title.id = "Game_Over_title";
-        div_title.innerText ="Game Over! :(";
-        div_title.className = "game_over_text";
-        overlay_inner.appendChild(div_title);
-
-        const score = document.createElement('h1')
-        score.innerText = "Your score is: " + myGameArea.state.score;
-        score.className = "score";
-        score.id = "Game_Over_score";
-        overlay_inner.appendChild(score);
-
-        //creating home button
-        const home = document.createElement('a')
-        home.id = "home"
-        home.innerText = "Home";
-        home.role = "button";
-        home.className = "btn btn-primary btn-lg home";
-        home.href = "/"
-        overlay_inner.appendChild(home);
-
-        //creating restart button
-        const restart = document.createElement('button')
-        restart.id = "restart"
-        restart.innerText = "Restart";
-        restart.type = "button";
-        restart.className = "btn btn-danger btn-lg restart";
-        restart.addEventListener('click', function() {
-
-            //stop the overlay
-            document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);   
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores);
-
-            myGameArea.frameCount = 0;
-            myGameArea.start();
-        })
-        overlay_inner.appendChild(restart);
-
-        //creating change difficulties button
-        const change = document.createElement('button')
-        change.id = "change"
-        change.innerText = "Change Difficulty";
-        change.type = "button";
-        change.className = "btn btn-lg btn-warning change";
-        change.addEventListener('click', function () {
-
-            //stop the overlay
-            document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores);
-
-            // myGameArea.frameCount = 0;
-            // myGameArea.start();
-            //render the level setting
-            renderLevels();
-        })
-        overlay_inner.appendChild(change);
-
-        //creating a "See my Scores" button
-        const myScores = document.createElement('a')
-        myScores.id = "self_leaderboard";
-        myScores.innerText = "See my scores";
-        myScores.role = "button";
-        myScores.className = "btn btn-info btn-lg myScores";
-        myScores.href = "/self_leaderboard";
-        myScores.addEventListener('click', function () {
-
-            //stop the overlay
-            document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores);
-
-            myGameArea.frameCount = 0;
-        });
-        overlay_inner.appendChild(myScores);
-
-        //creating a "See general scores" button
-        const generalScores = document.createElement('a')
-        generalScores.id = "general_leaderboard";
-        generalScores.innerText = "See general scores";
-        generalScores.role = "button";
-        generalScores.className = "btn btn-info btn-lg generalScores";
-        generalScores.href = "/general_leaderboard";
-        generalScores.addEventListener('click', function () {
-            //stop the overlay
-            document.getElementById("overlay").style.display = "none";
-            //eliminate eveything that was just created (otherwise they will show up twice)
-            overlay_inner.removeChild(div_title);
-            overlay_inner.removeChild(score);
-            overlay_inner.removeChild(restart);
-            overlay_inner.removeChild(home);
-            overlay_inner.removeChild(change);
-            overlay_inner.removeChild(myScores);
-            overlay_inner.removeChild(generalScores)
-
-            myGameArea.frameCount = 0;
-        });
-        overlay_inner.appendChild(generalScores);
-
-        //show an overlay
-        overlay.style.display = "block";
+        //see definition below
+        renderOptions();
 
         // check if high score; if so, send it
         var userID = "idk";
@@ -267,15 +139,6 @@ function update() {
             }
             );
         });
-
-        // restart box
-        // myGameArea.context.fillStyle = '#ffffff';
-        // myGameArea.context.font = "12px Arial";
-        // myGameArea.context.fillRect(125, 175, 50, 50);
-        // myGameArea.context.fillStyle = '#000000';
-        // myGameArea.context.fillText("restart?", 100, 200);
-
-        // myGameArea.context.restore(); // render everything yay
         return 0;
     }   
 
@@ -410,27 +273,6 @@ function isGameOver() {
 }
 
 
-// // restart if game over
-// var restartRect = {
-//     x: 100,
-//     y: 175,
-//     width: 100,
-//     height: 50
-// };
-// //Binding the click event on the canvas
-// myGameArea.canvas.addEventListener('click', function (evt) {
-//     var mousePos = getMousePos(myGameArea.canvas, evt);
-//     console.log("x " + mousePos.x + ", y " + mousePos.y);
-//     // if (isGameOver()==true) {
-//     if ((isInside(mousePos, restartRect)) && (isGameOver() == true)) {
-//         console.log('restart button clicked inside rect');
-//         myGameArea.frameCount = 0;
-//         myGameArea.start();
-//     }
-
-// }, false);
-
-
 // helpers for clicks
 function getMousePos(canvas, event) {
     var rect = canvas.getBoundingClientRect();
@@ -492,20 +334,140 @@ function Sound(src) {
     } // end showControls
 
 } // end sound class def
-// function on() {
-//     document.getElementById("overlay").style.display = "block";
-//  }
-  
-// function off_game() {
-//     document.getElementById("overlay").style.display = "none";
-//     const game_over = document.getElementById("Game_Over_title");
-//     const score = document.getElementById("Game_Over_score");
-//     overlay_inner.removeChild(game_over);
-//     overlay_inner.removeChild(score);
-// }
+
+function renderOptions(){
+ 
+    const overlay_inner = document.getElementById('text');
+
+    const div_title = document.createElement('h1');
+    div_title.id = "Game_Over_title";
+    div_title.innerText ="Game Over! :(";
+    div_title.className = "game_over_text";
+    overlay_inner.appendChild(div_title);
+
+    const score = document.createElement('h1')
+    score.innerText = "Your score is: " + myGameArea.state.score;
+    score.className = "score";
+    score.id = "Game_Over_score";
+    overlay_inner.appendChild(score);
+
+    //creating home button
+    const home = document.createElement('a')
+    home.id = "home"
+    home.innerText = "Home";
+    home.role = "button";
+    home.className = "btn btn-primary btn-lg home";
+    home.href = "/"
+    overlay_inner.appendChild(home);
+
+    //creating restart button
+    const restart = document.createElement('button')
+    restart.id = "restart"
+    restart.innerText = "Restart";
+    restart.type = "button";
+    restart.className = "btn btn-danger btn-lg restart";
+    restart.addEventListener('click', function() {
+
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);   
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores);
+
+        myGameArea.frameCount = 0;
+        myGameArea.start();
+    })
+    overlay_inner.appendChild(restart);
+
+    //creating change difficulties button
+    const change = document.createElement('button')
+    change.id = "change"
+    change.innerText = "Change Difficulty";
+    change.type = "button";
+    change.className = "btn btn-lg btn-warning change";
+    change.addEventListener('click', function () {
+
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores);
+
+        // myGameArea.frameCount = 0;
+        // myGameArea.start();
+        //render the level setting
+        renderLevels();
+    });
+    overlay_inner.appendChild(change);
+
+    //creating a "See my Scores" button
+    const myScores = document.createElement('a')
+    myScores.id = "self_leaderboard";
+    myScores.innerText = "See my scores";
+    myScores.role = "button";
+    myScores.className = "btn btn-info btn-lg myScores";
+    myScores.href = "/self_leaderboard";
+    myScores.addEventListener('click', function () {
+
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores);
+
+        myGameArea.frameCount = 0;
+    });
+    overlay_inner.appendChild(myScores);
+
+    //creating a "See general scores" button
+    const generalScores = document.createElement('a')
+    generalScores.id = "general_leaderboard";
+    generalScores.innerText = "See general scores";
+    generalScores.role = "button";
+    generalScores.className = "btn btn-info btn-lg generalScores";
+    generalScores.href = "/general_leaderboard";
+    generalScores.addEventListener('click', function () {
+        //stop the overlay
+        document.getElementById("overlay").style.display = "none";
+        //eliminate eveything that was just created (otherwise they will show up twice)
+        overlay_inner.removeChild(div_title);
+        overlay_inner.removeChild(score);
+        overlay_inner.removeChild(restart);
+        overlay_inner.removeChild(home);
+        overlay_inner.removeChild(change);
+        overlay_inner.removeChild(myScores);
+        overlay_inner.removeChild(generalScores)
+
+        myGameArea.frameCount = 0;
+    });
+    overlay_inner.appendChild(generalScores);
+
+    //show an overlay
+    overlay.style.display = "block";
+};
+
+
+
 const number_of_levels = 5;
 level_name = ["baby", "beginner", "intermediate", "advanced", "Chuck Norris"];
 function renderLevels() {
+    overlay = document.getElementById("overlay");
+    const overlay_inner = document.getElementById('text');
     overlay.style.display = "block";
     for(let i = 0; i < number_of_levels; i ++ ){
         const level = document.createElement('button')
