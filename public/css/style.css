@@ -175,14 +175,15 @@ table {
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
 	width: 100%;
-  }
+	text-align: center;
+}
   
-  td, th {
+td, th {
 	border: 1px solid #dddddd;
-	text-align: left;
+	text-align: center;
 	padding: 8px;
-  }
+}
   
-  tr:nth-child(even) {
+tr:nth-child(even) {
 	background-color: #dddddd;
-  }
+}
