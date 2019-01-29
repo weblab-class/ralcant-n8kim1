@@ -15,11 +15,11 @@ renderLevel_name =[ "Current level: baby", "Current level: Beginner", "Current l
 const losing = document.getElementById('losing');
 
 // global vars for physics
-frameUpdateMs = 16; // 16 is about 60 fps; diana's laptop runs as low as 7.5; set 0 to go as fast as possible
+frameUpdateMs = 10; // 16 is about 60 fps; diana's laptop runs as low as 7.5; set 0 to go as fast as possible
 
 frameScaleFactor = frameUpdateMs/10; // don't change this
 jumpChangeInVelocity = 4 * frameScaleFactor;
-gravity = 0.04 * frameScaleFactor * frameScaleFactor;
+gravity = 0.02 * frameScaleFactor * frameScaleFactor;
 maxUpSpeed = -2 * frameScaleFactor; // negative bc of signs
 maxDownSpeed = 8 * frameScaleFactor;
 pipeSpeed = 6 * frameScaleFactor;

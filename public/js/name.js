@@ -20,6 +20,15 @@ function renderName(user){
     const welcome_message = document.getElementById("first_message");
     const welc_Header = document.createElement('h1');
 
+    const nameContainer_about = document.getElementById('name-container_about');
+    const nameHeader_about = document.createElement('h1');
+
+    const nameContainer_rules = document.getElementById('name-container_rules');
+    const nameHeader_rules = document.createElement('h1')
+
+    const nameContainer_game = document.getElementById('name-container_game');
+    const nameHeader_game = document.createElement('h1');
+
     const messageContainer = document.getElementById("sub_message")
 
     const overlay = document.getElementById('overlay');
@@ -35,9 +44,25 @@ function renderName(user){
         
         overlay.style.display = "block";
         }
-        
-        nameHeader.innerText = "Hello, " + user.name;
-        nameContainer.appendChild(nameHeader);
+
+        if (nameContainer != null) {
+          nameHeader.innerText = "Hello, " + user.name;
+          nameContainer.appendChild(nameHeader);
+        }
+        if(nameContainer_about !== null){
+           nameHeader_about.innerText = "How is it going, " + user.name + "?";
+           nameContainer_about.appendChild(nameHeader_about);
+        }
+        if(nameContainer_rules !== null){
+           nameHeader_rules.innerText = "Wanna play then, " + user.name + "?"
+           nameContainer_rules.appendChild(nameHeader_rules);
+        }
+        if(nameContainer_game !== null){
+            nameHeader_game.innerText = "You got this, " + user.name + "!";
+            nameContainer_game.appendChild(nameHeader_game);
+        }
+
+
         welc_Header.innerText = "Welcome to Flappy TIM";
         welcome_message.appendChild(welc_Header);
 
