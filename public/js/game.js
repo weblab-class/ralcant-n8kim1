@@ -11,9 +11,9 @@ frameUpdateMs = 10; // 16 is about 60 fps; diana's laptop runs as low as 7.5; se
 
 frameScaleFactor = frameUpdateMs/10; // don't change this
 jumpChangeInVelocity = 4 * frameScaleFactor;
-gravity = 0.02 * frameScaleFactor * frameScaleFactor;
+gravity = 0.025 * frameScaleFactor * frameScaleFactor;
 maxUpSpeed = -2 * frameScaleFactor; // negative bc of signs
-maxDownSpeed = 8 * frameScaleFactor;
+maxDownSpeed = 10 * frameScaleFactor;
 pipeSpeed = 6 * frameScaleFactor;
 
 var myGameArea = {
@@ -236,6 +236,13 @@ function update() {
         console.log("Regen pipe 1");
         myGameArea.pipe1.x = width; // push to the end
         myGameArea.pipe1.scored = false;
+
+        if (difficulty == 4)
+        {
+            myGameArea.pipe1.xVelo = pipeSpeed * (Math.random()+0.5);
+            myGameArea.pipe1.height = Math.random()*200+100;
+        }
+
         // myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
         myGameArea.pipe1.y = myGameArea.pipe2.y + getRandomInt(-150, 150);
         if (myGameArea.pipe1.y < 0)
@@ -246,6 +253,7 @@ function update() {
         {
             myGameArea.pipe1.y = height - myGameArea.pipe2.height;
         }
+        
 
     }
 
@@ -259,7 +267,13 @@ function update() {
         console.log("Regen pipe 2");
         myGameArea.pipe2.x = width; // push to the end
         myGameArea.pipe2.scored = false;
-        // myGameArea.pipe2.y = getRandomInt(myGameArea.pipe2.yMin, myGameArea.pipe2.yMax)  // randomize the height of the opening
+
+        if (difficulty == 4)
+        {
+            myGameArea.pipe2.height = Math.random()*200+100;
+            myGameArea.pipe2.xVelo = pipeSpeed * (Math.random()*1+0.5);
+        }
+
         myGameArea.pipe2.y = myGameArea.pipe1.y + getRandomInt(-150, 150); 
         if (myGameArea.pipe2.y < 0)
         {
@@ -269,6 +283,8 @@ function update() {
         {
             myGameArea.pipe2.y = height - myGameArea.pipe2.height;
         }
+
+
     }
 
     // draw frame
