@@ -15,14 +15,14 @@ renderLevel_name =[ "Current level: baby", "Current level: Beginner", "Current l
 const losing = document.getElementById('losing');
 
 // global vars for physics
-frameUpdateMs = 16; // diana's laptop runs as low as 7.5; set 0 to go as fast as possible
+frameUpdateMs = 16; // 16 is about 60 fps; diana's laptop runs as low as 7.5; set 0 to go as fast as possible
 
 frameScaleFactor = frameUpdateMs/10; // don't change this
 jumpChangeInVelocity = 4 * frameScaleFactor;
-gravity = 0.01 * frameScaleFactor;
-maxUpSpeed = -1 * frameScaleFactor; // negative bc of signs
-maxDownSpeed = 4 * frameScaleFactor;
-pipeSpeed = 4 * frameScaleFactor;
+gravity = 0.04 * frameScaleFactor * frameScaleFactor;
+maxUpSpeed = -2 * frameScaleFactor; // negative bc of signs
+maxDownSpeed = 8 * frameScaleFactor;
+pipeSpeed = 6 * frameScaleFactor;
 
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
@@ -36,11 +36,11 @@ var myGameArea = {
         for (i = 0; i < iMax; i++) {
             this.keySetList[i] = this.keySetList[i].split('');
             for (j = 0; j < this.keySetList[i].length; j++) {
-                console.log(i + " " + j + this.keySetList[i][j]);
+                // console.log(i + " " + j + this.keySetList[i][j]);
                 this.keySetList[i][j] = (this.keySetList[i][j]).charCodeAt(0);
             }
         }
-        console.log(this.keySetList);
+        // console.log(this.keySetList);
         this.keySet = this.keySetList[difficulty];
         this.keyToPress = this.keySet[0]; // TODO randomize this
         this.timHeight = img.height;
@@ -48,7 +48,7 @@ var myGameArea = {
         this.frameCount = 0;
         this.startTime = Date.now();
         this.endTime = Date.now();
-        this.pipeDeath = true;
+        this.pipeDeath = false;
         this.state = {
             isGameOver: false,
             xPos: 100,
@@ -95,6 +95,7 @@ function update() {
 
         // timing
         myGameArea.endTime = Date.now();
+        console.log("GameTime: "  + (myGameArea.endTime - myGameArea.startTime));
         console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
 
 
@@ -232,7 +233,7 @@ function update() {
     myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
 
     // update coordinates of pipes
-    myGameArea.pipe1.x = myGameArea.pipe1.x - myGameArea.pipe1.xvelo;
+    myGameArea.pipe1.x = myGameArea.pipe1.x - myGameArea.pipe1.xVelo;
     if (myGameArea.pipe1.x + myGameArea.pipe1.width < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
         console.log("Score from pipe 1");
         myGameArea.state.score += 1;
