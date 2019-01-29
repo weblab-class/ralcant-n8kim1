@@ -34,11 +34,11 @@ function loadScores(difficulty, user) {
     }
     else
     {
-        loadGeneralScores(0);
+        loadGeneralScores(0, user);
     }
 }
 
-function loadGeneralScores(difficulty) {
+function loadGeneralScores(difficulty, user) {
     // console.log("fetching general score, " + difficulty + "  difficulty");
     let data = {
         difficultyID: difficulty,
@@ -49,17 +49,21 @@ function loadGeneralScores(difficulty) {
         for (i = 1; i <= 5; i++) {
             // console.log(i);
             ele = document.getElementById("general" + i + ""+ (difficulty+1));
-            if (scores[i-1].name === undefined)
+            if (!scores[i-1].name)
             {
                 ele.innerText = "Guest " + " " + scores[i-1].score;
             }
             else
             {
                 ele.innerText = scores[i - 1].name + " " + scores[i-1].score;
+                if (scores[i-1].googleid == user._id)
+                {
+                    ele.innerHTML = "<b>" + ele.innerText + "</b>";
+                }
             }
         }
     });
     if (difficulty < 4) {
-        loadGeneralScores(difficulty + 1);
+        loadGeneralScores(difficulty + 1, user);
     }
 }
