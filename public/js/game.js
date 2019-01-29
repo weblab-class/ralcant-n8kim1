@@ -19,6 +19,15 @@ pipeSpeed = 6 * frameScaleFactor;
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
     start: function () {
+        frameUpdateMs = 10; // 16 is about 60 fps; diana's laptop runs as low as 7.5; set 0 to go as fast as possible
+
+        frameScaleFactor = frameUpdateMs / 10; // don't change this
+        jumpChangeInVelocity = 4 * frameScaleFactor;
+        gravity = 0.04 * frameScaleFactor * frameScaleFactor;
+        maxUpSpeed = -2 * frameScaleFactor; // negative bc of signs
+        maxDownSpeed = 10 * frameScaleFactor;
+        pipeSpeed = 6 * frameScaleFactor;
+
         this.canvas.width = 975; // any longer breaks things on small screens
         this.canvas.height = 660;
         this.context = this.canvas.getContext("2d");
@@ -220,8 +229,7 @@ function update() {
         gravity = gravity * (Math.random() * 0.4 + 0.8);
     }
 
-    if (difficulty == 4 && Math.random()<0.001)
-    {
+    if (difficulty == 4 && Math.random() < 0.001) {
         myGameArea.keyToPress = myGameArea.keySet[Math.floor(Math.random() * myGameArea.keySet.length)];
     }
 
@@ -470,7 +478,7 @@ function eliminate(button1, button2, button3, button4, button5, button6, id, par
     parent.removeChild(button6);
 };
 //to make them different for each difficulty
-const Game_over_messages = ["Game Over! :(","Game Over! :(","Game Over! :(","Game Over! :(", "Trying to beat Chuck Norris? Good luck."]
+const Game_over_messages = ["Game Over! :(", "Game Over! :(", "Game Over! :(", "Game Over! :(", "Trying to beat Chuck Norris? Good luck."]
 const Game_over_class = ["game_over_text", "game_over_text", "game_over_text", "game_over_text", "game_over_text_chuck"];
 function renderOptions() {
 
