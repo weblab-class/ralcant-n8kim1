@@ -123,13 +123,13 @@ router.get('/personalHighScores', function (req, res) {
     // strip to array of scores
     for (i = 0; i<scores.length; i++)
     {
-      scores[i] = scores[i].score;
+      scores[i] = parseInt(scores[i].score);
     }
 
     // pad with zeroes to get 5 
     if (scores.length < 5) {
       console.log("only " + scores.length + " scores found, adding 0's");
-      for (i = scores.length; i++; i<5)
+      for (i = scores.length; i<5; i++)
       {
         scores.push[0];
       }
@@ -137,18 +137,11 @@ router.get('/personalHighScores', function (req, res) {
     console.log("scores " + scores);
 
     // return top 5
+    scores.sort(function(a, b){return b - a});
+    
+    scores.length = 5;
 
-      // console.log(scores.length + " scores found");
-      // for (let i = 0; i < scores.length; i++) {
-      //   console.log("the score2 object # " + i);
-      //   console.log("the score2 is " + scores[i].score);
-      //   if (scores[i].score > maxScore) {
-      //     maxScore = scores[i].score;
-      //   }
-      // }
-
-      // console.log("fetched max score: " + maxScore);
-      res.send([scores]);
+      res.send(scores);
     
   });
 });
