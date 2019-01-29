@@ -22,13 +22,11 @@ function loadScores(difficulty, user) {
 
     console.log("fetching high scores with id: " + data.contentID);
     get('/api/personalHighScores', data, function (scores) {
-        console.log("the high scores found: " + scores);
+        console.log("the high scores found for diff" + difficulty + ": " + scores);
         for (i = 1; i <= 5; i++) {
             console.log(i);
-            ele = document.getElementById("m" + i);
-            cell = document.createElement('td');
-            cell.innerText = scores[i - 1];
-            ele.appendChild(cell);
+            ele = document.getElementById("m" + i + ""+ (difficulty+1));
+            ele.innerText = scores[i - 1];
         }
     });
     if (difficulty < 4) {
