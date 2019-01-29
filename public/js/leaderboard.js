@@ -12,7 +12,7 @@ function loadScores(difficulty, user) {
         name: "guest",
     }
     if (user && user._id) {
-        console.log("setting ID to actual ID");
+        // console.log("setting ID to actual ID");
         data = {
             contentID: user._id,
             difficultyID: difficulty,
@@ -20,11 +20,11 @@ function loadScores(difficulty, user) {
         };
     }
 
-    console.log("fetching high scores with id: " + data.contentID);
+    // console.log("fetching high scores with id: " + data.contentID);
     get('/api/personalHighScores', data, function (scores) {
-        console.log("the high scores found for diff" + difficulty + ": " + scores);
+        // console.log("the high scores found for diff" + difficulty + ": " + scores);
         for (i = 1; i <= 5; i++) {
-            console.log(i);
+            // console.log(i);
             ele = document.getElementById("m" + i + ""+ (difficulty+1));
             ele.innerText = scores[i - 1];
         }
@@ -39,15 +39,15 @@ function loadScores(difficulty, user) {
 }
 
 function loadGeneralScores(difficulty) {
-    console.log("fetching general score, " + difficulty + "  difficulty");
+    // console.log("fetching general score, " + difficulty + "  difficulty");
     let data = {
         difficultyID: difficulty,
     }
-    console.log("fetching high scores with id: " + data.contentID);
+    // console.log("fetching high scores with id: " + data.contentID);
     get('/api/generalHighScores', data, function (scores) {
-        console.log("the high scores found: " + scores[0].name );
+        // console.log("the high scores found: " + scores[0].name );
         for (i = 1; i <= 5; i++) {
-            console.log(i);
+            // console.log(i);
             ele = document.getElementById("general" + i + ""+ (difficulty+1));
             if (scores[i-1].name === undefined)
             {

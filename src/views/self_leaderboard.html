@@ -3,7 +3,7 @@
 
 <head>
     <title>Leaderboard</title>
-    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/leaderboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
         integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
@@ -18,7 +18,15 @@
         </div>
     </nav>
     <h2 class="center">MY TOP 5 SCORES</h2>
-    <table>
+    <table id = "personal">
+            <colgroup>
+                <col class="five" />
+                <col class="ten" />
+                <col class="ten" />
+                <col class="ten" />
+                <col class="ten" />
+                <col class="ten" />
+              </colgroup>
         <tr>
             <th>SCORES</th>
             <th>Baby</th>
@@ -28,7 +36,7 @@
             <th>Chuck Norris</th>
         </tr>
         <tr id="m1">
-            <td>Highest score</td>
+            <td>1st</td>
             <td id="m11"></td>
             <td id="m12"></td>
             <td id="m13"></td>
@@ -36,7 +44,7 @@
             <td id="m15"></td>
         </tr>
         <tr id="m2">
-            <td>Second score</td>
+            <td>2nd</td>
             <td id="m21"></td>
             <td id="m22"></td>
             <td id="m23"></td>
@@ -46,7 +54,7 @@
 
         </tr>
         <tr id="m3">
-            <td>Third score</td>
+            <td>3rd</td>
             <td id="m31"></td>
             <td id="m32"></td>
             <td id="m33"></td>
@@ -55,7 +63,7 @@
 
         </tr>
         <tr id="m4">
-            <td> Fourth score</td>
+            <td>4th </td>
             <td id="m41"></td>
             <td id="m42"></td>
             <td id="m43"></td>
@@ -64,7 +72,7 @@
 
         </tr>
         <tr id="m5">
-            <td>Fifth score</td>
+            <td>5th</td>
             <td id="m51"></td>
             <td id="m52"></td>
             <td id="m53"></td>
@@ -76,6 +84,14 @@
     <h2 class="center">GENERAL SCORES</h2>
 
     <table>
+            <colgroup>
+                <col class="ten" />
+                <col class="ten" />
+                <col class="ten" />
+                <col class="ten" />
+                <col class="ten" />
+                <col class="ten" />
+              </colgroup>
         <tr>
             <th>SCORES</th>
             <th>Baby</th>

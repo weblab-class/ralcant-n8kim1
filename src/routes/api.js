@@ -124,7 +124,7 @@ router.get('/personalHighScores', function (req, res) {
     // strip to array of scores
     for (i = 0; i<scores.length; i++)
     {
-      console.log("some name " + scores[i].name);
+      // console.log("some name " + scores[i].name);
       scores[i] = parseInt(scores[i].score);
     }
 
@@ -149,7 +149,7 @@ router.get('/generalHighScores', function (req, res) {
 
     for (e in scores)
     {
-      console.log("name " + e.name);
+      // console.log("name " + e.name);
     }
 
     
@@ -160,7 +160,7 @@ router.get('/generalHighScores', function (req, res) {
 
     for (e in scores)
     {
-      console.log(e.name);
+      // console.log(e.name);
     }
 
       res.send(scores);

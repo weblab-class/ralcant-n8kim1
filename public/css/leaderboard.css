@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
+
+.ten {
+	width: 10%;
+	/* background; */
+  }
+  .five {
+	width: 5%;
+	/* background; */
+  }
+.Body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  background-color: rgb(248, 248, 248);
+  background-image: url('https://www.desktopbackground.org/p/2014/07/26/799251_flappy-bird-charizard-edition-on-scratch_1920x1080_h.png');
+  /* background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/flappy-bird-background.gif'); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 750px;
+
+}
+
+div.circle-avatar{
+	/* make it responsive */
+	max-width: 100%;
+	width:100%;
+	height:auto;
+	display:block;
+	/* div height to be the same as width*/
+	padding-top:100%;
+
+	/* make it a circle */
+	border-radius:50%;
+
+	/* Centering on image`s center*/
+	background-position-y: center;
+	background-position-x: center;
+	background-repeat: no-repeat;
+
+	/* it makes the clue thing, takes smaller dimension to fill div */
+	background-size: cover;
+
+	/* it is optional, for making this div centered in parent*/
+	margin: 0 auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.large-profile-container {
+	padding: 0 35%;
+}
+.allign-upperright{
+	position:absolute;
+	top:0;
+	right:30px;
+	font-size: 1.5px;
+}
+.allign-upperleft{
+	position:absolute;
+	top:px;
+	left:0;
+}
+.allign_center_start{
+	position: absolute;
+	top: 50%;
+	right: 49%;
+}
+
+.allign_center_rules{
+	position: absolute;
+	top: 60%;
+	right: 49%;
+}
+.allign_center_about{
+	position: absolute;
+	top: 70%;
+	right:49%;
+}
+.welcome_text{
+		height: 20em;
+		margin: 0;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-right: -50%;
+		transform: translate(-50%, -50%) 
+}
+.about_text{
+	position: absolute;
+	top: 50%;
+	left:50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%) 
+}
+/*.button {
+	background-color:rgb(27, 139, 115);
+	border: none;
+	color: white;
+	padding: 5px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 70px 2px;
+	cursor: pointer;
+	height: 5em;
+  }*/
+.button{
+	display:inline-block;
+	padding:0.35em 1.2em;
+	border:0.1em solid #3924b1;
+	margin:0 0.3em 0.3em 0;
+	border-radius:0.12em;
+	box-sizing: border-box;
+	text-decoration:none;
+	font-family:'Roboto',sans-serif;
+	font-weight:300;
+	color:rgb(20, 20, 20);
+	text-align:center;
+	transition: all 0.2s;
+}
+.button:hover{
+	color:#000000bd;
+	background-color:rgb(138, 45, 45);
+}
+@media all and (max-width:30em){
+	.button{
+		display:block;
+		margin:0.4em auto;
+	}
+}
+.logout{
+	color: red;
+}
+.text_font{
+	font-family: 'Indie Flower', cursive;
+}
+.text_font2{
+	font-family: 'Slabo 27px', serif;
+}
+.center{
+	text-align: center;
+}
+#overlay {
+	position: fixed; /* Sit on top of the page content */
+	display: none; /* Hidden by default */
+	width: 100%; /* Full width (cover the whole page) */
+	height: 100%; /* Full height (cover the whole page) */
+	top: 0; 
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+	z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+	cursor: pointer; /* Add a pointer on hover */
+}
+#text{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 50px;
+	color: white;
+	transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	text-align: center;
+}
+.home{
+	position: absolute;
+	right: 10%;
+	top: 56px;
+
+}
+.down{
+	position: absolute;
+	top:80%;
+	right:49%;
+}
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	text-align: center;
+	/* background: bisque; */
+}
+.background{
+	background: bisque;
+}
+  
+td, th {
+	border: 2px solid black;
+	text-align: center;
+	padding: 8px;
+	border-collapse: collapse;
+}
+
+th{
+	background-color: black;
+	color:white;
+}
+  
+/* tr:nth-child(even) {
+	background-color: #dddddd;
+} */
+
+tr:nth-child(even) {
+	background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color: #fff;
+}
+.leaderboard{
+	position:absolute;
+	right:50%;
+	top:88%;
+}
+
+.rules{
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 50px;
+	color: rgb(14, 13, 15);
+	transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	text-align: center;
+}
+.goBack{
+	position: absolute;
+	right: 50%;
+	top: 90%;
+}
