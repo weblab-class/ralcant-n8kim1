@@ -29,6 +29,9 @@ function renderName(user){
     const nameContainer_game = document.getElementById('name-container_game');
     const nameHeader_game = document.createElement('h1');
 
+    const nameContainer_leaderboard = document.getElementById('name-container_leaderboard');
+    const nameHeader_leaderboard = document.createElement('h1');
+
     const messageContainer = document.getElementById("sub_message")
 
     const overlay = document.getElementById('overlay');
