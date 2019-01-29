@@ -13,6 +13,7 @@ function renderNavbar(user) {
   if (user._id !== undefined) {
     navbarDiv.appendChild(newNavbarItem('About','/about'));
     navbarDiv.appendChild(newNavbarItem('Rules ', '/rules'));
+    navbarDiv.appendChild(newNavbarItem('Scores', '/self_leaderboard'));
     navbarDiv.appendChild(newNavbarItem('Logout ', '/logout'));
   }
 }
