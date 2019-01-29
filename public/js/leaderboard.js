@@ -48,17 +48,15 @@ function loadGeneralScores(difficulty) {
         console.log("the high scores found: " + scores[0].name );
         for (i = 1; i <= 5; i++) {
             console.log(i);
-            ele = document.getElementById("general" + i);
-            cell = document.createElement('td');
+            ele = document.getElementById("general" + i + ""+ (difficulty+1));
             if (scores[i-1].name === undefined)
             {
-                cell.innerText = "Guest " + " " + scores[i-1].score;
+                ele.innerText = "Guest " + " " + scores[i-1].score;
             }
             else
             {
-                cell.innerText = scores[i - 1].name + " " + scores[i-1].score;
+                ele.innerText = scores[i - 1].name + " " + scores[i-1].score;
             }
-            ele.appendChild(cell);
         }
     });
     if (difficulty < 4) {
