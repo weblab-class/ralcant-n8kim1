@@ -89,6 +89,9 @@ router.post(
       else { console.log("saved sucess? id " + newScore2.googleid + " difficulty " + newScore2.difficultyID) };
     });
 
+    // purge guest scores
+    // Score2.deleteMany({ name: undefined }, function (err) {console.log("guests purged")});
+
     res.send({});
   }
 );

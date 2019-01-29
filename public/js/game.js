@@ -3,15 +3,15 @@
 var img = document.getElementById("tim");
 difficulty = 0;
 level_name = ["Baby", "Beginner", "Intermediate", "Advanced", "Chuck Norris"];
-renderLevel_name =[ "Current level: baby", "Current level: Beginner", "Current level: Intermediate", "Current level: Advanced", "Current level: Chuck Norris"];
+renderLevel_name = ["Current level: baby", "Current level: Beginner", "Current level: Intermediate", "Current level: Advanced", "Current level: Chuck Norris"];
 const losing = document.getElementById('losing');
 
 // global vars for physics
 frameUpdateMs = 10; // 16 is about 60 fps; diana's laptop runs as low as 7.5; set 0 to go as fast as possible
 
-frameScaleFactor = frameUpdateMs/10; // don't change this
+frameScaleFactor = frameUpdateMs / 10; // don't change this
 jumpChangeInVelocity = 4 * frameScaleFactor;
-gravity = 0.025 * frameScaleFactor * frameScaleFactor;
+gravity = 0.04 * frameScaleFactor * frameScaleFactor;
 maxUpSpeed = -2 * frameScaleFactor; // negative bc of signs
 maxDownSpeed = 10 * frameScaleFactor;
 pipeSpeed = 6 * frameScaleFactor;
@@ -87,7 +87,7 @@ function update() {
 
         // timing
         myGameArea.endTime = Date.now();
-        console.log("GameTime: "  + (myGameArea.endTime - myGameArea.startTime));
+        console.log("GameTime: " + (myGameArea.endTime - myGameArea.startTime));
         console.log("Framerate: " + (myGameArea.endTime - myGameArea.startTime) / myGameArea.frameCount);
 
 
@@ -216,6 +216,15 @@ function update() {
     }
 
     // update coordinates of tim
+    if (difficulty == 4 && Math.random() < 0.007) {
+        gravity = gravity * (Math.random() * 0.4 + 0.8);
+    }
+
+    if (difficulty == 4 && Math.random()<0.001)
+    {
+        myGameArea.keyToPress = myGameArea.keySet[Math.floor(Math.random() * myGameArea.keySet.length)];
+    }
+
     myGameArea.state.yVelo = myGameArea.state.yVelo + gravity;
     if (myGameArea.state.yVelo > maxDownSpeed) {
         myGameArea.state.yVelo = maxDownSpeed;
@@ -227,6 +236,16 @@ function update() {
 
     // update coordinates of pipes
     myGameArea.pipe1.x = myGameArea.pipe1.x - myGameArea.pipe1.xVelo;
+
+    if (difficulty == 4) {
+        if (myGameArea.pipe1.xVelo > 0 && Math.random() < 0.005) {
+            myGameArea.pipe1.xVelo = myGameArea.pipe1.xVelo * -1 * (Math.random() * 0.4 + 0.3);
+        }
+        if (myGameArea.pipe1.xVelo < 0 && Math.random() < 0.1) {
+            myGameArea.pipe1.xVelo = myGameArea.pipe1.xVelo * -1 * (Math.random() * 0.4 + 1.3);
+        }
+    }
+
     if (myGameArea.pipe1.x + myGameArea.pipe1.width < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
         console.log("Score from pipe 1");
         myGameArea.state.score += 1;
@@ -234,30 +253,38 @@ function update() {
     }
     if (myGameArea.pipe1.x < -1 * myGameArea.pipe1.width) {
         console.log("Regen pipe 1");
+        myGameArea.pipe1.x = width * (Math.random() * 0.2 + 0.8);
         myGameArea.pipe1.x = width; // push to the end
         myGameArea.pipe1.scored = false;
 
-        if (difficulty == 4)
-        {
-            myGameArea.pipe1.xVelo = pipeSpeed * (Math.random()+0.5);
-            myGameArea.pipe1.height = Math.random()*200+100;
+        if (difficulty == 4) {
+            myGameArea.pipe1.xVelo = pipeSpeed * (Math.random() + 0.5);
+            myGameArea.pipe1.height = Math.random() * 200 + 100;
         }
 
         // myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
         myGameArea.pipe1.y = myGameArea.pipe2.y + getRandomInt(-150, 150);
-        if (myGameArea.pipe1.y < 0)
-        {
+        if (myGameArea.pipe1.y < 0) {
             myGameArea.pipe1.y = 0;
         }
-        if (myGameArea.pipe1.y > height - myGameArea.pipe1.height)
-        {
+        if (myGameArea.pipe1.y > height - myGameArea.pipe1.height) {
             myGameArea.pipe1.y = height - myGameArea.pipe2.height;
         }
-        
+
 
     }
 
     myGameArea.pipe2.x = myGameArea.pipe2.x - myGameArea.pipe2.xVelo;
+
+    if (difficulty == 4) {
+        if (myGameArea.pipe2.xVelo > 0 && Math.random() < 0.005) {
+            myGameArea.pipe2.xVelo = myGameArea.pipe2.xVelo * -1 * (Math.random() * 0.4 + 0.3);
+        }
+        if (myGameArea.pipe2.xVelo < 0 && Math.random() < 0.1) {
+            myGameArea.pipe2.xVelo = myGameArea.pipe2.xVelo * -1 * (Math.random() * 0.4 + 1.3);
+        }
+    }
+
     if (myGameArea.pipe2.x + myGameArea.pipe2.width < myGameArea.state.xPos && myGameArea.pipe2.scored == false) {
         console.log("Score from pipe 2");
         myGameArea.state.score += 1;
@@ -268,19 +295,17 @@ function update() {
         myGameArea.pipe2.x = width; // push to the end
         myGameArea.pipe2.scored = false;
 
-        if (difficulty == 4)
-        {
-            myGameArea.pipe2.height = Math.random()*200+100;
-            myGameArea.pipe2.xVelo = pipeSpeed * (Math.random()*1+0.5);
+        if (difficulty == 4) {
+            myGameArea.pipe2.x = width * (Math.random() * 0.2 + 0.8);
+            myGameArea.pipe2.height = Math.random() * 200 + 100;
+            myGameArea.pipe2.xVelo = pipeSpeed * (Math.random() * 1 + 0.5);
         }
 
-        myGameArea.pipe2.y = myGameArea.pipe1.y + getRandomInt(-150, 150); 
-        if (myGameArea.pipe2.y < 0)
-        {
+        myGameArea.pipe2.y = myGameArea.pipe1.y + getRandomInt(-150, 150);
+        if (myGameArea.pipe2.y < 0) {
             myGameArea.pipe2.y = 0;
         }
-        if (myGameArea.pipe2.y > height - myGameArea.pipe2.height)
-        {
+        if (myGameArea.pipe2.y > height - myGameArea.pipe2.height) {
             myGameArea.pipe2.y = height - myGameArea.pipe2.height;
         }
 
@@ -422,7 +447,7 @@ function getRandomInt(min, max) {
 }
 
 //create an element with certain properties
-function create(type, id, text, className, href){
+function create(type, id, text, className, href) {
     const newElement = document.createElement(type);
     newElement.id = id;
     newElement.innerText = text;
@@ -431,18 +456,18 @@ function create(type, id, text, className, href){
     return newElement
 }
 
-function eliminate(button1, button2, button3, button4, button5, button6, id, parent){
+function eliminate(button1, button2, button3, button4, button5, button6, id, parent) {
 
     //stop the overlay
     document.getElementById(id).style.display = "none";
-    
+
     //eliminate eveything that was just created (otherwise they will show up twice)
     parent.removeChild(button1);
     parent.removeChild(button2);
     parent.removeChild(button3);
     parent.removeChild(button4);
     parent.removeChild(button5);
-    parent.removeChild(button6);    
+    parent.removeChild(button6);
 };
 function renderOptions() {
 
@@ -462,7 +487,7 @@ function renderOptions() {
     overlay_inner.appendChild(home);
 
     //creating restart button
-    const restart = create('button', "restart", "Restart","btn btn-danger btn-lg restart", "#" );
+    const restart = create('button', "restart", "Restart", "btn btn-danger btn-lg restart", "#");
     restart.type = "button";
     restart.addEventListener('click', function () {
         eliminate(div_title, score, restart, home, change, myScores, "overlay", overlay_inner);
@@ -508,7 +533,7 @@ function renderOptions() {
     overlay.style.display = "block";
 };
 
-function renderCurrentLevel(i){
+function renderCurrentLevel(i) {
     const level = document.getElementById('currentLevel');
     level.innerText = renderLevel_name[i];
 }
