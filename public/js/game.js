@@ -15,11 +15,14 @@ renderLevel_name =[ "Current level: baby", "Current level: Beginner", "Current l
 const losing = document.getElementById('losing');
 
 // global vars for physics
-frameUpdateMs = 0; // my laptop handles as low as 4; set 0 to go as fast as possible
-jumpChangeInVelocity = 4;
-gravity = 0.01;
-maxUpSpeed = -1; // negative bc of signs
-maxDownSpeed = 4;
+frameUpdateMs = 16; // diana's laptop runs as low as 7.5; set 0 to go as fast as possible
+
+frameScaleFactor = frameUpdateMs/10; // don't change this
+jumpChangeInVelocity = 4 * frameScaleFactor;
+gravity = 0.01 * frameScaleFactor;
+maxUpSpeed = -1 * frameScaleFactor; // negative bc of signs
+maxDownSpeed = 4 * frameScaleFactor;
+pipeSpeed = 4 * frameScaleFactor;
 
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
@@ -61,7 +64,7 @@ var myGameArea = {
             yMax: 350,
             yMin: 50,
             scored: false,
-            xVelo: 4
+            xVelo: pipeSpeed
         };
         this.pipe2 = {
             x: this.canvas.width,
@@ -71,7 +74,7 @@ var myGameArea = {
             yMax: 350,
             yMin: 50,
             scored: false,
-            xVelo: 4
+            xVelo: pipeSpeed
         };
     },
     stop: function () {
