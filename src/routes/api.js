@@ -79,6 +79,7 @@ router.post(
       'googleid': req.body.contentID,
       'score': req.body.content,
       'difficultyID': req.body.difficultyID,
+      'name' : req.body.name
     });
 
     newScore2.save(function (err, score2) {
@@ -123,17 +124,11 @@ router.get('/personalHighScores', function (req, res) {
     // strip to array of scores
     for (i = 0; i<scores.length; i++)
     {
+      console.log("some name " + scores[i].name);
       scores[i] = parseInt(scores[i].score);
     }
 
-    // pad with zeroes to get 5 
-    if (scores.length < 5) {
-      console.log("only " + scores.length + " scores found, adding 0's");
-      for (i = scores.length; i<5; i++)
-      {
-        scores.push[0];
-      }
-    }
+
     console.log("scores " + scores);
 
     // return top 5
@@ -142,6 +137,34 @@ router.get('/personalHighScores', function (req, res) {
     scores.length = 5;
 
       res.send(scores);
+    
+  });
+});
+
+router.get('/generalHighScores', function (req, res) {
+  console.log("trying to fetch 5 general scores w diff " + req.query.difficultyID  );
+  // Score2.find({ difficultyID: req.query.difficultyID }).lean().exec(function (err, scores) {
+    Score2.find({ difficultyID: req.query.difficultyID }).exec(function (err, scores) {
+
+
+    for (e in scores)
+    {
+      console.log("name " + e.name);
+    }
+
+    
+    // return top 5
+    scores.sort(function(a, b){return b.score - a.score});
+    
+    scores.length = 5;
+
+    for (e in scores)
+    {
+      console.log(e.name);
+    }
+
+      res.send(scores);
+
     
   });
 });

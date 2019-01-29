@@ -166,7 +166,8 @@ function update() {
                 console.log("the high score2 found: " + score[0]);
                 get('/api/whoami', {}, function (user) {
                     console.log(user._id);
-                    if (myGameArea.state.score >= score[0]) {
+                    if (true) {
+                        // if (myGameArea.state.score >= score[0]) {
                         if (!user._id) {
                             const data = {
                                 contentID: "guest",
@@ -186,7 +187,7 @@ function update() {
                             console.log("posting score2 while logged in");
                             post('/api/score2', data);
                         }
-                        console.log("high score2 posted! the score: " + myGameArea.state.score + " w diff " + difficulty );
+                        console.log("high score2 posted! the score: " + myGameArea.state.score + " w diff " + difficulty + " w name" + data.name);
                     }
                 });
             }
