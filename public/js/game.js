@@ -1,11 +1,3 @@
-// function startGame() {
-//     myGameArea.start();
-//     // scene = new Scene();
-//     // jump = new Sound("jump.mp3");
-//     // scene.start();
-//     // renderLevels();
-// }
-
 // some global vars
 
 var img = document.getElementById("tim");
