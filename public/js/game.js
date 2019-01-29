@@ -469,12 +469,15 @@ function eliminate(button1, button2, button3, button4, button5, button6, id, par
     parent.removeChild(button5);
     parent.removeChild(button6);
 };
+//to make them different for each difficulty
+const Game_over_messages = ["Game Over! :(","Game Over! :(","Game Over! :(","Game Over! :(", "Trying to beat Chuck Norris? Good luck."]
+const Game_over_class = ["game_over_text", "game_over_text", "game_over_text", "game_over_text", "game_over_text_chuck"];
 function renderOptions() {
 
     const overlay_inner = document.getElementById('text');
 
-    //crating title
-    const div_title = create('h1', "Game_over_title", "Game Over! :(", "game_over_text", "#");
+    //creating title
+    const div_title = create('h1', "Game_over_title", Game_over_messages[difficulty], Game_over_class[difficulty], "#");
     overlay_inner.appendChild(div_title);
 
     //creating score

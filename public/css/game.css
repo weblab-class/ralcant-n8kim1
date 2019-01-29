@@ -169,6 +169,13 @@ div.circle-avatar{
 	position: absolute;
 	right: 0%;
 	top: -30%;
+	white-space: nowrap;
+}
+.game_over_text_chuck{
+	position: absolute;
+	right: -90%;
+	top: -30%;
+	white-space: nowrap;
 }
 .score{
 	position:relative;

@@ -222,6 +222,6 @@ table#t01 tr:nth-child(odd) {
 }
 .goBack{
 	position: absolute;
-	right: 50%;
+	right: 47%;
 	top: 90%;
 }
