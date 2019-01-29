@@ -6,6 +6,7 @@ const Score2Schema = new mongoose.Schema ({
   googleid     	: String,
   score: Number,
   difficultyID: Number,
+  name: String
 });
 
 // compile model from schema

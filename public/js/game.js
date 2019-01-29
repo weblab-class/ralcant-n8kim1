@@ -6,12 +6,20 @@
 //     // renderLevels();
 // }
 
+// some global vars
+
 var img = document.getElementById("tim");
 difficulty = 0;
 level_name = ["Baby", "Beginner", "Intermediate", "Advanced", "Chuck Norris"];
 renderLevel_name =[ "Current level: baby", "Current level: Beginner", "Current level: Intermediate", "Current level: Advanced", "Current level: Chuck Norris"];
 const losing = document.getElementById('losing');
 
+// global vars for physics
+frameUpdateMs = 0; // my laptop handles as low as 4; set 0 to go as fast as possible
+jumpChangeInVelocity = 4;
+gravity = 0.01;
+maxUpSpeed = -1; // negative bc of signs
+maxDownSpeed = 4;
 
 var myGameArea = {
     canvas: document.getElementById("gameCanvas"),
@@ -19,7 +27,7 @@ var myGameArea = {
         this.canvas.width = 975; // any longer breaks things on small screens
         this.canvas.height = 660;
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(update, 5);
+        this.interval = setInterval(update, frameUpdateMs);
         this.keySetList = ["FJ", "DFJK", "ASDFJKL", "QWERTYUIOPASDFGHJKLZXCVBNM", "QWERTYUIOPASDFGHJKLZXCVBNM"];
         var iMax = this.keySetList.length;
         for (i = 0; i < iMax; i++) {
@@ -53,6 +61,7 @@ var myGameArea = {
             yMax: 350,
             yMin: 50,
             scored: false,
+            xVelo: 4
         };
         this.pipe2 = {
             x: this.canvas.width,
@@ -62,6 +71,7 @@ var myGameArea = {
             yMax: 350,
             yMin: 50,
             scored: false,
+            xVelo: 4
         };
     },
     stop: function () {
@@ -132,16 +142,18 @@ function update() {
         });
 
         get('/api/whoami', {}, function (user) {
-            console.log("fetching score2 (w difficulty), id: " + user._id);
+            console.log("fetching score2 (w difficulty), id: " + user._id + " and name " + user.name);
             let data = {
                 contentID: "guest",
                 difficultyID: difficulty,
+                name: "guest",
             }
             if (user._id) {
                 console.log("setting ID to actual ID");
                 data = {
                     contentID: user._id,
                     difficultyID: difficulty,
+                    name: user.name,
                 };
             }
 
@@ -155,7 +167,8 @@ function update() {
                             const data = {
                                 contentID: "guest",
                                 content: myGameArea.state.score,
-                                difficultyID: difficulty
+                                difficultyID: difficulty,
+                                name: user.name
                             };
                             post('/api/score2', data);
                         }
@@ -163,7 +176,8 @@ function update() {
                             const data = {
                                 contentID: user._id,
                                 content: myGameArea.state.score,
-                                difficultyID: difficulty
+                                difficultyID: difficulty,
+                                name: user.name
                             };
                             console.log("posting score2 while logged in");
                             post('/api/score2', data);
@@ -189,8 +203,7 @@ function update() {
 
     // take key input
     if (myGameArea.keys && myGameArea.keys[myGameArea.keyToPress]) {
-        // console.log("key pressed");
-        myGameArea.state.yVelo = myGameArea.state.yVelo - 2;
+        myGameArea.state.yVelo = myGameArea.state.yVelo - jumpChangeInVelocity;
         var oldKey = myGameArea.keyToPress;
         const jump = document.getElementById("jump");
         if (this.isGameOver() == false) {
@@ -206,17 +219,17 @@ function update() {
     }
 
     // update coordinates of tim
-    myGameArea.state.yVelo = myGameArea.state.yVelo + 0.005;
-    if (myGameArea.state.yVelo > 2) {
-        myGameArea.state.yVelo = 2;
+    myGameArea.state.yVelo = myGameArea.state.yVelo + gravity;
+    if (myGameArea.state.yVelo > maxDownSpeed) {
+        myGameArea.state.yVelo = maxDownSpeed;
     }
-    if (myGameArea.state.yVelo < -0.5) {
-        myGameArea.state.yVelo = -0.5;
+    if (myGameArea.state.yVelo < maxUpSpeed) {
+        myGameArea.state.yVelo = maxUpSpeed;
     }
     myGameArea.state.yPos = myGameArea.state.yPos + myGameArea.state.yVelo;
 
     // update coordinates of pipes
-    myGameArea.pipe1.x = myGameArea.pipe1.x - 2;
+    myGameArea.pipe1.x = myGameArea.pipe1.x - myGameArea.pipe1.xvelo;
     if (myGameArea.pipe1.x + myGameArea.pipe1.width < myGameArea.state.xPos && myGameArea.pipe1.scored == false) {
         console.log("Score from pipe 1");
         myGameArea.state.score += 1;
@@ -229,7 +242,7 @@ function update() {
         myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
     }
 
-    myGameArea.pipe2.x = myGameArea.pipe2.x - 2;
+    myGameArea.pipe2.x = myGameArea.pipe2.x - myGameArea.pipe2.xVelo;
     if (myGameArea.pipe2.x + myGameArea.pipe2.width < myGameArea.state.xPos && myGameArea.pipe2.scored == false) {
         console.log("Score from pipe 2");
         myGameArea.state.score += 1;

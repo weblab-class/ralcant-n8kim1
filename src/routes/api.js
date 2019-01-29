@@ -114,7 +114,44 @@ router.get('/score2', function (req, res) {
       res.send([maxScore]);
     }
   });
-
 });
+
+router.get('/personalHighScores', function (req, res) {
+  console.log("trying to fetch 5 scores w diff " + req.query.difficultyID  + ", id " + req.query.contentID);
+  Score2.find({ googleid: req.query.contentID, difficultyID: req.query.difficultyID }).lean().exec(function (err, scores) {
+
+    // strip to array of scores
+    for (i = 0; i<scores.length; i++)
+    {
+      scores[i] = scores[i].score;
+    }
+
+    // pad with zeroes to get 5 
+    if (scores.length < 5) {
+      console.log("only " + scores.length + " scores found, adding 0's");
+      for (i = scores.length; i++; i<5)
+      {
+        scores.push[0];
+      }
+    }
+    console.log("scores " + scores);
+
+    // return top 5
+
+      // console.log(scores.length + " scores found");
+      // for (let i = 0; i < scores.length; i++) {
+      //   console.log("the score2 object # " + i);
+      //   console.log("the score2 is " + scores[i].score);
+      //   if (scores[i].score > maxScore) {
+      //     maxScore = scores[i].score;
+      //   }
+      // }
+
+      // console.log("fetched max score: " + maxScore);
+      res.send([scores]);
+    
+  });
+});
+
 
 module.exports = router;
