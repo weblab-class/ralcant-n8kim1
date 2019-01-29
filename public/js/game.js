@@ -48,7 +48,7 @@ var myGameArea = {
         this.frameCount = 0;
         this.startTime = Date.now();
         this.endTime = Date.now();
-        this.pipeDeath = false;
+        this.pipeDeath = true;
         this.state = {
             isGameOver: false,
             xPos: 100,
@@ -59,7 +59,7 @@ var myGameArea = {
         this.pipe1 = {
             x: this.canvas.width / 2,
             y: 125,
-            height: 150,
+            height: 200,
             width: 25,
             yMax: 350,
             yMin: 50,
@@ -69,7 +69,7 @@ var myGameArea = {
         this.pipe2 = {
             x: this.canvas.width,
             y: 125,
-            height: 150,
+            height: 200,
             width: 25,
             yMax: 350,
             yMin: 50,
@@ -243,7 +243,17 @@ function update() {
         console.log("Regen pipe 1");
         myGameArea.pipe1.x = width; // push to the end
         myGameArea.pipe1.scored = false;
-        myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
+        // myGameArea.pipe1.y = getRandomInt(myGameArea.pipe1.yMin, myGameArea.pipe1.yMax)  // randomize the height of the opening
+        myGameArea.pipe1.y = myGameArea.pipe2.y + getRandomInt(-150, 150);
+        if (myGameArea.pipe1.y < 0)
+        {
+            myGameArea.pipe1.y = 0;
+        }
+        if (myGameArea.pipe1.y > height - myGameArea.pipe1.height)
+        {
+            myGameArea.pipe1.y = height - myGameArea.pipe2.height;
+        }
+
     }
 
     myGameArea.pipe2.x = myGameArea.pipe2.x - myGameArea.pipe2.xVelo;
@@ -256,7 +266,16 @@ function update() {
         console.log("Regen pipe 2");
         myGameArea.pipe2.x = width; // push to the end
         myGameArea.pipe2.scored = false;
-        myGameArea.pipe2.y = getRandomInt(myGameArea.pipe2.yMin, myGameArea.pipe2.yMax)  // randomize the height of the opening
+        // myGameArea.pipe2.y = getRandomInt(myGameArea.pipe2.yMin, myGameArea.pipe2.yMax)  // randomize the height of the opening
+        myGameArea.pipe2.y = myGameArea.pipe1.y + getRandomInt(-150, 150); 
+        if (myGameArea.pipe2.y < 0)
+        {
+            myGameArea.pipe2.y = 0;
+        }
+        if (myGameArea.pipe2.y > height - myGameArea.pipe2.height)
+        {
+            myGameArea.pipe2.y = height - myGameArea.pipe2.height;
+        }
     }
 
     // draw frame
@@ -300,6 +319,12 @@ function isGameOver() {
     if (myGameArea.state.yPos + myGameArea.timHeight > myGameArea.canvas.height) {
         // fell too far down
         console.log("fell down, yPos: " + myGameArea.state.yPos);
+        return true;
+    };
+
+    if (myGameArea.state.yPos + myGameArea.timHeight < 0) {
+        // fell too far down
+        console.log("hit top of screen, yPos: " + myGameArea.state.yPos);
         return true;
     };
 
