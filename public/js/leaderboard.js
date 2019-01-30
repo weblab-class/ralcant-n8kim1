@@ -66,4 +66,8 @@ function loadGeneralScores(difficulty, user) {
     if (difficulty < 4) {
         loadGeneralScores(difficulty + 1, user);
     }
+    else
+    {
+    get('api/allScores', data, function(scores){});
+    }
 }

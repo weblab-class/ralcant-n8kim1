@@ -29,7 +29,7 @@ router.post(
   '/score',
   // connect.ensureLoggedIn(),
   function (req, res) {
-    console.log("in apis.js");
+    // console.log("in apis.js");
     const newScore = new Score({
       'googleid': req.body.contentID,
       'score': req.body.content,
@@ -79,7 +79,7 @@ router.post(
       'googleid': req.body.contentID,
       'score': req.body.content,
       'difficultyID': req.body.difficultyID,
-      'name' : req.body.name
+      'name': req.body.name
     });
 
     newScore2.save(function (err, score2) {
@@ -97,7 +97,7 @@ router.post(
 );
 
 router.get('/score2', function (req, res) {
-  console.log("trying to fetch score2 w diff " + req.query.difficultyID  + ", id " + req.query.contentID);
+  console.log("trying to fetch score2 w diff " + req.query.difficultyID + ", id " + req.query.contentID);
   Score2.find({ googleid: req.query.contentID, difficultyID: req.query.difficultyID }).lean().exec(function (err, scores) {
     if (scores.length == 0) {
       console.log("no scores found; default to 0");
@@ -121,54 +121,62 @@ router.get('/score2', function (req, res) {
 });
 
 router.get('/personalHighScores', function (req, res) {
-  console.log("trying to fetch 5 scores w diff " + req.query.difficultyID  + ", id " + req.query.contentID);
+  console.log("trying to fetch 5 scores w diff " + req.query.difficultyID + ", id " + req.query.contentID);
   Score2.find({ googleid: req.query.contentID, difficultyID: req.query.difficultyID }).lean().exec(function (err, scores) {
 
     // strip to array of scores
-    for (i = 0; i<scores.length; i++)
-    {
-      // console.log("some name " + scores[i].name);
+    for (i = 0; i < scores.length; i++) {
+      // console.log("name: " + scores[i].name + " , score: " +scores[i].score);
       scores[i] = parseInt(scores[i].score);
     }
 
 
-    console.log("scores " + scores);
-
     // return top 5
-    scores.sort(function(a, b){return b - a});
-    
+    scores.sort(function (a, b) { return b - a });
+
     scores.length = 5;
 
-      res.send(scores);
-    
+    res.send(scores);
+
   });
 });
 
 router.get('/generalHighScores', function (req, res) {
-  console.log("trying to fetch 5 general scores w diff " + req.query.difficultyID  );
+  // console.log("trying to fetch 5 general scores w diff " + req.query.difficultyID  );
   // Score2.find({ difficultyID: req.query.difficultyID }).lean().exec(function (err, scores) {
-    Score2.find({ difficultyID: req.query.difficultyID }).exec(function (err, scores) {
+  Score2.find({ difficultyID: req.query.difficultyID }).exec(function (err, scores) {
 
-
-    for (e in scores)
-    {
-      // console.log("name " + e.name);
-    }
-
-    
     // return top 5
-    scores.sort(function(a, b){return b.score - a.score});
-    
+    scores.sort(function (a, b) { return b.score - a.score });
     scores.length = 5;
 
-    for (e in scores)
-    {
-      // console.log(e.name);
+    res.send(scores);
+
+
+  });
+});
+
+router.get('/allScores', function (req, res) {
+  console.log("getting all scores ");
+  Score2.find().lean().exec(function (err, scores) {
+    console.log("finding all scores ");
+    scores.sort(function (a, b) {
+      if (a.name == undefined)
+      {return 1;}
+      if (b.name == undefined)
+      { return -1;}
+      a = a.name.toLowerCase();
+      b = b.name.toLowerCase();
+
+      if (b > a) { return -1; }
+      else { return 1 };
+    });
+    for (i = 0; i < scores.length; i++) {
+      console.log("name: " + scores[i].name + ", diff: " + scores[i].difficultyID + ", score: " + scores[i].score);
+
     }
 
-      res.send(scores);
-
-    
+    res.send({});
   });
 });
 

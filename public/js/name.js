@@ -20,6 +20,9 @@ function renderName(user){
     const welcome_message = document.getElementById("first_message");
     const welc_Header = document.createElement('h1');
 
+    const welcome_message2 = document.getElementById("second_message");
+    const welc_Header2 = document.createElement('h3');
+
     const nameContainer_about = document.getElementById('name-container_about');
     const nameHeader_about = document.createElement('h1');
 
@@ -65,6 +68,10 @@ function renderName(user){
 
         welc_Header.innerText = "Welcome to Flappy TIM";
         welcome_message.appendChild(welc_Header);
+
+        welc_Header2.innerHTML = "If you like this game, please give " + "<a href='https://www.facebook.com/mitweblab/photos/a.10157885954251037/10157886010911037/?type=1&theater'>this FB post</a>" + " a like -- ty <3";
+        welcome_message2.appendChild(welc_Header2);
+
 
         const start_button = create('a', null, "START", "button allign_center_start", "/game");
         document.body.appendChild(start_button);
