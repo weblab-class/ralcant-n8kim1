@@ -9,7 +9,7 @@ const dotenv = require('dotenv').config();
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/auth/google/callback'
+  callbackURL: 'https://flappytim.herokuapp.com/auth/google/callback' // auth/google/callback seems to use http and thus is refused
 }, function(accessToken, refreshToken, profile, done) {
   User.findOne({
     'googleid': profile.id
